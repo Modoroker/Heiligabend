@@ -25,11 +25,8 @@ export default function Navbar({ streak, total = 365, onOpenSecretModal, adminBy
         >
           <div>
             <h1 className="text-base font-serif font-bold gold-gradient-text tracking-wide leading-tight">
-              365 Gründe für Dich
+              365 Gründe warum ich dich liebe
             </h1>
-            <p className="text-[10px] text-slate-400 font-sans tracking-wider uppercase">
-              Für meine Nina
-            </p>
           </div>
         </div>
 

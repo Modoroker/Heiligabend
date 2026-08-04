@@ -9,7 +9,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'pwa-192x192.png', 'pwa-512x512.png'],
       manifest: {
-        name: '365 Gründe für Dich ❤️',
+        name: '365 Gründe warum ich dich liebe ❤️',
         short_name: '365 Gründe',
         description: 'Ein Jahr voller Liebe und Wertschätzung für meine wundervolle Frau Nina.',
         theme_color: '#070B19',
