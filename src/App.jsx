@@ -177,6 +177,7 @@ export default function App() {
         openedCount={openedDays.length}
         streak={streak}
         now={now}
+        adminBypass={adminBypass}
       />
     </div>
   );

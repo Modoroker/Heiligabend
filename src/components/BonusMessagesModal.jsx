@@ -4,23 +4,26 @@ import { X, Gift, Lock, Sparkles, Heart } from 'lucide-react';
 import bonusMessages from '../data/bonusMessages.json';
 import { fireHeartExplosion } from '../utils/confettiUtils';
 
-export default function BonusMessagesModal({ isOpen, onClose, openedCount, streak, now }) {
+export default function BonusMessagesModal({ isOpen, onClose, openedCount, streak, now, adminBypass }) {
   const [selectedBonus, setSelectedBonus] = useState(null);
 
   if (!isOpen) return null;
 
   // Check if a bonus message is unlocked based on streak or date
   const isBonusUnlocked = (bonus) => {
+    if (adminBypass) return true;
+
     if (bonus.triggerType === 'streak') {
       return streak >= bonus.triggerValue || openedCount >= bonus.triggerValue;
     }
+
     if (bonus.triggerType === 'date') {
-      // Compare MM-DD with current date
-      const month = String(now.getMonth() + 1).padStart(2, '0');
-      const day = String(now.getDate()).padStart(2, '0');
-      const currentMMDD = `${month}-${day}`;
-      return currentMMDD >= bonus.triggerValue;
+      // Map trigger MM-DD to full year (2026 for Dec, 2027 for rest)
+      const targetYear = bonus.triggerValue.startsWith('12') ? '2026' : '2027';
+      const targetDate = new Date(`${targetYear}-${bonus.triggerValue}T00:00:00`);
+      return now >= targetDate;
     }
+
     return false;
   };
 
