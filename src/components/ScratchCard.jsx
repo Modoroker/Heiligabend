@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import { Sparkles, Heart } from 'lucide-react';
 
-export default function ScratchCard({ onComplete, threshold = 0.4 }) {
+export default function ScratchCard({ onComplete, threshold = 0.3 }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [isScratched, setIsScratched] = useState(false);
@@ -17,6 +16,8 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     const rect = container.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
+
+    if (width === 0 || height === 0) return;
 
     canvas.width = width;
     canvas.height = height;
@@ -34,13 +35,13 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    // Overlay subtle pattern/texture
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-    for (let i = 0; i < width; i += 20) {
-      for (let j = 0; j < height; j += 20) {
-        if ((i + j) % 40 === 0) {
+    // Overlay subtle sparkle texture
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    for (let i = 10; i < width; i += 24) {
+      for (let j = 10; j < height; j += 24) {
+        if ((i + j) % 3 === 0) {
           ctx.beginPath();
-          ctx.arc(i, j, 3, 0, Math.PI * 2);
+          ctx.arc(i, j, 2.5, 0, Math.PI * 2);
           ctx.fill();
         }
       }
@@ -51,7 +52,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     ctx.font = 'bold 16px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
     ctx.shadowBlur = 4;
     ctx.fillText('✨ Rubbel mich frei! ✨', width / 2, height / 2 - 10);
     ctx.font = '12px sans-serif';
@@ -60,8 +61,9 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
 
   useEffect(() => {
     initCanvas();
-    window.addEventListener('resize', initCanvas);
-    return () => window.removeEventListener('resize', initCanvas);
+    const handleResize = () => setTimeout(initCanvas, 100);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [initCanvas]);
 
   // Check how much percent has been cleared
@@ -109,7 +111,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 28, 0, Math.PI * 2);
+    ctx.arc(x, y, 36, 0, Math.PI * 2); // Larger 36px scratch radius
     ctx.fill();
 
     checkScratchPercentage();
@@ -117,21 +119,25 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
 
   // Mouse Handlers
   const handleMouseDown = (e) => {
+    e.stopPropagation();
     setIsDrawing(true);
     scratch(e.clientX, e.clientY);
   };
 
   const handleMouseMove = (e) => {
+    e.stopPropagation();
     if (!isDrawing) return;
     scratch(e.clientX, e.clientY);
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e) => {
+    if (e) e.stopPropagation();
     setIsDrawing(false);
   };
 
   // Touch Handlers
   const handleTouchStart = (e) => {
+    e.stopPropagation();
     setIsDrawing(true);
     if (e.touches[0]) {
       scratch(e.touches[0].clientX, e.touches[0].clientY);
@@ -139,11 +145,13 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   };
 
   const handleTouchMove = (e) => {
+    e.stopPropagation();
     if (!isDrawing || !e.touches[0]) return;
     scratch(e.touches[0].clientX, e.touches[0].clientY);
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e) => {
+    if (e) e.stopPropagation();
     setIsDrawing(false);
   };
 
@@ -154,7 +162,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 z-20 rounded-2xl overflow-hidden cursor-pointer select-none touch-none shadow-inner"
+      className="absolute inset-0 z-30 rounded-2xl overflow-hidden cursor-pointer select-none touch-none shadow-inner"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
@@ -162,6 +170,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      onPointerDown={(e) => e.stopPropagation()}
     >
       <canvas ref={canvasRef} className="w-full h-full block" />
     </div>

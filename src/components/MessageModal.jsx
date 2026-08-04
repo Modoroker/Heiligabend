@@ -102,6 +102,7 @@ export default function MessageModal({
 
   // Drag End handler for Tinder-style swiping
   const handleDragEnd = (event, info) => {
+    if (showScratch) return; // Don't trigger swipe navigation while scratching!
     const swipeThreshold = 50;
     if (info.offset.x < -swipeThreshold && hasNext && onNavigateNext) {
       onNavigateNext();
@@ -114,7 +115,7 @@ export default function MessageModal({
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md">
         {/* Previous Navigation Chevron */}
-        {hasPrev && (
+        {hasPrev && !showScratch && (
           <button
             onClick={onNavigatePrev}
             className="absolute left-2 z-50 p-3 rounded-full bg-midnight-800/80 text-rosegold-300 hover:text-white hover:bg-rosegold-500/20 border border-rosegold-500/30 transition-all shadow-rose-glow"
@@ -125,7 +126,7 @@ export default function MessageModal({
         )}
 
         {/* Next Navigation Chevron */}
-        {hasNext && (
+        {hasNext && !showScratch && (
           <button
             onClick={onNavigateNext}
             className="absolute right-2 z-50 p-3 rounded-full bg-midnight-800/80 text-rosegold-300 hover:text-white hover:bg-rosegold-500/20 border border-rosegold-500/30 transition-all shadow-rose-glow"
@@ -137,7 +138,7 @@ export default function MessageModal({
 
         <motion.div
           key={day.id}
-          drag="x"
+          drag={showScratch ? false : "x"}
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.2}
           onDragEnd={handleDragEnd}
@@ -145,12 +146,12 @@ export default function MessageModal({
           animate={currentAnim.animate}
           exit={currentAnim.exit}
           transition={currentAnim.transition}
-          className="w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col justify-between cursor-grab active:cursor-grabbing"
+          className="w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col justify-between"
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 z-30 p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
+            className="absolute top-4 right-4 z-40 p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -168,9 +169,9 @@ export default function MessageModal({
           </div>
 
           {/* Text Content Area with ScratchCard Overlay */}
-          <div className="py-8 text-center relative min-h-[160px] flex flex-col justify-center items-center">
+          <div className="py-8 text-center relative min-h-[180px] flex flex-col justify-center items-center">
             {showScratch && (
-              <ScratchCard onComplete={handleScratchComplete} threshold={0.4} />
+              <ScratchCard onComplete={handleScratchComplete} threshold={0.3} />
             )}
 
             <span className="text-3xl font-serif text-rosegold-400/40 select-none block mb-1">“</span>
@@ -181,7 +182,7 @@ export default function MessageModal({
           </div>
 
           {/* Swipe Hint */}
-          {(hasPrev || hasNext) && (
+          {(hasPrev || hasNext) && !showScratch && (
             <div className="text-[10px] text-center text-slate-400 mb-2 font-mono tracking-tight select-none">
               ← Wische nach links/rechts für andere Tage →
             </div>
