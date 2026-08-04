@@ -1,0 +1,2557 @@
+[
+  {
+    "id": 1,
+    "date": "2026-12-24",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mein schönstes Weihnachtsgeschenk bist – heute, morgen und an allen 364 Tagen, die noch vor uns liegen! Ich liebe dich über alles.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 2,
+    "date": "2026-12-25",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil dein Lachen mein absoluter Lieblingssound auf der ganzen Welt ist und jeden Raum sofort erhellt.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 3,
+    "date": "2026-12-26",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Einzige bist, mit der ich sogar stundenlang ohne Ziel im Auto fahren kann und es die beste Zeit überhaupt ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 4,
+    "date": "2026-12-27",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil ich mich schon jetzt auf jeden einzelnen Urlaub, jedes Abenteuer und jeden ruhigen Sonntagabend mit dir freue.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 5,
+    "date": "2026-12-28",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir immer das Gefühl gibst, genau richtig zu sein, so wie ich bin.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 6,
+    "date": "2026-12-29",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du deine kalten Füße im Bett immer genau an mir wärmst – und ich es heimlich trotzdem liebe.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 7,
+    "date": "2026-12-30",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil dein Herz so unglaublich riesig, fürsorglich und voller Empathie ist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 8,
+    "date": "2026-12-31",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil ich das alte Jahr mit dir im Arm beenden und das neue Jahr genau so anfangen möchte. Auf uns!",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 9,
+    "date": "2027-01-01",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil eine Umarmung von dir selbst die strengsten Tage sofort vergessen lässt.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 10,
+    "date": "2027-01-02",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 11,
+    "date": "2027-01-03",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 12,
+    "date": "2027-01-04",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du selbst in Jogginghose und mit Kaffeetasse in der Hand wie die schönste Frau der Welt aussiehst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 13,
+    "date": "2027-01-05",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 14,
+    "date": "2027-01-06",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 15,
+    "date": "2027-01-07",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du der herzlichste Mensch bist, den ich kenne.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 16,
+    "date": "2027-01-08",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 17,
+    "date": "2027-01-09",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 18,
+    "date": "2027-01-10",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Nähe das Einzige ist, was ich brauche, um glücklich zu sein.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 19,
+    "date": "2027-01-11",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 20,
+    "date": "2027-01-12",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 21,
+    "date": "2027-01-13",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Augen noch genauso strahlen wie am ersten Tag.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 22,
+    "date": "2027-01-14",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 23,
+    "date": "2027-01-15",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 24,
+    "date": "2027-01-16",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du dich immer so liebevoll um die Menschen kümmerst, die dir wichtig sind.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 25,
+    "date": "2027-01-17",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 26,
+    "date": "2027-01-18",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 27,
+    "date": "2027-01-19",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Zärtlichkeit unbezahlbar ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 28,
+    "date": "2027-01-20",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 29,
+    "date": "2027-01-21",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 30,
+    "date": "2027-01-22",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mich besser kennst als sonst irgendjemand auf dieser Erde.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 31,
+    "date": "2027-01-23",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 32,
+    "date": "2027-01-24",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 33,
+    "date": "2027-01-25",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil dein Blick genügt, um mir ein Lächeln aufs Gesicht zu zaubern.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 34,
+    "date": "2027-01-26",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 35,
+    "date": "2027-01-27",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 36,
+    "date": "2027-01-28",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir gezeigt hast, was echte, bedingungslose Liebe wirklich bedeutet.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 37,
+    "date": "2027-01-29",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 38,
+    "date": "2027-01-30",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 39,
+    "date": "2027-01-31",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir jedes Mal Schmetterlinge im Bauch gibst, wenn du den Raum betrittst.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 40,
+    "date": "2027-02-01",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 41,
+    "date": "2027-02-02",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 42,
+    "date": "2027-02-03",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du die kleine Dinge im Leben so schätzt und dich ehrlich darüber freuen kannst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 43,
+    "date": "2027-02-04",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 44,
+    "date": "2027-02-05",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 45,
+    "date": "2027-02-06",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du eine wunderschöne Seele hast.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 46,
+    "date": "2027-02-07",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 47,
+    "date": "2027-02-08",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 48,
+    "date": "2027-02-09",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil ich mich bei dir zu 100% geborgen und angekommen fühle.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 49,
+    "date": "2027-02-10",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 50,
+    "date": "2027-02-11",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 51,
+    "date": "2027-02-12",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mein sicherer Hafen bist, egal wie stürmisch die Welt da draußen wird.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 52,
+    "date": "2027-02-13",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 53,
+    "date": "2027-02-14",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 54,
+    "date": "2027-02-15",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du immer an mich glaubst – selbst wenn ich selbst an mir zweifle.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 55,
+    "date": "2027-02-16",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 56,
+    "date": "2027-02-17",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 57,
+    "date": "2027-02-18",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Wärme und Güte mich jeden Tag zu einem besseren Menschen machen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 58,
+    "date": "2027-02-19",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 59,
+    "date": "2027-02-20",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 60,
+    "date": "2027-02-21",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du aus einem gewöhnlichen Tag etwas ganz Besonderes machen kannst.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 61,
+    "date": "2027-02-22",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 62,
+    "date": "2027-02-23",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 63,
+    "date": "2027-02-24",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Stimme mein liebster Zufluchtsort ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 64,
+    "date": "2027-02-25",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 65,
+    "date": "2027-02-26",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 66,
+    "date": "2027-02-27",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil mir ohne dich an meiner Seite immer ein großes Stück von mir selbst fehlen würde.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 67,
+    "date": "2027-02-28",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 68,
+    "date": "2027-03-01",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 69,
+    "date": "2027-03-02",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil eine Umarmung von dir selbst die strengsten Tage sofort vergessen lässt.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 70,
+    "date": "2027-03-03",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 71,
+    "date": "2027-03-04",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 72,
+    "date": "2027-03-05",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du selbst in Jogginghose und mit Kaffeetasse in der Hand wie die schönste Frau der Welt aussiehst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 73,
+    "date": "2027-03-06",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 74,
+    "date": "2027-03-07",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 75,
+    "date": "2027-03-08",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du der herzlichste Mensch bist, den ich kenne.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 76,
+    "date": "2027-03-09",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 77,
+    "date": "2027-03-10",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 78,
+    "date": "2027-03-11",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Nähe das Einzige ist, was ich brauche, um glücklich zu sein.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 79,
+    "date": "2027-03-12",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 80,
+    "date": "2027-03-13",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 81,
+    "date": "2027-03-14",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Augen noch genauso strahlen wie am ersten Tag.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 82,
+    "date": "2027-03-15",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 83,
+    "date": "2027-03-16",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 84,
+    "date": "2027-03-17",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du dich immer so liebevoll um die Menschen kümmerst, die dir wichtig sind.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 85,
+    "date": "2027-03-18",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 86,
+    "date": "2027-03-19",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 87,
+    "date": "2027-03-20",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Zärtlichkeit unbezahlbar ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 88,
+    "date": "2027-03-21",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 89,
+    "date": "2027-03-22",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 90,
+    "date": "2027-03-23",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mich besser kennst als sonst irgendjemand auf dieser Erde.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 91,
+    "date": "2027-03-24",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 92,
+    "date": "2027-03-25",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 93,
+    "date": "2027-03-26",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil dein Blick genügt, um mir ein Lächeln aufs Gesicht zu zaubern.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 94,
+    "date": "2027-03-27",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 95,
+    "date": "2027-03-28",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 96,
+    "date": "2027-03-28",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir gezeigt hast, was echte, bedingungslose Liebe wirklich bedeutet.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 97,
+    "date": "2027-03-29",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 98,
+    "date": "2027-03-30",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 99,
+    "date": "2027-03-31",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir jedes Mal Schmetterlinge im Bauch gibst, wenn du den Raum betrittst.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 100,
+    "date": "2027-04-01",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 101,
+    "date": "2027-04-02",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 102,
+    "date": "2027-04-03",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du die kleine Dinge im Leben so schätzt und dich ehrlich darüber freuen kannst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 103,
+    "date": "2027-04-04",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 104,
+    "date": "2027-04-05",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 105,
+    "date": "2027-04-06",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du eine wunderschöne Seele hast.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 106,
+    "date": "2027-04-07",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 107,
+    "date": "2027-04-08",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 108,
+    "date": "2027-04-09",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil ich mich bei dir zu 100% geborgen und angekommen fühle.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 109,
+    "date": "2027-04-10",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 110,
+    "date": "2027-04-11",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 111,
+    "date": "2027-04-12",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mein sicherer Hafen bist, egal wie stürmisch die Welt da draußen wird.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 112,
+    "date": "2027-04-13",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 113,
+    "date": "2027-04-14",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 114,
+    "date": "2027-04-15",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du immer an mich glaubst – selbst wenn ich selbst an mir zweifle.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 115,
+    "date": "2027-04-16",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 116,
+    "date": "2027-04-17",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 117,
+    "date": "2027-04-18",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Wärme und Güte mich jeden Tag zu einem besseren Menschen machen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 118,
+    "date": "2027-04-19",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 119,
+    "date": "2027-04-20",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 120,
+    "date": "2027-04-21",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du aus einem gewöhnlichen Tag etwas ganz Besonderes machen kannst.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 121,
+    "date": "2027-04-22",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 122,
+    "date": "2027-04-23",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 123,
+    "date": "2027-04-24",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Stimme mein liebster Zufluchtsort ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 124,
+    "date": "2027-04-25",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 125,
+    "date": "2027-04-26",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 126,
+    "date": "2027-04-27",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil mir ohne dich an meiner Seite immer ein großes Stück von mir selbst fehlen würde.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 127,
+    "date": "2027-04-28",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 128,
+    "date": "2027-04-29",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 129,
+    "date": "2027-04-30",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil eine Umarmung von dir selbst die strengsten Tage sofort vergessen lässt.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 130,
+    "date": "2027-05-01",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 131,
+    "date": "2027-05-02",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 132,
+    "date": "2027-05-03",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du selbst in Jogginghose und mit Kaffeetasse in der Hand wie die schönste Frau der Welt aussiehst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 133,
+    "date": "2027-05-04",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 134,
+    "date": "2027-05-05",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 135,
+    "date": "2027-05-06",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du der herzlichste Mensch bist, den ich kenne.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 136,
+    "date": "2027-05-07",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 137,
+    "date": "2027-05-08",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 138,
+    "date": "2027-05-09",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Nähe das Einzige ist, was ich brauche, um glücklich zu sein.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 139,
+    "date": "2027-05-10",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 140,
+    "date": "2027-05-11",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 141,
+    "date": "2027-05-12",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Augen noch genauso strahlen wie am ersten Tag.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 142,
+    "date": "2027-05-13",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 143,
+    "date": "2027-05-14",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 144,
+    "date": "2027-05-15",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du dich immer so liebevoll um die Menschen kümmerst, die dir wichtig sind.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 145,
+    "date": "2027-05-16",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 146,
+    "date": "2027-05-17",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 147,
+    "date": "2027-05-18",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Zärtlichkeit unbezahlbar ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 148,
+    "date": "2027-05-19",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 149,
+    "date": "2027-05-20",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 150,
+    "date": "2027-05-21",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mich besser kennst als sonst irgendjemand auf dieser Erde.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 151,
+    "date": "2027-05-22",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 152,
+    "date": "2027-05-23",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 153,
+    "date": "2027-05-24",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil dein Blick genügt, um mir ein Lächeln aufs Gesicht zu zaubern.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 154,
+    "date": "2027-05-25",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 155,
+    "date": "2027-05-26",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 156,
+    "date": "2027-05-27",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir gezeigt hast, was echte, bedingungslose Liebe wirklich bedeutet.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 157,
+    "date": "2027-05-28",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 158,
+    "date": "2027-05-29",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 159,
+    "date": "2027-05-30",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir jedes Mal Schmetterlinge im Bauch gibst, wenn du den Raum betrittst.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 160,
+    "date": "2027-05-31",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 161,
+    "date": "2027-06-01",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 162,
+    "date": "2027-06-02",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du die kleine Dinge im Leben so schätzt und dich ehrlich darüber freuen kannst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 163,
+    "date": "2027-06-03",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 164,
+    "date": "2027-06-04",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 165,
+    "date": "2027-06-05",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du eine wunderschöne Seele hast.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 166,
+    "date": "2027-06-06",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 167,
+    "date": "2027-06-07",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 168,
+    "date": "2027-06-08",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil ich mich bei dir zu 100% geborgen und angekommen fühle.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 169,
+    "date": "2027-06-09",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 170,
+    "date": "2027-06-10",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 171,
+    "date": "2027-06-11",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mein sicherer Hafen bist, egal wie stürmisch die Welt da draußen wird.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 172,
+    "date": "2027-06-12",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 173,
+    "date": "2027-06-13",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 174,
+    "date": "2027-06-14",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du immer an mich glaubst – selbst wenn ich selbst an mir zweifle.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 175,
+    "date": "2027-06-15",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 176,
+    "date": "2027-06-16",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 177,
+    "date": "2027-06-17",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Wärme und Güte mich jeden Tag zu einem besseren Menschen machen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 178,
+    "date": "2027-06-18",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 179,
+    "date": "2027-06-19",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 180,
+    "date": "2027-06-20",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du aus einem gewöhnlichen Tag etwas ganz Besonderes machen kannst.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 181,
+    "date": "2027-06-21",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 182,
+    "date": "2027-06-22",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 183,
+    "date": "2027-06-23",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Stimme mein liebster Zufluchtsort ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 184,
+    "date": "2027-06-24",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 185,
+    "date": "2027-06-25",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 186,
+    "date": "2027-06-26",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil mir ohne dich an meiner Seite immer ein großes Stück von mir selbst fehlen würde.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 187,
+    "date": "2027-06-27",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 188,
+    "date": "2027-06-28",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 189,
+    "date": "2027-06-29",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil eine Umarmung von dir selbst die strengsten Tage sofort vergessen lässt.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 190,
+    "date": "2027-06-30",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 191,
+    "date": "2027-07-01",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 192,
+    "date": "2027-07-02",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du selbst in Jogginghose und mit Kaffeetasse in der Hand wie die schönste Frau der Welt aussiehst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 193,
+    "date": "2027-07-03",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 194,
+    "date": "2027-07-04",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 195,
+    "date": "2027-07-05",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du der herzlichste Mensch bist, den ich kenne.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 196,
+    "date": "2027-07-06",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 197,
+    "date": "2027-07-07",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 198,
+    "date": "2027-07-08",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Nähe das Einzige ist, was ich brauche, um glücklich zu sein.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 199,
+    "date": "2027-07-09",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 200,
+    "date": "2027-07-10",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 201,
+    "date": "2027-07-11",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Augen noch genauso strahlen wie am ersten Tag.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 202,
+    "date": "2027-07-12",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 203,
+    "date": "2027-07-13",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 204,
+    "date": "2027-07-14",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du dich immer so liebevoll um die Menschen kümmerst, die dir wichtig sind.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 205,
+    "date": "2027-07-15",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 206,
+    "date": "2027-07-16",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 207,
+    "date": "2027-07-17",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Zärtlichkeit unbezahlbar ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 208,
+    "date": "2027-07-18",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 209,
+    "date": "2027-07-19",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 210,
+    "date": "2027-07-20",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mich besser kennst als sonst irgendjemand auf dieser Erde.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 211,
+    "date": "2027-07-21",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 212,
+    "date": "2027-07-22",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 213,
+    "date": "2027-07-23",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil dein Blick genügt, um mir ein Lächeln aufs Gesicht zu zaubern.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 214,
+    "date": "2027-07-24",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 215,
+    "date": "2027-07-25",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 216,
+    "date": "2027-07-26",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir gezeigt hast, was echte, bedingungslose Liebe wirklich bedeutet.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 217,
+    "date": "2027-07-27",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 218,
+    "date": "2027-07-28",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 219,
+    "date": "2027-07-29",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir jedes Mal Schmetterlinge im Bauch gibst, wenn du den Raum betrittst.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 220,
+    "date": "2027-07-30",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 221,
+    "date": "2027-07-31",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 222,
+    "date": "2027-08-01",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du die kleine Dinge im Leben so schätzt und dich ehrlich darüber freuen kannst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 223,
+    "date": "2027-08-02",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 224,
+    "date": "2027-08-03",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 225,
+    "date": "2027-08-04",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du eine wunderschöne Seele hast.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 226,
+    "date": "2027-08-05",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 227,
+    "date": "2027-08-06",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 228,
+    "date": "2027-08-07",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil ich mich bei dir zu 100% geborgen und angekommen fühle.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 229,
+    "date": "2027-08-08",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 230,
+    "date": "2027-08-09",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 231,
+    "date": "2027-08-10",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mein sicherer Hafen bist, egal wie stürmisch die Welt da draußen wird.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 232,
+    "date": "2027-08-11",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 233,
+    "date": "2027-08-12",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 234,
+    "date": "2027-08-13",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du immer an mich glaubst – selbst wenn ich selbst an mir zweifle.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 235,
+    "date": "2027-08-14",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 236,
+    "date": "2027-08-15",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 237,
+    "date": "2027-08-16",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Wärme und Güte mich jeden Tag zu einem besseren Menschen machen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 238,
+    "date": "2027-08-17",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 239,
+    "date": "2027-08-18",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 240,
+    "date": "2027-08-19",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du aus einem gewöhnlichen Tag etwas ganz Besonderes machen kannst.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 241,
+    "date": "2027-08-20",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 242,
+    "date": "2027-08-21",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 243,
+    "date": "2027-08-22",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Stimme mein liebster Zufluchtsort ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 244,
+    "date": "2027-08-23",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 245,
+    "date": "2027-08-24",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 246,
+    "date": "2027-08-25",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil mir ohne dich an meiner Seite immer ein großes Stück von mir selbst fehlen würde.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 247,
+    "date": "2027-08-26",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 248,
+    "date": "2027-08-27",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 249,
+    "date": "2027-08-28",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil eine Umarmung von dir selbst die strengsten Tage sofort vergessen lässt.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 250,
+    "date": "2027-08-29",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 251,
+    "date": "2027-08-30",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 252,
+    "date": "2027-08-31",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du selbst in Jogginghose und mit Kaffeetasse in der Hand wie die schönste Frau der Welt aussiehst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 253,
+    "date": "2027-09-01",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 254,
+    "date": "2027-09-02",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 255,
+    "date": "2027-09-03",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du der herzlichste Mensch bist, den ich kenne.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 256,
+    "date": "2027-09-04",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 257,
+    "date": "2027-09-05",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 258,
+    "date": "2027-09-06",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Nähe das Einzige ist, was ich brauche, um glücklich zu sein.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 259,
+    "date": "2027-09-07",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 260,
+    "date": "2027-09-08",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 261,
+    "date": "2027-09-09",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Augen noch genauso strahlen wie am ersten Tag.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 262,
+    "date": "2027-09-10",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 263,
+    "date": "2027-09-11",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 264,
+    "date": "2027-09-12",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du dich immer so liebevoll um die Menschen kümmerst, die dir wichtig sind.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 265,
+    "date": "2027-09-13",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 266,
+    "date": "2027-09-14",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 267,
+    "date": "2027-09-15",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Zärtlichkeit unbezahlbar ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 268,
+    "date": "2027-09-16",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 269,
+    "date": "2027-09-17",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 270,
+    "date": "2027-09-18",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mich besser kennst als sonst irgendjemand auf dieser Erde.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 271,
+    "date": "2027-09-19",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 272,
+    "date": "2027-09-20",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 273,
+    "date": "2027-09-21",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil dein Blick genügt, um mir ein Lächeln aufs Gesicht zu zaubern.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 274,
+    "date": "2027-09-22",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 275,
+    "date": "2027-09-23",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 276,
+    "date": "2027-09-24",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir gezeigt hast, was echte, bedingungslose Liebe wirklich bedeutet.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 277,
+    "date": "2027-09-25",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 278,
+    "date": "2027-09-26",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 279,
+    "date": "2027-09-27",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir jedes Mal Schmetterlinge im Bauch gibst, wenn du den Raum betrittst.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 280,
+    "date": "2027-09-28",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 281,
+    "date": "2027-09-29",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 282,
+    "date": "2027-09-30",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du die kleine Dinge im Leben so schätzt und dich ehrlich darüber freuen kannst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 283,
+    "date": "2027-10-01",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 284,
+    "date": "2027-10-02",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 285,
+    "date": "2027-10-03",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du eine wunderschöne Seele hast.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 286,
+    "date": "2027-10-04",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 287,
+    "date": "2027-10-05",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 288,
+    "date": "2027-10-06",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil ich mich bei dir zu 100% geborgen und angekommen fühle.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 289,
+    "date": "2027-10-07",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 290,
+    "date": "2027-10-08",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 291,
+    "date": "2027-10-09",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mein sicherer Hafen bist, egal wie stürmisch die Welt da draußen wird.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 292,
+    "date": "2027-10-10",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 293,
+    "date": "2027-10-11",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 294,
+    "date": "2027-10-12",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du immer an mich glaubst – selbst wenn ich selbst an mir zweifle.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 295,
+    "date": "2027-10-13",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 296,
+    "date": "2027-10-14",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 297,
+    "date": "2027-10-15",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Wärme und Güte mich jeden Tag zu einem besseren Menschen machen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 298,
+    "date": "2027-10-16",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 299,
+    "date": "2027-10-17",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 300,
+    "date": "2027-10-18",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du aus einem gewöhnlichen Tag etwas ganz Besonderes machen kannst.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 301,
+    "date": "2027-10-19",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 302,
+    "date": "2027-10-20",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 303,
+    "date": "2027-10-21",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Stimme mein liebster Zufluchtsort ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 304,
+    "date": "2027-10-22",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 305,
+    "date": "2027-10-23",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 306,
+    "date": "2027-10-24",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil mir ohne dich an meiner Seite immer ein großes Stück von mir selbst fehlen würde.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 307,
+    "date": "2027-10-25",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 308,
+    "date": "2027-10-26",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 309,
+    "date": "2027-10-27",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil eine Umarmung von dir selbst die strengsten Tage sofort vergessen lässt.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 310,
+    "date": "2027-10-28",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 311,
+    "date": "2027-10-29",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 312,
+    "date": "2027-10-30",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du selbst in Jogginghose und mit Kaffeetasse in der Hand wie die schönste Frau der Welt aussiehst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 313,
+    "date": "2027-11-01",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 314,
+    "date": "2027-11-02",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 315,
+    "date": "2027-11-03",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du der herzlichste Mensch bist, den ich kenne.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 316,
+    "date": "2027-11-04",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 317,
+    "date": "2027-11-05",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 318,
+    "date": "2027-11-06",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Nähe das Einzige ist, was ich brauche, um glücklich zu sein.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 319,
+    "date": "2027-11-07",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 320,
+    "date": "2027-11-08",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 321,
+    "date": "2027-11-09",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Augen noch genauso strahlen wie am ersten Tag.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 322,
+    "date": "2027-11-10",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 323,
+    "date": "2027-11-11",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 324,
+    "date": "2027-11-12",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du dich immer so liebevoll um die Menschen kümmerst, die dir wichtig sind.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 325,
+    "date": "2027-11-13",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 326,
+    "date": "2027-11-14",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 327,
+    "date": "2027-11-15",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Zärtlichkeit unbezahlbar ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 328,
+    "date": "2027-11-16",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 329,
+    "date": "2027-11-17",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 330,
+    "date": "2027-11-18",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mich besser kennst als sonst irgendjemand auf dieser Erde.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 331,
+    "date": "2027-11-19",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 332,
+    "date": "2027-11-20",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 333,
+    "date": "2027-11-21",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil dein Blick genügt, um mir ein Lächeln aufs Gesicht zu zaubern.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 334,
+    "date": "2027-11-22",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 335,
+    "date": "2027-11-23",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 336,
+    "date": "2027-11-24",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir gezeigt hast, was echte, bedingungslose Liebe wirklich bedeutet.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 337,
+    "date": "2027-11-25",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 338,
+    "date": "2027-11-26",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 339,
+    "date": "2027-11-27",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mir jedes Mal Schmetterlinge im Bauch gibst, wenn du den Raum betrittst.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 340,
+    "date": "2027-11-28",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 341,
+    "date": "2027-11-29",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 342,
+    "date": "2027-11-30",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du die kleine Dinge im Leben so schätzt und dich ehrlich darüber freuen kannst.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 343,
+    "date": "2027-12-01",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 344,
+    "date": "2027-12-02",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 345,
+    "date": "2027-12-03",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du eine wunderschöne Seele hast.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 346,
+    "date": "2027-12-04",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 347,
+    "date": "2027-12-05",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 348,
+    "date": "2027-12-06",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil ich mich bei dir zu 100% geborgen und angekommen fühle.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 349,
+    "date": "2027-12-07",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 350,
+    "date": "2027-12-08",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 351,
+    "date": "2027-12-09",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du mein sicherer Hafen bist, egal wie stürmisch die Welt da draußen wird.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 352,
+    "date": "2027-12-10",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mich immer davor rettest, meine Schlüssel zum zehnten Mal zu suchen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 353,
+    "date": "2027-12-11",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 354,
+    "date": "2027-12-12",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du immer an mich glaubst – selbst wenn ich selbst an mir zweifle.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 355,
+    "date": "2027-12-13",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du der beste Snack-Partner für späte Heißhunger-Attacken auf der Couch bist.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 356,
+    "date": "2027-12-14",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein absoluter Lieblingsmensch auf Lebenszeit bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 357,
+    "date": "2027-12-15",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Wärme und Güte mich jeden Tag zu einem besseren Menschen machen.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 358,
+    "date": "2027-12-16",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du mir den besseren Teil des Nachtischs überlässt (oder ihn mir heimlich stiehlst).",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 359,
+    "date": "2027-12-17",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil all meine Zukunftsträume nur mit dir an meiner Seite Sinn ergeben.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 360,
+    "date": "2027-12-18",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil du aus einem gewöhnlichen Tag etwas ganz Besonderes machen kannst.",
+    "styleVariant": "sparkle"
+  },
+  {
+    "id": 361,
+    "date": "2027-12-19",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die hübscheste 'Besserwisserin' der Welt bist.",
+    "styleVariant": "heart"
+  },
+  {
+    "id": 362,
+    "date": "2027-12-20",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil das Leben mit dir an meiner Seite das größte Abenteuer überhaupt ist.",
+    "styleVariant": "gold"
+  },
+  {
+    "id": 363,
+    "date": "2027-12-21",
+    "category": "Liebe & Wertschätzung",
+    "text": "Weil deine Stimme mein liebster Zufluchtsort ist.",
+    "styleVariant": "cozy"
+  },
+  {
+    "id": 364,
+    "date": "2027-12-22",
+    "category": "Humor & Beziehungs-Klassiker",
+    "text": "Weil du die Decke im Bett zwar immer zu dir ziehst, aber dabei so süß aussiehst, dass ich nicht böse sein kann.",
+    "styleVariant": "romantic"
+  },
+  {
+    "id": 365,
+    "date": "2027-12-23",
+    "category": "Zukunft & Gemeinsame Reise",
+    "text": "Weil du mein Heute, mein Morgen und mein Immer bist.",
+    "styleVariant": "sparkle"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "name": "365 Gründe für Dich ❤️",
+  "short_name": "365 Gründe",
+  "description": "Ein Jahr voller Liebe und Wertschätzung für Nina",
+  "theme_color": "#070B19",
+  "background_color": "#070B19",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

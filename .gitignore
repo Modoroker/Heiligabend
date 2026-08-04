@@ -1,0 +1,26 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory for instrumented code leveraged by Istanbul
+coverage
+
+# Dependency directories
+node_modules/
+
+# Production build output
+dist/
+
+# Misc
+.DS_Store
+.env
+.env.local
+scratch/
+scratch_generate_messages.js

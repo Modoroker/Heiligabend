@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E8B4B8"/>
+      <stop offset="50%" stop-color="#B76E79"/>
+      <stop offset="100%" stop-color="#9B525E"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7E7CE"/>
+      <stop offset="100%" stop-color="#D4AF37"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="#070B19"/>
+  <circle cx="256" cy="256" r="220" fill="#0B132B" stroke="url(#goldGrad)" stroke-width="6"/>
+  <path d="M256 410 C150 320 80 240 80 170 C80 110 125 70 180 70 C215 70 245 90 256 115 C267 90 297 70 332 70 C387 70 432 110 432 170 C432 240 362 320 256 410 Z" fill="url(#roseGrad)" filter="url(#glow)"/>
+  <circle cx="256" cy="220" r="30" fill="url(#goldGrad)" opacity="0.9"/>
+  <path d="M256 200 L260 215 L275 220 L260 225 L256 240 L252 225 L237 220 L252 215 Z" fill="#070B19"/>
+</svg>
