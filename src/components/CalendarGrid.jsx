@@ -52,33 +52,7 @@ export default function CalendarGrid({
     { id: '2027-12', label: 'Dezember \'27' },
   ];
 
-  // List of all currently unlocked messages
-  const unlockedMessages = useMemo(() => {
-    return messages.filter((m) => isDayUnlocked(m.id));
-  }, [messages, isDayUnlocked]);
-
-  // Index of selectedDay within unlockedMessages for swipe navigation
-  const selectedIndex = useMemo(() => {
-    if (!selectedDay) return -1;
-    return unlockedMessages.findIndex((m) => m.id === selectedDay.id);
-  }, [selectedDay, unlockedMessages]);
-
-  const hasPrev = selectedIndex > 0;
-  const hasNext = selectedIndex >= 0 && selectedIndex < unlockedMessages.length - 1;
-
-  const handleNavigatePrev = () => {
-    if (hasPrev) {
-      setSelectedDay(unlockedMessages[selectedIndex - 1]);
-    }
-  };
-
-  const handleNavigateNext = () => {
-    if (hasNext) {
-      setSelectedDay(unlockedMessages[selectedIndex + 1]);
-    }
-  };
-
-  // Filter messages for display
+  // Filter messages for display based on active tab and selected month
   const filteredMessages = useMemo(() => {
     return messages.filter((msg) => {
       const unlocked = isDayUnlocked(msg.id);
@@ -96,6 +70,32 @@ export default function CalendarGrid({
       return true;
     });
   }, [messages, filterMode, selectedMonth, isDayUnlocked, favorites]);
+
+  // Navigable unlocked messages respecting the current active filter
+  const navigableMessages = useMemo(() => {
+    return filteredMessages.filter((m) => isDayUnlocked(m.id));
+  }, [filteredMessages, isDayUnlocked]);
+
+  // Index of selectedDay within navigableMessages for swipe navigation
+  const selectedIndex = useMemo(() => {
+    if (!selectedDay) return -1;
+    return navigableMessages.findIndex((m) => m.id === selectedDay.id);
+  }, [selectedDay, navigableMessages]);
+
+  const hasPrev = selectedIndex > 0;
+  const hasNext = selectedIndex >= 0 && selectedIndex < navigableMessages.length - 1;
+
+  const handleNavigatePrev = () => {
+    if (hasPrev) {
+      setSelectedDay(navigableMessages[selectedIndex - 1]);
+    }
+  };
+
+  const handleNavigateNext = () => {
+    if (hasNext) {
+      setSelectedDay(navigableMessages[selectedIndex + 1]);
+    }
+  };
 
   // Group filtered messages by month for wall calendar layout
   const groupedByMonth = useMemo(() => {
