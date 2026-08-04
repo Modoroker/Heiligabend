@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Lock, Heart, CheckCircle2, Sparkles, Calendar as CalendarIcon } from 'lucide-react';
+import { Lock, Heart, CheckCircle2, Sparkles, Calendar as CalendarIcon } from 'lucide-react';
 import MessageModal from './MessageModal';
 
 // Helper to format ISO date string (YYYY-MM-DD) to German calendar format e.g. "24. Dez"
@@ -17,7 +17,8 @@ function getMonthNameWithYear(dateStr) {
     'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
     'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
   ];
-  return `${fullMonths[d.getMonth()]} ${d.getFullYear()}`;
+  const shortYr = String(d.getFullYear()).slice(-2);
+  return `${fullMonths[d.getMonth()]} '${shortYr}`;
 }
 
 export default function CalendarGrid({
@@ -26,28 +27,26 @@ export default function CalendarGrid({
   favorites,
   isDayUnlocked,
   onToggleFavorite,
-  onOpenSecretModal,
 }) {
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'unlocked', 'favorites'
   const [selectedMonth, setSelectedMonth] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedDay, setSelectedDay] = useState(null);
 
-  // Month list for filter pills
+  // Month list for filter pills with '26 and '27 on EVERY month!
   const monthOptions = [
     { id: 'all', label: 'Alle Monate' },
     { id: '2026-12', label: 'Dezember \'26' },
     { id: '2027-01', label: 'Januar \'27' },
-    { id: '2027-02', label: 'Februar' },
-    { id: '2027-03', label: 'März' },
-    { id: '2027-04', label: 'April' },
-    { id: '2027-05', label: 'Mai' },
-    { id: '2027-06', label: 'Juni' },
-    { id: '2027-07', label: 'Juli' },
-    { id: '2027-08', label: 'August' },
-    { id: '2027-09', label: 'September' },
-    { id: '2027-10', label: 'Oktober' },
-    { id: '2027-11', label: 'November' },
+    { id: '2027-02', label: 'Februar \'27' },
+    { id: '2027-03', label: 'März \'27' },
+    { id: '2027-04', label: 'April \'27' },
+    { id: '2027-05', label: 'Mai \'27' },
+    { id: '2027-06', label: 'Juni \'27' },
+    { id: '2027-07', label: 'Juli \'27' },
+    { id: '2027-08', label: 'August \'27' },
+    { id: '2027-09', label: 'September \'27' },
+    { id: '2027-10', label: 'Oktober \'27' },
+    { id: '2027-11', label: 'November \'27' },
     { id: '2027-12', label: 'Dezember \'27' },
   ];
 
@@ -66,18 +65,9 @@ export default function CalendarGrid({
         if (monthKey !== selectedMonth) return false;
       }
 
-      // Search Query
-      if (searchQuery.trim() !== '') {
-        const q = searchQuery.toLowerCase();
-        const matchesText = msg.text.toLowerCase().includes(q);
-        const matchesDay = String(msg.id) === q || `tag ${msg.id}`.includes(q);
-        const formatted = formatCalendarDate(msg.date).toLowerCase();
-        return matchesText || matchesDay || formatted.includes(q);
-      }
-
       return true;
     });
-  }, [messages, filterMode, selectedMonth, searchQuery, isDayUnlocked, favorites]);
+  }, [messages, filterMode, selectedMonth, isDayUnlocked, favorites]);
 
   // Group filtered messages by month for wall calendar layout
   const groupedByMonth = useMemo(() => {
@@ -94,20 +84,8 @@ export default function CalendarGrid({
 
   return (
     <div className="w-full space-y-5">
-      {/* Search & Main Filter Controls */}
+      {/* Main Filter Controls */}
       <div className="flex flex-col gap-3">
-        {/* Search Bar */}
-        <div className="relative w-full">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Suche Datum (z.B. 24. Dez oder Tag 12)..."
-            className="w-full pl-10 pr-4 py-2.5 bg-midnight-800/80 border border-rosegold-500/20 rounded-2xl text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-rosegold-400 transition-all"
-          />
-        </div>
-
         {/* Tab Filters */}
         <div className="flex items-center gap-1.5 p-1 bg-midnight-800/60 rounded-2xl border border-rosegold-500/20 text-xs">
           <button
@@ -142,7 +120,7 @@ export default function CalendarGrid({
           </button>
         </div>
 
-        {/* Month Selector Pills */}
+        {/* Month Selector Pills with '26 & '27 on EVERY month */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
           {monthOptions.map((m) => (
             <button
