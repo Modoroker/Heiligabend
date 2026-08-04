@@ -97,22 +97,6 @@ export default function CalendarGrid({
           </button>
         </div>
 
-        {/* Category Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs">
-          {categories.map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setSelectedCategory(cat.id)}
-              className={`px-3 py-1.5 rounded-full whitespace-nowrap transition-all border ${
-                selectedCategory === cat.id
-                  ? 'bg-champagne-500/20 text-champagne-300 border-champagne-500/50'
-                  : 'bg-midnight-800/40 text-slate-400 border-slate-700/50 hover:border-slate-600'
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
-        </div>
       </div>
 
       {/* Grid Display */}

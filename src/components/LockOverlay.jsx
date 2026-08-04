@@ -48,7 +48,7 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
 
       {/* Title */}
       <h2 className="text-2xl font-serif font-bold gold-gradient-text mb-2">
-        {isChristmasEve ? 'Heiligabend – Noch Versiegelt 🎁' : `Tag ${day.id} – Noch Versiegelt`}
+        {isChristmasEve ? 'Heiligabend – Noch Versiegelt' : `Tag ${day.id} – Noch Versiegelt`}
       </h2>
 
       <p className="text-slate-300 text-sm max-w-xs mb-6">

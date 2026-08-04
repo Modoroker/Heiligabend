@@ -63,12 +63,9 @@ export default function DailyCard({
             <div className="absolute top-0 inset-x-0 h-28 bg-gradient-to-b from-midnight-700/60 to-transparent clip-path-flap pointer-events-none" />
 
             <div className="relative z-10 flex flex-col items-center">
-              <span className="text-xs uppercase tracking-widest text-rosegold-300 font-semibold mb-1">
+              <span className="text-xs uppercase tracking-widest text-rosegold-300 font-semibold mb-6">
                 Tagesbotschaft #{day.id}
               </span>
-              <h3 className="text-2xl font-serif font-bold gold-gradient-text mb-6">
-                {day.category}
-              </h3>
 
               {/* Romantic Wax Seal */}
               <motion.div
@@ -102,11 +99,8 @@ export default function DailyCard({
             {/* Top header bar */}
             <div className="flex items-center justify-between border-b border-rosegold-500/20 pb-4 mb-4">
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-full text-xs font-medium bg-rosegold-500/20 text-rosegold-200 border border-rosegold-500/30">
+                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-rosegold-500/20 text-rosegold-200 border border-rosegold-500/30">
                   Tag {day.id} von 365
-                </span>
-                <span className="text-xs text-slate-400 font-serif italic">
-                  {day.category}
                 </span>
               </div>
 
@@ -143,7 +137,7 @@ export default function DailyCard({
 
             {/* Bottom Footer signature */}
             <div className="border-t border-rosegold-500/20 pt-4 flex items-center justify-between text-xs text-slate-400">
-              <span className="font-handwriting text-lg text-rosegold-300">
+              <span className="font-serif font-bold text-sm text-rosegold-300 tracking-wide">
                 In Liebe für Nina
               </span>
               <span className="flex items-center gap-1 text-[11px] text-slate-400">

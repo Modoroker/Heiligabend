@@ -44,9 +44,6 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
             <span className="px-3 py-1 rounded-full text-xs font-semibold bg-rosegold-500/20 text-rosegold-200 border border-rosegold-500/30">
               Tag {day.id}
             </span>
-            <span className="text-xs text-slate-400 font-serif italic">
-              {day.category}
-            </span>
           </div>
 
           <div className="py-8 text-center">
@@ -77,7 +74,7 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
               </button>
             </div>
 
-            <span className="font-handwriting text-lg text-rosegold-300">
+            <span className="font-serif font-bold text-sm text-rosegold-300 tracking-wide">
               Für Nina
             </span>
           </div>

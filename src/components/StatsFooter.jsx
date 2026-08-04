@@ -22,7 +22,7 @@ export default function StatsFooter({ openedCount, total = 365 }) {
 
       {/* Romantic Sign-off */}
       <div className="pt-2">
-        <p className="font-handwriting text-2xl gold-gradient-text">
+        <p className="font-serif text-xl font-bold tracking-wide gold-gradient-text">
           In Liebe für meine traumhafte Ehefrau Nina
         </p>
         <p className="text-[11px] text-slate-400 mt-1 flex items-center justify-center gap-1">
