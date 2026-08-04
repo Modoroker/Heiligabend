@@ -24,3 +24,6 @@ dist/
 .env.local
 scratch/
 scratch_generate_messages.js
+
+.vercel
+.env*
