@@ -54,7 +54,7 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
                   Geheim-Nachrichten
                 </h3>
                 <span className="text-[11px] text-slate-400">
-                  Überraschungs-Extra-Post für Nina
+                  {adminBypass ? '✨ Admin-Modus: Alle 7 Briefe freigeschaltet' : 'Überraschungs-Extra-Post für Nina'}
                 </span>
               </div>
             </div>
