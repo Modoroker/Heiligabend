@@ -12,14 +12,70 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
 
   if (!isOpen || !day) return null;
 
+  const mode = day.id % 8;
+
+  // 8 Unique Framer Motion Animation Variants for the modal card
+  const animationVariants = {
+    1: {
+      initial: { opacity: 0, scale: 0.7, y: 50 },
+      animate: { opacity: 1, scale: 1, y: 0 },
+      exit: { opacity: 0, scale: 0.7, y: 50 },
+      transition: { type: 'spring', damping: 15, stiffness: 220 }
+    },
+    2: {
+      initial: { opacity: 0, rotateY: 90, scale: 0.8 },
+      animate: { opacity: 1, rotateY: 0, scale: 1 },
+      exit: { opacity: 0, rotateY: -90, scale: 0.8 },
+      transition: { duration: 0.5, ease: 'easeOut' }
+    },
+    3: {
+      initial: { opacity: 0, rotate: -15, scale: 0.6 },
+      animate: { opacity: 1, rotate: 0, scale: 1 },
+      exit: { opacity: 0, rotate: 15, scale: 0.6 },
+      transition: { type: 'spring', damping: 12, stiffness: 180 }
+    },
+    4: {
+      initial: { opacity: 0, y: -100 },
+      animate: { opacity: 1, y: 0 },
+      exit: { opacity: 0, y: 100 },
+      transition: { type: 'spring', damping: 18, stiffness: 200 }
+    },
+    5: {
+      initial: { opacity: 0, scale: 0.2 },
+      animate: { opacity: 1, scale: [0.2, 1.08, 1] },
+      exit: { opacity: 0, scale: 0.5 },
+      transition: { duration: 0.45 }
+    },
+    6: {
+      initial: { opacity: 0, x: -80, rotate: -5 },
+      animate: { opacity: 1, x: 0, rotate: 0 },
+      exit: { opacity: 0, x: 80, rotate: 5 },
+      transition: { type: 'spring', damping: 16, stiffness: 190 }
+    },
+    7: {
+      initial: { opacity: 0, y: 120, scale: 0.8 },
+      animate: { opacity: 1, y: 0, scale: 1 },
+      exit: { opacity: 0, y: -120, scale: 0.8 },
+      transition: { type: 'spring', damping: 14, stiffness: 210 }
+    },
+    0: {
+      initial: { opacity: 0, rotateX: 60, scale: 0.85 },
+      animate: { opacity: 1, rotateX: 0, scale: 1 },
+      exit: { opacity: 0, rotateX: -60, scale: 0.85 },
+      transition: { duration: 0.45, ease: 'easeOut' }
+    }
+  };
+
+  const currentAnim = animationVariants[mode] || animationVariants[1];
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md">
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, rotate: -3 }}
-          animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          exit={{ opacity: 0, scale: 0.8, rotate: 3 }}
-          transition={{ type: 'spring', damping: 18, stiffness: 200 }}
+          initial={currentAnim.initial}
+          animate={currentAnim.animate}
+          exit={currentAnim.exit}
+          transition={currentAnim.transition}
           className="w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col justify-between"
         >
           <button

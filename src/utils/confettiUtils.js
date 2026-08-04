@@ -1,31 +1,44 @@
 import confetti from 'canvas-confetti';
 
-// 1. Romantic Heart & Rose Gold Burst
+// Helper to create emoji shapes safely if canvas-confetti supports shapeFromText
+function createEmojiShape(char) {
+  try {
+    if (typeof confetti.shapeFromText === 'function') {
+      return confetti.shapeFromText({ text: char, scalar: 2.2 });
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return 'circle';
+}
+
+const heartShape = createEmojiShape('❤️');
+const loveSparkleShape = createEmojiShape('💖');
+const starShape = createEmojiShape('⭐');
+const sparkleShape = createEmojiShape('✨');
+const fireworkShape = createEmojiShape('🎆');
+const roseShape = createEmojiShape('🌹');
+const kissShape = createEmojiShape('💋');
+const diamondShape = createEmojiShape('💎');
+const cupidShape = createEmojiShape('💘');
+const giftShape = createEmojiShape('🎁');
+
+// 1. Romantic Heart Explosion (Flying Hearts ❤️ & 💖)
 export function fireHeartExplosion() {
-  const count = 180;
-  const defaults = { origin: { y: 0.7 } };
-
+  const count = 70;
   confetti({
-    ...defaults,
-    particleCount: Math.floor(count * 0.35),
-    spread: 70,
-    startVelocity: 50,
-    colors: ['#B76E79', '#E8B4B8', '#FFD1DC', '#FFB6C1']
-  });
-
-  confetti({
-    ...defaults,
-    particleCount: Math.floor(count * 0.25),
-    spread: 110,
-    decay: 0.91,
-    scalar: 1.2,
-    colors: ['#F7E7CE', '#D4AF37', '#FFFFFF']
+    particleCount: count,
+    spread: 90,
+    startVelocity: 45,
+    origin: { y: 0.65 },
+    shapes: [heartShape, loveSparkleShape, 'circle'],
+    colors: ['#B76E79', '#E8B4B8', '#FFD1DC', '#FFB6C1', '#E63946']
   });
 }
 
-// 2. Champagne Gold Star Shower
+// 2. Champagne Gold Star Shower (Flying Stars ⭐ & ✨)
 export function fireGoldStarShower() {
-  const duration = 2.5 * 1000;
+  const duration = 2 * 1000;
   const animationEnd = Date.now() + duration;
 
   const interval = setInterval(function() {
@@ -33,36 +46,41 @@ export function fireGoldStarShower() {
     if (timeLeft <= 0) {
       return clearInterval(interval);
     }
-    const particleCount = 20 * (timeLeft / duration);
     confetti({
-      startVelocity: 35,
+      particleCount: 15,
+      startVelocity: 30,
       spread: 360,
-      ticks: 60,
-      origin: { x: Math.random(), y: Math.random() - 0.2 },
+      ticks: 80,
+      origin: { x: Math.random(), y: Math.random() * 0.4 },
+      shapes: [starShape, sparkleShape, 'circle'],
       colors: ['#F7E7CE', '#D4AF37', '#E6C687', '#FFFFFF']
     });
-  }, 250);
+  }, 200);
 }
 
-// 3. Side Fireworks Cannons
+// 3. Side Fireworks Cannons (Fireworks 🎆 & 💥)
 export function fireFireworksCannons() {
-  const duration = 2 * 1000;
+  const duration = 1.8 * 1000;
   const end = Date.now() + duration;
 
   (function frame() {
     confetti({
-      particleCount: 6,
+      particleCount: 4,
       angle: 60,
       spread: 55,
-      origin: { x: 0 },
-      colors: ['#B76E79', '#F7E7CE', '#E8B4B8']
+      startVelocity: 60,
+      origin: { x: 0, y: 0.7 },
+      shapes: [fireworkShape, loveSparkleShape, 'square'],
+      colors: ['#B76E79', '#F7E7CE', '#E8B4B8', '#E63946']
     });
     confetti({
-      particleCount: 6,
+      particleCount: 4,
       angle: 120,
       spread: 55,
-      origin: { x: 1 },
-      colors: ['#D4AF37', '#FFD1DC', '#9B525E']
+      startVelocity: 60,
+      origin: { x: 1, y: 0.7 },
+      shapes: [fireworkShape, starShape, 'circle'],
+      colors: ['#D4AF37', '#FFD1DC', '#9B525E', '#F7E7CE']
     });
 
     if (Date.now() < end) {
@@ -71,68 +89,75 @@ export function fireFireworksCannons() {
   }());
 }
 
-// 4. Gentle Love Rain
+// 4. Gentle Love Rain (Roses 🌹 & Petals)
 export function fireLoveRain() {
   confetti({
-    particleCount: 100,
+    particleCount: 60,
     spread: 160,
-    startVelocity: 25,
+    startVelocity: 20,
     decay: 0.94,
-    gravity: 0.6,
+    gravity: 0.5,
     origin: { y: 0 },
-    colors: ['#FFD1DC', '#E8B4B8', '#B76E79', '#F7E7CE']
+    shapes: [roseShape, heartShape, 'circle'],
+    colors: ['#FFD1DC', '#E8B4B8', '#B76E79', '#E63946']
   });
 }
 
-// 5. 360-degree Golden Ring Burst
+// 5. 360-degree Kisses & Love Ring (Kisses 💋 & ❤️)
 export function fireGoldenRing() {
   confetti({
-    particleCount: 120,
+    particleCount: 80,
     spread: 360,
-    startVelocity: 45,
+    startVelocity: 40,
     origin: { y: 0.5 },
-    colors: ['#D4AF37', '#F7E7CE', '#B76E79', '#FFFFFF']
+    shapes: [kissShape, heartShape, 'circle'],
+    colors: ['#E63946', '#B76E79', '#FFB6C1', '#FFFFFF']
   });
 }
 
-// 6. Silver & Diamond Sparkle Splash
+// 6. Silver & Diamond Sparkle Splash (Diamonds 💎 & ✨)
 export function fireDiamondSplash() {
   confetti({
-    particleCount: 150,
+    particleCount: 80,
     spread: 100,
-    startVelocity: 55,
+    startVelocity: 50,
     origin: { y: 0.6 },
+    shapes: [diamondShape, sparkleShape, 'circle'],
     colors: ['#E2E8F0', '#F8FAFC', '#CBD5E1', '#D4AF37', '#FFD1DC']
   });
 }
 
-// 7. Cupid Upward Rocket Salvo
+// 7. Cupid Upward Rocket Salvo (Cupid Bows 💘 & ❤️)
 export function fireCupidArrow() {
   confetti({
-    particleCount: 80,
+    particleCount: 65,
     angle: 90,
-    spread: 45,
+    spread: 50,
     startVelocity: 65,
     origin: { y: 1 },
+    shapes: [cupidShape, heartShape, 'star'],
     colors: ['#E63946', '#B76E79', '#FFD1DC', '#F7E7CE']
   });
 }
 
-// 8. Champagne Bubble Pop Celebration
+// 8. Champagne Pop Celebration (Gifts 🎁 & ⭐)
 export function fireChampagnePop() {
   confetti({
-    particleCount: 100,
+    particleCount: 70,
     spread: 80,
-    startVelocity: 40,
-    ticks: 200,
+    startVelocity: 45,
+    ticks: 180,
     origin: { y: 0.7 },
-    colors: ['#F7E7CE', '#E6C687', '#D4AF37', '#FFFFFF']
+    shapes: [giftShape, starShape, 'circle'],
+    colors: ['#F7E7CE', '#E6C687', '#D4AF37', '#FFFFFF', '#B76E79']
   });
 }
 
-// Main Router: assigns a unique animation experience per day across 8 distinct modes!
+// Main Router: assigns a unique animation experience per day across 8 distinct emoji & particle modes!
 export function fireDayAnimation(dayId) {
-  const mode = dayId % 8;
+  const numericId = Number(dayId) || 1;
+  const mode = numericId % 8;
+
   if (mode === 1) fireHeartExplosion();
   else if (mode === 2) fireGoldStarShower();
   else if (mode === 3) fireFireworksCannons();
