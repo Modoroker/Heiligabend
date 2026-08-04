@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 
-export default function ScratchCard({ onComplete, threshold = 0.3 }) {
+export default function ScratchCard({ onComplete, threshold = 0.5 }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [isScratched, setIsScratched] = useState(false);
@@ -111,7 +111,7 @@ export default function ScratchCard({ onComplete, threshold = 0.3 }) {
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 36, 0, Math.PI * 2); // Larger 36px scratch radius
+    ctx.arc(x, y, 36, 0, Math.PI * 2); // 36px scratch radius
     ctx.fill();
 
     checkScratchPercentage();

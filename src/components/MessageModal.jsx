@@ -100,6 +100,17 @@ export default function MessageModal({
 
   const currentAnim = animationVariants[mode] || animationVariants[1];
 
+  // Drag End handler for Tinder-style swiping (only when card is unlocked/freigerubbelt)
+  const handleDragEnd = (event, info) => {
+    if (showScratch) return; // Don't swipe while scratch layer is active!
+    const swipeThreshold = 50;
+    if (info.offset.x < -swipeThreshold && hasNext && onNavigateNext) {
+      onNavigateNext();
+    } else if (info.offset.x > swipeThreshold && hasPrev && onNavigatePrev) {
+      onNavigatePrev();
+    }
+  };
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md">
@@ -127,11 +138,17 @@ export default function MessageModal({
 
         <motion.div
           key={day.id}
+          drag={showScratch ? false : "x"}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={handleDragEnd}
           initial={currentAnim.initial}
           animate={currentAnim.animate}
           exit={currentAnim.exit}
           transition={currentAnim.transition}
-          className="w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col justify-between"
+          className={`w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col justify-between ${
+            showScratch ? '' : 'cursor-grab active:cursor-grabbing'
+          }`}
         >
           {/* Close Button */}
           <button
@@ -156,7 +173,7 @@ export default function MessageModal({
           {/* Text Content Area with ScratchCard Overlay */}
           <div className="py-8 text-center relative min-h-[180px] flex flex-col justify-center items-center">
             {showScratch && (
-              <ScratchCard onComplete={handleScratchComplete} threshold={0.3} />
+              <ScratchCard onComplete={handleScratchComplete} threshold={0.5} />
             )}
 
             <span className="text-3xl font-serif text-rosegold-400/40 select-none block mb-1">“</span>
@@ -165,6 +182,13 @@ export default function MessageModal({
             </p>
             <span className="text-3xl font-serif text-rosegold-400/40 select-none block mt-1">”</span>
           </div>
+
+          {/* Swipe Hint when already freigerubbelt */}
+          {(hasPrev || hasNext) && !showScratch && (
+            <div className="text-[10px] text-center text-slate-400 mb-2 font-mono tracking-tight select-none">
+              ← Wische nach links/rechts für andere Tage →
+            </div>
+          )}
 
           {/* Footer */}
           <div className="border-t border-rosegold-500/20 pt-4 flex items-center justify-between">
