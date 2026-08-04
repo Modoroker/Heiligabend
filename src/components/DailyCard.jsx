@@ -115,6 +115,7 @@ export default function DailyCard({
                   title="Zu Favoriten hinzufügen"
                 >
                   <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-400' : ''}`} />
+                </button>
               </div>
             </div>
 
