@@ -5,8 +5,8 @@ const LOCAL_STORAGE_OPENED_KEY = '365_reasons_opened_days';
 const LOCAL_STORAGE_FAVORITES_KEY = '365_reasons_favorites';
 const LOCAL_STORAGE_OVERRIDE_KEY = '365_reasons_admin_override';
 
-// Start date: 2026-12-24 at 22:00:00
-const START_CHRISTMAS_EVE = new Date('2026-12-24T22:00:00');
+// Start date: 2026-12-24 at 21:00:00 (Bescherung at 21:00 Uhr)
+const START_CHRISTMAS_EVE = new Date('2026-12-24T21:00:00');
 
 export function useCalendar() {
   const [openedDays, setOpenedDays] = useState(() => {
@@ -37,7 +37,7 @@ export function useCalendar() {
 
   // Current time state (updates every second for live countdown)
   const [now, setNow] = useState(() => {
-    // Check URL search params for ?devDate=2026-12-24T21:59:50
+    // Check URL search params for ?devDate=2026-12-24T20:59:50
     const params = new URLSearchParams(window.location.search);
     const devDate = params.get('devDate');
     if (devDate) {
@@ -78,7 +78,7 @@ export function useCalendar() {
     if (adminBypass) return true;
 
     if (dayId === 1) {
-      // Day 1 unlocks on 2026-12-24 at 22:00:00
+      // Day 1 unlocks on 2026-12-24 at 21:00:00
       return now >= START_CHRISTMAS_EVE;
     }
 
