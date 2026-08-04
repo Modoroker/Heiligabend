@@ -4,12 +4,16 @@ import DailyCard from './components/DailyCard';
 import LockOverlay from './components/LockOverlay';
 import CalendarGrid from './components/CalendarGrid';
 import SecretPinModal from './components/SecretPinModal';
+import BonusMessagesModal from './components/BonusMessagesModal';
+import MilestoneCard from './components/MilestoneCard';
+import NotificationBanner from './components/NotificationBanner';
 import StatsFooter from './components/StatsFooter';
 import { useCalendar } from './hooks/useCalendar';
 import { Calendar as CalendarIcon, Heart, Home } from 'lucide-react';
 
 export default function App() {
   const {
+    now,
     messages,
     currentDayIndex,
     openedDays,
@@ -26,6 +30,7 @@ export default function App() {
 
   const [activeTab, setActiveTab] = useState('daily'); // 'daily', 'calendar', 'favorites'
   const [isSecretModalOpen, setIsSecretModalOpen] = useState(false);
+  const [isBonusModalOpen, setIsBonusModalOpen] = useState(false);
 
   // Current day data
   const todayMessage = messages.find((m) => m.id === currentDayIndex) || messages[0];
@@ -36,6 +41,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-midnight-900 text-slate-100 flex flex-col justify-between max-w-md mx-auto relative border-x border-rosegold-500/10 shadow-2xl">
+      {/* Push Notification Banner */}
+      <NotificationBanner />
+
       {/* Top Navbar */}
       <Navbar
         streak={streak}
@@ -43,10 +51,18 @@ export default function App() {
         adminBypass={adminBypass}
         onResetAdmin={resetAdminBypass}
         onOpenSecretModal={() => setIsSecretModalOpen(true)}
+        onOpenBonusModal={() => setIsBonusModalOpen(true)}
       />
 
       {/* Main View Container */}
       <main className="flex-1 p-4 pb-20 space-y-6">
+        {/* Milestone & Streak Info Banner */}
+        <MilestoneCard
+          openedCount={openedDays.length}
+          streak={streak}
+          startDateStr="2026-12-24"
+        />
+
         {/* Navigation Tabs */}
         <div className="flex items-center gap-2 p-1.5 bg-midnight-800/80 rounded-2xl border border-rosegold-500/20 text-xs font-semibold shadow-inner">
           <button
@@ -152,6 +168,15 @@ export default function App() {
         isOpen={isSecretModalOpen}
         onClose={() => setIsSecretModalOpen(false)}
         onUnlockSecret={verifyAndUnlockSecret}
+      />
+
+      {/* Bonus Secret Messages Modal */}
+      <BonusMessagesModal
+        isOpen={isBonusModalOpen}
+        onClose={() => setIsBonusModalOpen(false)}
+        openedCount={openedDays.length}
+        streak={streak}
+        now={now}
       />
     </div>
   );

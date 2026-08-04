@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Flame, KeyRound } from 'lucide-react';
+import { Flame, KeyRound, Gift } from 'lucide-react';
 
-export default function Navbar({ streak, total = 365, onOpenSecretModal, adminBypass, onResetAdmin }) {
+export default function Navbar({ streak, total = 365, onOpenSecretModal, onOpenBonusModal, adminBypass, onResetAdmin }) {
   const [logoTaps, setLogoTaps] = useState(0);
 
   const handleLogoTap = () => {
@@ -24,7 +24,7 @@ export default function Navbar({ streak, total = 365, onOpenSecretModal, adminBy
           title="Tippe 3x auf den Titel für den Geheimcode-Dialog"
         >
           <div>
-            <h1 className="text-base font-serif font-bold gold-gradient-text tracking-wide leading-tight">
+            <h1 className="text-sm sm:text-base font-serif font-bold gold-gradient-text tracking-wide leading-tight">
               365 Gründe warum ich dich Liebe
             </h1>
           </div>
@@ -41,6 +41,14 @@ export default function Navbar({ streak, total = 365, onOpenSecretModal, adminBy
               <KeyRound className="w-3 h-3" /> Admin
             </button>
           )}
+
+          <button
+            onClick={onOpenBonusModal}
+            className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 text-champagne-300 hover:bg-rosegold-500/30 transition-all relative"
+            title="Geheim-Nachrichten öffnen 🎁"
+          >
+            <Gift className="w-4 h-4 animate-bounce text-amber-300" />
+          </button>
 
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-midnight-800/90 border border-rosegold-500/30 text-xs font-semibold shadow-inner">
             <Flame className="w-4 h-4 text-amber-400 fill-amber-400/20 animate-pulse" />

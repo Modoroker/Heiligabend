@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X } from 'lucide-react';
 import { fireDayAnimation } from '../utils/confettiUtils';
 
+import { getSpecialDayInfo } from '../utils/specialDaysUtils';
+
 export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggleFavorite }) {
   useEffect(() => {
     if (isOpen && day) {
@@ -13,6 +15,7 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
   if (!isOpen || !day) return null;
 
   const mode = day.id % 8;
+  const specialInfo = getSpecialDayInfo(day.date);
 
   // 8 Unique Framer Motion Animation Variants for the modal card
   const animationVariants = {
@@ -89,6 +92,11 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
             <span className="px-3 py-1 rounded-full text-xs font-semibold bg-rosegold-500/20 text-rosegold-200 border border-rosegold-500/30">
               Tag {day.id} von 365
             </span>
+            {specialInfo && (
+              <span className="px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-amber-500 to-rose-500 text-white shadow-gold-glow animate-pulse">
+                {specialInfo.icon} {specialInfo.title}
+              </span>
+            )}
           </div>
 
           <div className="py-8 text-center">

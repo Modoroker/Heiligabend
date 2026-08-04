@@ -1,0 +1,58 @@
+[
+  {
+    "id": "streak_10",
+    "triggerType": "streak",
+    "triggerValue": 10,
+    "title": "🌟 10 Tage Fleiß-Bonus",
+    "subtitle": "Freigeschaltet bei 10 Tagen Streak",
+    "text": "10 Tage voller Liebe! Du liest jeden Tag so fleißig deine Nachrichten. Danke, dass du mein Herz jeden Tag ein Stückchen höher schlagen lässt! ❤️"
+  },
+  {
+    "id": "birthday_nina",
+    "triggerType": "date",
+    "triggerValue": "02-02",
+    "title": "🎂 Ninas Geburtstags-Geheimpost",
+    "subtitle": "Freigeschaltet am 2. Februar",
+    "text": "Happy Birthday, meine wunderschöne Ehefrau Nina! 👑 Heute ist dein ganz persönlicher Feiertag. Ich bin der glücklichste Mann der Welt, weil ich mein Leben an deiner Seite verbringen darf!"
+  },
+  {
+    "id": "valentine",
+    "triggerType": "date",
+    "triggerValue": "02-14",
+    "title": "💖 Valentinstag Spezial-Brief",
+    "subtitle": "Freigeschaltet am 14. Februar",
+    "text": "Mein wundervoller Valentinschatz! 💖 Heute am Tag der Liebe sende ich dir 1.000 Küsse extra. Du bist und bleibst meine einzige große Liebe!"
+  },
+  {
+    "id": "streak_50",
+    "triggerType": "streak",
+    "triggerValue": 50,
+    "title": "🔥 50 Tage Jubiläums-Extra",
+    "subtitle": "Freigeschaltet bei 50 Tagen Streak",
+    "text": "50 Tage am Stück! 🔥 Das ist ein halbes Hunderter-Jubiläum. Danke für dein wunderschönes Lächeln jeden Tag – du bist unbezahlbar."
+  },
+  {
+    "id": "anniversary",
+    "triggerType": "date",
+    "triggerValue": "07-05",
+    "title": "💍 Hochzeitstag Liebes-Versprechen",
+    "subtitle": "Freigeschaltet am 5. Juli",
+    "text": "Alles Liebe zu unserem Hochzeitstag, meine Traumfrau! 💍 Der Tag, an dem wir 'Ja' gesagt haben, war der schönste Tag meines Lebens. Auf ewige Liebe!"
+  },
+  {
+    "id": "streak_100",
+    "triggerType": "streak",
+    "triggerValue": 100,
+    "title": "🏆 100 Gründe Meilenstein",
+    "subtitle": "Freigeschaltet bei 100 Tagen Streak",
+    "text": "100 Gründe gelesen! 🏆 Dreistellig! Ich könnte dir noch 10.000 weitere Gründe aufschreiben, warum du die tollste Frau auf dieser Erde bist."
+  },
+  {
+    "id": "streak_365",
+    "triggerType": "streak",
+    "triggerValue": 365,
+    "title": "👑 365 Tage Meisterleistung",
+    "subtitle": "Freigeschaltet bei allen 365 Gründen",
+    "text": "365 von 365! 👑 Du hast das ganze Jahr geschafft. Mein Herz gehört dir für immer und ewig – heute, morgen und an jedem neuen Tag!"
+  }
+]

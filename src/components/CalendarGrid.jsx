@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Lock, Heart, CheckCircle2, Sparkles, Calendar as CalendarIcon } from 'lucide-react';
 import MessageModal from './MessageModal';
+import { getSpecialDayInfo } from '../utils/specialDaysUtils';
 
 // Helper to format ISO date string (YYYY-MM-DD) to German calendar format e.g. "24. Dez"
 function formatCalendarDate(dateStr) {
@@ -164,6 +165,7 @@ export default function CalendarGrid({
                 const opened = openedDays.includes(msg.id);
                 const fav = favorites.includes(msg.id);
                 const formattedDate = formatCalendarDate(msg.date);
+                const specialInfo = getSpecialDayInfo(msg.date);
 
                 return (
                   <div
@@ -174,15 +176,24 @@ export default function CalendarGrid({
                       }
                     }}
                     className={`aspect-square rounded-2xl p-2 flex flex-col items-center justify-between cursor-pointer border transition-all relative overflow-hidden select-none group ${
-                      opened
+                      specialInfo
+                        ? 'border-amber-400 shadow-gold-glow bg-gradient-to-b from-amber-500/20 to-midnight-800/90 animate-pulse'
+                        : opened
                         ? 'bg-midnight-800/90 border-rosegold-500/40 hover:border-rosegold-400 shadow-rose-glow'
                         : unlocked
                         ? 'bg-midnight-800/70 border-champagne-500/40 hover:border-champagne-300 shadow-gold-glow'
                         : 'bg-midnight-900/60 border-slate-800 opacity-60 hover:opacity-80'
                     }`}
                   >
+                    {/* Special Day Banner at Top */}
+                    {specialInfo && (
+                      <div className="absolute top-0 inset-x-0 bg-gradient-to-r from-amber-500 to-rose-500 text-white text-[8px] font-bold text-center py-0.5 tracking-tighter uppercase">
+                        {specialInfo.icon} {specialInfo.badge}
+                      </div>
+                    )}
+
                     {/* Top Header: Date & Day Badge */}
-                    <div className="w-full flex items-center justify-between text-[10px]">
+                    <div className={`w-full flex items-center justify-between text-[10px] ${specialInfo ? 'mt-3' : ''}`}>
                       <span className="font-semibold text-champagne-300 font-serif">
                         {formattedDate}
                       </span>
@@ -199,7 +210,11 @@ export default function CalendarGrid({
                         <CheckCircle2 className="w-6 h-6 text-emerald-400" />
                       ) : unlocked ? (
                         <div className="w-8 h-8 rounded-full bg-rosegold-500/20 border border-champagne-400/40 flex items-center justify-center animate-pulse">
-                          <Sparkles className="w-4 h-4 text-champagne-300" />
+                          {specialInfo ? (
+                            <span className="text-sm">{specialInfo.icon}</span>
+                          ) : (
+                            <Sparkles className="w-4 h-4 text-champagne-300" />
+                          )}
                         </div>
                       ) : (
                         <Lock className="w-4 h-4 text-slate-600 group-hover:text-rosegold-400 transition-colors" />
