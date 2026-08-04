@@ -110,11 +110,8 @@ export default function DailyCard({
               <span className="text-4xl font-serif text-rosegold-400/40 select-none block mt-1">”</span>
             </div>
 
-            {/* Bottom Footer signature */}
-            <div className="border-t border-rosegold-500/20 pt-4 flex items-center justify-between text-xs text-slate-400">
-              <span className="font-serif font-bold text-sm text-rosegold-300 tracking-wide">
-                In Liebe für Nina
-              </span>
+            {/* Bottom Footer status */}
+            <div className="border-t border-rosegold-500/20 pt-4 flex items-center justify-end text-xs text-slate-400">
               <span className="flex items-center gap-1 text-[11px] text-slate-400">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Gelesen
               </span>

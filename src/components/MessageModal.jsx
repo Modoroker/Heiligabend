@@ -204,10 +204,6 @@ export default function MessageModal({
                 <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-400' : ''}`} />
               </button>
             </div>
-
-            <span className="font-serif font-bold text-sm text-rosegold-300 tracking-wide">
-              Für Nina
-            </span>
           </div>
         </motion.div>
       </div>

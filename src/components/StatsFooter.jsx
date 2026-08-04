@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export default function StatsFooter({ openedCount, total = 365 }) {
   const percentage = Math.round((openedCount / total) * 100);
@@ -20,13 +20,10 @@ export default function StatsFooter({ openedCount, total = 365 }) {
         </div>
       </div>
 
-      {/* Romantic Sign-off */}
-      <div className="pt-2">
-        <p className="font-serif text-xl font-bold tracking-wide gold-gradient-text">
-          In Liebe für meine traumhafte Ehefrau Nina
-        </p>
-        <p className="text-[11px] text-slate-400 mt-1 flex items-center justify-center gap-1">
-          <Sparkles className="w-3 h-3 text-champagne-400" />
+      {/* Romantic Sign-off - Prominent "Jeden Tag ein Stück von meinem Herzen" with Heart */}
+      <div className="pt-3">
+        <p className="font-serif text-lg sm:text-xl font-bold tracking-wide gold-gradient-text flex items-center justify-center gap-2">
+          <Heart className="w-5 h-5 text-red-400 fill-red-400/30 animate-pulse" />
           Jeden Tag ein Stück von meinem Herzen
         </p>
       </div>
