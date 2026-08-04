@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, Sparkles, Smartphone } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export default function StatsFooter({ openedCount, total = 365 }) {
   const percentage = Math.round((openedCount / total) * 100);

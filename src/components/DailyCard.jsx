@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, HeartHandshake, Bookmark, Share2, CheckCircle2 } from 'lucide-react';
+import { Heart, Sparkles, CheckCircle2 } from 'lucide-react';
 import { fireDayAnimation } from '../utils/confettiUtils';
 
 export default function DailyCard({
@@ -11,7 +11,6 @@ export default function DailyCard({
   onToggleFavorite,
 }) {
   const [isOpen, setIsOpen] = useState(isOpened);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setIsOpen(isOpened);
@@ -22,23 +21,6 @@ export default function DailyCard({
       setIsOpen(true);
       onMarkOpened(day.id);
       fireDayAnimation(day.id);
-    }
-  };
-
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `365 Gründe für Dich – Tag ${day.id}`,
-          text: `"${day.text}" ❤️`,
-        });
-      } catch (err) {
-        console.log('Share canceled or failed', err);
-      }
-    } else {
-      navigator.clipboard.writeText(`"${day.text}" ❤️ - 365 Gründe für Dich (Tag ${day.id})`);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
     }
   };
 

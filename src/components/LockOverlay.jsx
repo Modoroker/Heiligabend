@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, Sparkles, KeyRound, HeartHandshake } from 'lucide-react';
+import { Lock, Sparkles } from 'lucide-react';
 
 export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
   const [isShaking, setIsShaking] = useState(false);

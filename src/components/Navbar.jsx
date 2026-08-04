@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, Flame, KeyRound, Sparkles } from 'lucide-react';
+import { Flame, KeyRound } from 'lucide-react';
 
 export default function Navbar({ streak, total = 365, onOpenSecretModal, adminBypass, onResetAdmin }) {
   const [logoTaps, setLogoTaps] = useState(0);

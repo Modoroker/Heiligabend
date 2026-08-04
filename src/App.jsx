@@ -6,7 +6,7 @@ import CalendarGrid from './components/CalendarGrid';
 import SecretPinModal from './components/SecretPinModal';
 import StatsFooter from './components/StatsFooter';
 import { useCalendar } from './hooks/useCalendar';
-import { Calendar as CalendarIcon, Heart, Sparkles, Home } from 'lucide-react';
+import { Calendar as CalendarIcon, Heart, Home } from 'lucide-react';
 
 export default function App() {
   const {

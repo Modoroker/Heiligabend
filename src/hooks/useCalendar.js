@@ -66,7 +66,7 @@ export function useCalendar() {
     const anchor = new Date('2026-12-24T00:00:00');
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const diffTime = today.getTime() - anchor.getTime();
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
     
     if (diffDays < 1) return 1; // Before start date, focus on Day 1 countdown
     if (diffDays > 365) return 365;
