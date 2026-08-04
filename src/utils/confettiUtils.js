@@ -60,27 +60,27 @@ export function fireGoldStarShower() {
 
 // 3. Side Fireworks Cannons (Fireworks 🎆 & 💥)
 export function fireFireworksCannons() {
-  const duration = 1.8 * 1000;
+  const duration = 2.5 * 1000;
   const end = Date.now() + duration;
 
   (function frame() {
     confetti({
-      particleCount: 4,
+      particleCount: 6,
       angle: 60,
-      spread: 55,
-      startVelocity: 60,
+      spread: 60,
+      startVelocity: 65,
       origin: { x: 0, y: 0.7 },
-      shapes: [fireworkShape, loveSparkleShape, 'square'],
-      colors: ['#B76E79', '#F7E7CE', '#E8B4B8', '#E63946']
+      shapes: [fireworkShape, loveSparkleShape, starShape],
+      colors: ['#B76E79', '#F7E7CE', '#E8B4B8', '#E63946', '#FBBF24']
     });
     confetti({
-      particleCount: 4,
+      particleCount: 6,
       angle: 120,
-      spread: 55,
-      startVelocity: 60,
+      spread: 60,
+      startVelocity: 65,
       origin: { x: 1, y: 0.7 },
       shapes: [fireworkShape, starShape, 'circle'],
-      colors: ['#D4AF37', '#FFD1DC', '#9B525E', '#F7E7CE']
+      colors: ['#D4AF37', '#FFD1DC', '#9B525E', '#F7E7CE', '#FF4D6D']
     });
 
     if (Date.now() < end) {
@@ -151,6 +151,32 @@ export function fireChampagnePop() {
     shapes: [giftShape, starShape, 'circle'],
     colors: ['#F7E7CE', '#E6C687', '#D4AF37', '#FFFFFF', '#B76E79']
   });
+}
+
+// SPECIAL: Birthday Full-Screen Fireworks (Feb 2)
+export function fireBirthdayFireworks() {
+  fireFireworksCannons();
+  setTimeout(fireGoldStarShower, 600);
+}
+
+// SPECIAL: Valentine's Day Floating Heart Rain (Feb 14)
+export function fireValentineHeartRain() {
+  const duration = 3 * 1000;
+  const end = Date.now() + duration;
+
+  const interval = setInterval(function() {
+    if (Date.now() > end) return clearInterval(interval);
+    confetti({
+      particleCount: 8,
+      startVelocity: 15,
+      spread: 180,
+      ticks: 120,
+      gravity: 0.4,
+      origin: { x: Math.random(), y: -0.1 },
+      shapes: [heartShape, loveSparkleShape],
+      colors: ['#FF4D6D', '#FF758F', '#FF8FA3', '#FFB3C1']
+    });
+  }, 250);
 }
 
 // Main Router: assigns a unique animation experience per day across 8 distinct emoji & particle modes!

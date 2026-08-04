@@ -1,3 +1,5 @@
+import { fireBirthdayFireworks, fireValentineHeartRain } from './confettiUtils';
+
 export const SPECIAL_DAYS = {
   '02-02': {
     title: '🎂 Ninas Geburtstag',
@@ -44,4 +46,36 @@ export function getSpecialDayInfo(dateStr) {
   if (parts.length < 3) return null;
   const monthDay = `${parts[1]}-${parts[2]}`;
   return SPECIAL_DAYS[monthDay] || null;
+}
+
+// Trigger once-per-day Special Day startup effects (Smart sessionStorage flags)
+export function checkAndTriggerSpecialDayStartup(date) {
+  const d = date ? new Date(date) : new Date();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  const key = `${month}-${day}`;
+
+  const sessionKey = `special_day_triggered_${key}_${d.getFullYear()}`;
+
+  try {
+    if (sessionStorage.getItem(sessionKey)) {
+      return; // Already triggered once in this session today!
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (key === '02-02') {
+    // Nina's Birthday Full-Screen Fireworks
+    fireBirthdayFireworks();
+    try {
+      sessionStorage.setItem(sessionKey, 'true');
+    } catch {}
+  } else if (key === '02-14') {
+    // Valentine's Day Heart Rain
+    fireValentineHeartRain();
+    try {
+      sessionStorage.setItem(sessionKey, 'true');
+    } catch {}
+  }
 }

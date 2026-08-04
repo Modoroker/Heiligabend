@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
-import { Flame, KeyRound, Gift } from 'lucide-react';
+import { Flame, KeyRound, Gift, Heart, Gamepad2 } from 'lucide-react';
 
-export default function Navbar({ streak, total = 365, onOpenSecretModal, onOpenBonusModal, adminBypass, onResetAdmin }) {
+export default function Navbar({
+  streak,
+  total = 365,
+  onOpenSecretModal,
+  onOpenBonusModal,
+  onOpenGameModal,
+  adminBypass,
+  onResetAdmin,
+}) {
   const [logoTaps, setLogoTaps] = useState(0);
 
   const handleLogoTap = () => {
@@ -16,13 +24,15 @@ export default function Navbar({ streak, total = 365, onOpenSecretModal, onOpenB
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-rosegold-500/20 px-4 py-3 shadow-lg">
       <div className="max-w-md mx-auto flex items-center justify-between">
-        
-        {/* Brand Logo & Secret Code Trigger */}
-        <div 
+        {/* Brand Logo with EKG Heartbeat & Secret Code Trigger */}
+        <div
           onClick={handleLogoTap}
-          className="flex items-center gap-2.5 cursor-pointer select-none group"
+          className="flex items-center gap-2 cursor-pointer select-none group"
           title="Tippe 3x auf den Titel für den Geheimcode-Dialog"
         >
+          <div className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/30 flex items-center justify-center">
+            <Heart className="w-5 h-5 text-red-400 fill-red-400/40 ekg-heartbeat" />
+          </div>
           <div>
             <h1 className="text-sm sm:text-base font-serif font-bold gold-gradient-text tracking-wide leading-tight">
               365 Gründe warum ich dich Liebe
@@ -30,18 +40,28 @@ export default function Navbar({ streak, total = 365, onOpenSecretModal, onOpenB
           </div>
         </div>
 
-        {/* Right Actions & Streak */}
-        <div className="flex items-center gap-2">
+        {/* Right Actions, Game Button & Streak */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {adminBypass && (
             <button
               onClick={onResetAdmin}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-medium"
+              className="flex items-center gap-1 px-2 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-medium"
               title="Admin Freigabe zurücksetzen"
             >
               <KeyRound className="w-3 h-3" /> Admin
             </button>
           )}
 
+          {/* Minigame Button 🎮 */}
+          <button
+            onClick={onOpenGameModal}
+            className="p-1.5 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 hover:bg-pink-500/30 transition-all relative"
+            title="Herzen-Fang Minispiel spielen 🎮"
+          >
+            <Gamepad2 className="w-4 h-4 text-pink-300 animate-pulse" />
+          </button>
+
+          {/* Bonus Secret Messages Gift Modal */}
           <button
             onClick={onOpenBonusModal}
             className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 text-champagne-300 hover:bg-rosegold-500/30 transition-all relative"
@@ -50,13 +70,13 @@ export default function Navbar({ streak, total = 365, onOpenSecretModal, onOpenB
             <Gift className="w-4 h-4 animate-bounce text-amber-300" />
           </button>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-midnight-800/90 border border-rosegold-500/30 text-xs font-semibold shadow-inner">
+          {/* Streak Badge */}
+          <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-midnight-800/90 border border-rosegold-500/30 text-xs font-semibold shadow-inner">
             <Flame className="w-4 h-4 text-amber-400 fill-amber-400/20 animate-pulse" />
             <span className="text-rosegold-200">{streak}</span>
             <span className="text-slate-500 font-normal">/ {total}</span>
           </div>
         </div>
-
       </div>
     </header>
   );

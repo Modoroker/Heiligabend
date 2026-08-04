@@ -81,3 +81,17 @@
     box-shadow: 0 0 0 0 rgba(183, 110, 121, 0);
   }
 }
+
+/* EKG Heartbeat rhythm (lub-dub ... lub-dub) */
+@keyframes ekgBeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.22); }
+  28% { transform: scale(1.04); }
+  42% { transform: scale(1.35); }
+  56% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.ekg-heartbeat {
+  animation: ekgBeat 1.4s ease-in-out infinite;
+}

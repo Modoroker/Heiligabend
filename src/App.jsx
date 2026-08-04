@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import DailyCard from './components/DailyCard';
 import LockOverlay from './components/LockOverlay';
 import CalendarGrid from './components/CalendarGrid';
 import SecretPinModal from './components/SecretPinModal';
 import BonusMessagesModal from './components/BonusMessagesModal';
+import HeartCatchGame from './components/HeartCatchGame';
 import MilestoneCard from './components/MilestoneCard';
 import NotificationBanner from './components/NotificationBanner';
 import StatsFooter from './components/StatsFooter';
 import { useCalendar } from './hooks/useCalendar';
 import { getTimeOfDayTheme } from './utils/timeOfDayUtils';
+import { checkAndTriggerSpecialDayStartup } from './utils/specialDaysUtils';
 import { Calendar as CalendarIcon, Heart, Home } from 'lucide-react';
 
 export default function App() {
@@ -32,6 +34,12 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('daily'); // 'daily', 'calendar', 'favorites'
   const [isSecretModalOpen, setIsSecretModalOpen] = useState(false);
   const [isBonusModalOpen, setIsBonusModalOpen] = useState(false);
+  const [isGameModalOpen, setIsGameModalOpen] = useState(false);
+
+  // Trigger special day effects (Birthday Fireworks / Valentine Heart Rain) once per day
+  useEffect(() => {
+    checkAndTriggerSpecialDayStartup(now);
+  }, [now]);
 
   // Dynamic time of day gradient theme
   const timeTheme = getTimeOfDayTheme(now);
@@ -56,6 +64,7 @@ export default function App() {
         onResetAdmin={resetAdminBypass}
         onOpenSecretModal={() => setIsSecretModalOpen(true)}
         onOpenBonusModal={() => setIsBonusModalOpen(true)}
+        onOpenGameModal={() => setIsGameModalOpen(true)}
       />
 
       {/* Main View Container */}
@@ -184,6 +193,12 @@ export default function App() {
         streak={streak}
         now={now}
         adminBypass={adminBypass}
+      />
+
+      {/* Heart Catch Minigame Modal 🎮 */}
+      <HeartCatchGame
+        isOpen={isGameModalOpen}
+        onClose={() => setIsGameModalOpen(false)}
       />
     </div>
   );
