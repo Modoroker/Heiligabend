@@ -133,8 +133,6 @@ export default function CalendarGrid({
                 onClick={() => {
                   if (unlocked) {
                     setSelectedDay(msg);
-                  } else {
-                    onOpenSecretModal();
                   }
                 }}
                 className={`aspect-square rounded-2xl p-2 flex flex-col items-center justify-between cursor-pointer border transition-all relative overflow-hidden select-none group ${

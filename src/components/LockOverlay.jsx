@@ -83,13 +83,6 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
         </div>
       )}
 
-      {/* Secret unlock button */}
-      <button
-        onClick={onOpenSecretModal}
-        className="mt-6 inline-flex items-center gap-2 text-xs text-rosegold-400/80 hover:text-rosegold-300 hover:underline transition-all"
-      >
-        <KeyRound className="w-3.5 h-3.5" /> Bescherung früher? (Geheimcode eingeben)
-      </button>
     </motion.div>
   );
 }
