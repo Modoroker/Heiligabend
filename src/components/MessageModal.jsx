@@ -1,36 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, X, Share2, CheckCircle2, Calendar } from 'lucide-react';
+import { Heart, X } from 'lucide-react';
+import { fireHeartConfetti } from '../utils/confettiUtils';
 
 export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggleFavorite }) {
-  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (isOpen) {
+      fireHeartConfetti();
+    }
+  }, [isOpen]);
 
   if (!isOpen || !day) return null;
-
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: `365 Gründe für Dich – Tag ${day.id}`,
-          text: `"${day.text}" ❤️`,
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      navigator.clipboard.writeText(`"${day.text}" ❤️ - 365 Gründe für Dich (Tag ${day.id})`);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
 
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          initial={{ opacity: 0, scale: 0.8, rotate: -3 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          exit={{ opacity: 0, scale: 0.8, rotate: 3 }}
+          transition={{ type: 'spring', damping: 18, stiffness: 200 }}
           className="w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col justify-between"
         >
           <button
@@ -42,7 +31,7 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
 
           <div className="flex items-center gap-2 border-b border-rosegold-500/20 pb-3 mb-4">
             <span className="px-3 py-1 rounded-full text-xs font-semibold bg-rosegold-500/20 text-rosegold-200 border border-rosegold-500/30">
-              Tag {day.id}
+              Tag {day.id} von 365
             </span>
           </div>
 
@@ -65,12 +54,6 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
                 }`}
               >
                 <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-400' : ''}`} />
-              </button>
-              <button
-                onClick={handleShare}
-                className="p-2 rounded-full text-slate-400 hover:text-champagne-300 transition-colors"
-              >
-                {copied ? <CheckCircle2 className="w-5 h-5 text-emerald-400" /> : <Share2 className="w-5 h-5" />}
               </button>
             </div>
 

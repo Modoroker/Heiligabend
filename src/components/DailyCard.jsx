@@ -115,14 +115,6 @@ export default function DailyCard({
                   title="Zu Favoriten hinzufügen"
                 >
                   <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-400' : ''}`} />
-                </button>
-                <button
-                  onClick={handleShare}
-                  className="p-2 rounded-full text-slate-400 hover:text-champagne-300 hover:bg-slate-800/50 transition-colors"
-                  title="Teilen"
-                >
-                  {copied ? <CheckCircle2 className="w-5 h-5 text-emerald-400" /> : <Share2 className="w-5 h-5" />}
-                </button>
               </div>
             </div>
 
