@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 
-export default function ScratchCard({ onComplete, threshold = 0.5 }) {
+export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [isScratched, setIsScratched] = useState(false);
@@ -14,8 +14,8 @@ export default function ScratchCard({ onComplete, threshold = 0.5 }) {
     if (!canvas || !container) return;
 
     const rect = container.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
+    const width = rect.width || container.clientWidth || 300;
+    const height = rect.height || container.clientHeight || 180;
 
     if (width === 0 || height === 0) return;
 
@@ -61,9 +61,21 @@ export default function ScratchCard({ onComplete, threshold = 0.5 }) {
 
   useEffect(() => {
     initCanvas();
+
+    // Re-initialize canvas at 100ms, 300ms, and 550ms after Framer Motion 3D modal entrance ends
+    const timers = [
+      setTimeout(initCanvas, 100),
+      setTimeout(initCanvas, 300),
+      setTimeout(initCanvas, 550),
+    ];
+
     const handleResize = () => setTimeout(initCanvas, 100);
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+
+    return () => {
+      timers.forEach((t) => clearTimeout(t));
+      window.removeEventListener('resize', handleResize);
+    };
   }, [initCanvas]);
 
   // Check how much percent has been cleared
@@ -97,7 +109,7 @@ export default function ScratchCard({ onComplete, threshold = 0.5 }) {
     }
   }, [threshold, onComplete]);
 
-  // Scratch action
+  // Scratch action with dynamic coordinate scaling
   const scratch = (clientX, clientY) => {
     if (isCompletedRef.current) return;
     const canvas = canvasRef.current;
@@ -106,12 +118,18 @@ export default function ScratchCard({ onComplete, threshold = 0.5 }) {
     if (!ctx) return;
 
     const rect = canvas.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
+    if (rect.width === 0 || rect.height === 0) return;
+
+    // Adjust for current CSS scaling / 3D transform matrix
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    const x = (clientX - rect.left) * scaleX;
+    const y = (clientY - rect.top) * scaleY;
 
     ctx.globalCompositeOperation = 'destination-out';
     ctx.beginPath();
-    ctx.arc(x, y, 36, 0, Math.PI * 2); // 36px scratch radius
+    ctx.arc(x, y, 36, 0, Math.PI * 2); // 36px radius
     ctx.fill();
 
     checkScratchPercentage();
