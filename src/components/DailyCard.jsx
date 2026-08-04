@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Sparkles, HeartHandshake, Bookmark, Share2, CheckCircle2 } from 'lucide-react';
-import { fireHeartConfetti } from '../utils/confettiUtils';
+import { fireDayAnimation } from '../utils/confettiUtils';
 
 export default function DailyCard({
   day,
@@ -21,7 +21,7 @@ export default function DailyCard({
     if (!isOpen) {
       setIsOpen(true);
       onMarkOpened(day.id);
-      fireHeartConfetti();
+      fireDayAnimation(day.id);
     }
   };
 

@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X } from 'lucide-react';
-import { fireHeartConfetti } from '../utils/confettiUtils';
+import { fireDayAnimation } from '../utils/confettiUtils';
 
 export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggleFavorite }) {
   useEffect(() => {
-    if (isOpen) {
-      fireHeartConfetti();
+    if (isOpen && day) {
+      fireDayAnimation(day.id);
     }
-  }, [isOpen]);
+  }, [isOpen, day]);
 
   if (!isOpen || !day) return null;
 

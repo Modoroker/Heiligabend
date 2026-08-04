@@ -1,6 +1,24 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Lock, Heart, CheckCircle2, Sparkles, Filter } from 'lucide-react';
+import { Search, Lock, Heart, CheckCircle2, Sparkles, Calendar as CalendarIcon } from 'lucide-react';
 import MessageModal from './MessageModal';
+
+// Helper to format ISO date string (YYYY-MM-DD) to German calendar format e.g. "24. Dez"
+function formatCalendarDate(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+  return `${d.getDate()}. ${monthNames[d.getMonth()]}`;
+}
+
+function getMonthNameWithYear(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  const fullMonths = [
+    'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+    'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+  ];
+  return `${fullMonths[d.getMonth()]} ${d.getFullYear()}`;
+}
 
 export default function CalendarGrid({
   messages,
@@ -11,44 +29,71 @@ export default function CalendarGrid({
   onOpenSecretModal,
 }) {
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'unlocked', 'favorites'
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedMonth, setSelectedMonth] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDay, setSelectedDay] = useState(null);
 
-  const categories = [
-    { id: 'all', label: 'Alle' },
-    { id: 'Liebe & Wertschätzung', label: 'Liebe' },
-    { id: 'Humor & Beziehungs-Klassiker', label: 'Humor' },
-    { id: 'Zukunft & Gemeinsame Reise', label: 'Zukunft' },
+  // Month list for filter pills
+  const monthOptions = [
+    { id: 'all', label: 'Alle Monate' },
+    { id: '2026-12', label: 'Dezember \'26' },
+    { id: '2027-01', label: 'Januar \'27' },
+    { id: '2027-02', label: 'Februar' },
+    { id: '2027-03', label: 'März' },
+    { id: '2027-04', label: 'April' },
+    { id: '2027-05', label: 'Mai' },
+    { id: '2027-06', label: 'Juni' },
+    { id: '2027-07', label: 'Juli' },
+    { id: '2027-08', label: 'August' },
+    { id: '2027-09', label: 'September' },
+    { id: '2027-10', label: 'Oktober' },
+    { id: '2027-11', label: 'November' },
+    { id: '2027-12', label: 'Dezember \'27' },
   ];
 
+  // Filter messages
   const filteredMessages = useMemo(() => {
     return messages.filter((msg) => {
       const unlocked = isDayUnlocked(msg.id);
       const isFav = favorites.includes(msg.id);
 
-      // Filter Mode
       if (filterMode === 'unlocked' && !unlocked) return false;
       if (filterMode === 'favorites' && !isFav) return false;
 
-      // Category
-      if (selectedCategory !== 'all' && msg.category !== selectedCategory) return false;
+      // Month filter YYYY-MM
+      if (selectedMonth !== 'all') {
+        const monthKey = msg.date.substring(0, 7);
+        if (monthKey !== selectedMonth) return false;
+      }
 
       // Search Query
       if (searchQuery.trim() !== '') {
         const q = searchQuery.toLowerCase();
         const matchesText = msg.text.toLowerCase().includes(q);
         const matchesDay = String(msg.id) === q || `tag ${msg.id}`.includes(q);
-        const matchesCat = msg.category.toLowerCase().includes(q);
-        return matchesText || matchesDay || matchesCat;
+        const formatted = formatCalendarDate(msg.date).toLowerCase();
+        return matchesText || matchesDay || formatted.includes(q);
       }
 
       return true;
     });
-  }, [messages, filterMode, selectedCategory, searchQuery, isDayUnlocked, favorites]);
+  }, [messages, filterMode, selectedMonth, searchQuery, isDayUnlocked, favorites]);
+
+  // Group filtered messages by month for wall calendar layout
+  const groupedByMonth = useMemo(() => {
+    const map = {};
+    filteredMessages.forEach((msg) => {
+      const monthTitle = getMonthNameWithYear(msg.date);
+      if (!map[monthTitle]) {
+        map[monthTitle] = [];
+      }
+      map[monthTitle].push(msg);
+    });
+    return map;
+  }, [filteredMessages]);
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-5">
       {/* Search & Main Filter Controls */}
       <div className="flex flex-col gap-3">
         {/* Search Bar */}
@@ -58,7 +103,7 @@ export default function CalendarGrid({
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Suche nach Tag oder Stichwort..."
+            placeholder="Suche Datum (z.B. 24. Dez oder Tag 12)..."
             className="w-full pl-10 pr-4 py-2.5 bg-midnight-800/80 border border-rosegold-500/20 rounded-2xl text-xs text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-rosegold-400 transition-all"
           />
         </div>
@@ -97,61 +142,102 @@ export default function CalendarGrid({
           </button>
         </div>
 
+        {/* Month Selector Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
+          {monthOptions.map((m) => (
+            <button
+              key={m.id}
+              onClick={() => setSelectedMonth(m.id)}
+              className={`px-3 py-1.5 rounded-full whitespace-nowrap transition-all border text-[11px] ${
+                selectedMonth === m.id
+                  ? 'bg-champagne-500/20 text-champagne-300 border-champagne-500/50 font-semibold'
+                  : 'bg-midnight-800/40 text-slate-400 border-slate-800 hover:border-slate-700'
+              }`}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
       </div>
 
-      {/* Grid Display */}
-      {filteredMessages.length === 0 ? (
+      {/* Wall Calendar Groups */}
+      {Object.keys(groupedByMonth).length === 0 ? (
         <div className="text-center py-12 text-slate-500 text-xs">
-          Keine Botschaften gefunden.
+          Keine Botschaften für die gewählte Filterung gefunden.
         </div>
       ) : (
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5 pt-2">
-          {filteredMessages.map((msg) => {
-            const unlocked = isDayUnlocked(msg.id);
-            const opened = openedDays.includes(msg.id);
-            const fav = favorites.includes(msg.id);
+        Object.entries(groupedByMonth).map(([monthTitle, daysInMonth]) => (
+          <div key={monthTitle} className="space-y-2.5">
+            {/* Month Header Banner */}
+            <div className="flex items-center gap-2 border-b border-rosegold-500/20 pb-1.5 pt-2">
+              <CalendarIcon className="w-4 h-4 text-rosegold-400" />
+              <h3 className="text-sm font-serif font-bold gold-gradient-text tracking-wide">
+                {monthTitle}
+              </h3>
+              <span className="text-[10px] text-slate-500 font-mono">
+                ({daysInMonth.length} Türchen)
+              </span>
+            </div>
 
-            return (
-              <div
-                key={msg.id}
-                onClick={() => {
-                  if (unlocked) {
-                    setSelectedDay(msg);
-                  }
-                }}
-                className={`aspect-square rounded-2xl p-2 flex flex-col items-center justify-between cursor-pointer border transition-all relative overflow-hidden select-none group ${
-                  opened
-                    ? 'bg-midnight-800/90 border-rosegold-500/40 hover:border-rosegold-400 shadow-rose-glow'
-                    : unlocked
-                    ? 'bg-midnight-800/60 border-champagne-500/30 hover:border-champagne-400'
-                    : 'bg-midnight-900/60 border-slate-800 opacity-60 hover:opacity-80'
-                }`}
-              >
-                {/* Top Badge */}
-                <div className="w-full flex items-center justify-between text-[10px] text-slate-400">
-                  <span className="font-mono font-bold text-rosegold-300">#{msg.id}</span>
-                  {fav && <Heart className="w-3 h-3 text-red-400 fill-red-400" />}
-                </div>
+            {/* Month Calendar Grid */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
+              {daysInMonth.map((msg) => {
+                const unlocked = isDayUnlocked(msg.id);
+                const opened = openedDays.includes(msg.id);
+                const fav = favorites.includes(msg.id);
+                const formattedDate = formatCalendarDate(msg.date);
 
-                {/* Main Icon Center */}
-                <div className="my-auto flex flex-col items-center">
-                  {opened ? (
-                    <CheckCircle2 className="w-6 h-6 text-emerald-400" />
-                  ) : unlocked ? (
-                    <Sparkles className="w-6 h-6 text-champagne-300 animate-pulse" />
-                  ) : (
-                    <Lock className="w-5 h-5 text-slate-500 group-hover:text-rosegold-400 transition-colors" />
-                  )}
-                </div>
+                return (
+                  <div
+                    key={msg.id}
+                    onClick={() => {
+                      if (unlocked) {
+                        setSelectedDay(msg);
+                      }
+                    }}
+                    className={`aspect-square rounded-2xl p-2 flex flex-col items-center justify-between cursor-pointer border transition-all relative overflow-hidden select-none group ${
+                      opened
+                        ? 'bg-midnight-800/90 border-rosegold-500/40 hover:border-rosegold-400 shadow-rose-glow'
+                        : unlocked
+                        ? 'bg-midnight-800/70 border-champagne-500/40 hover:border-champagne-300 shadow-gold-glow'
+                        : 'bg-midnight-900/60 border-slate-800 opacity-60 hover:opacity-80'
+                    }`}
+                  >
+                    {/* Top Header: Date & Day Badge */}
+                    <div className="w-full flex items-center justify-between text-[10px]">
+                      <span className="font-semibold text-champagne-300 font-serif">
+                        {formattedDate}
+                      </span>
+                      {fav ? (
+                        <Heart className="w-3 h-3 text-red-400 fill-red-400" />
+                      ) : (
+                        <span className="text-[9px] font-mono text-slate-500">#{msg.id}</span>
+                      )}
+                    </div>
 
-                {/* Status Text */}
-                <span className="text-[9px] tracking-tight font-medium text-slate-400">
-                  {opened ? 'Gelesen' : unlocked ? 'Frei!' : 'Sperre'}
-                </span>
-              </div>
-            );
-          })}
-        </div>
+                    {/* Main Icon Center */}
+                    <div className="my-auto flex flex-col items-center">
+                      {opened ? (
+                        <CheckCircle2 className="w-6 h-6 text-emerald-400" />
+                      ) : unlocked ? (
+                        <div className="w-8 h-8 rounded-full bg-rosegold-500/20 border border-champagne-400/40 flex items-center justify-center animate-pulse">
+                          <Sparkles className="w-4 h-4 text-champagne-300" />
+                        </div>
+                      ) : (
+                        <Lock className="w-4 h-4 text-slate-600 group-hover:text-rosegold-400 transition-colors" />
+                      )}
+                    </div>
+
+                    {/* Status Footer */}
+                    <span className="text-[9px] tracking-tight font-medium text-slate-400">
+                      {opened ? 'Gelesen' : unlocked ? 'Frei!' : `Tag ${msg.id}`}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))
       )}
 
       {/* Message Modal for inspecting opened messages */}
