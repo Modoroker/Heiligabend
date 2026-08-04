@@ -158,12 +158,17 @@ export function useCalendar() {
     return false;
   }, []);
 
+  // Reset Admin mode AND clear all test progress / streak / opened days / favorites
   const resetAdminBypass = useCallback(() => {
     setAdminBypass(false);
+    setOpenedDays([]);
+    setFavorites([]);
     try {
       localStorage.removeItem(LOCAL_STORAGE_OVERRIDE_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_OPENED_KEY);
+      localStorage.removeItem(LOCAL_STORAGE_FAVORITES_KEY);
     } catch (e) {
-      console.error(e);
+      console.error('Failed to clear storage on admin reset', e);
     }
   }, []);
 
