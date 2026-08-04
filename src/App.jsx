@@ -9,6 +9,7 @@ import MilestoneCard from './components/MilestoneCard';
 import NotificationBanner from './components/NotificationBanner';
 import StatsFooter from './components/StatsFooter';
 import { useCalendar } from './hooks/useCalendar';
+import { getTimeOfDayTheme } from './utils/timeOfDayUtils';
 import { Calendar as CalendarIcon, Heart, Home } from 'lucide-react';
 
 export default function App() {
@@ -32,6 +33,9 @@ export default function App() {
   const [isSecretModalOpen, setIsSecretModalOpen] = useState(false);
   const [isBonusModalOpen, setIsBonusModalOpen] = useState(false);
 
+  // Dynamic time of day gradient theme
+  const timeTheme = getTimeOfDayTheme(now);
+
   // Current day data
   const todayMessage = messages.find((m) => m.id === currentDayIndex) || messages[0];
   const isTodayUnlocked = isDayUnlocked(currentDayIndex);
@@ -40,7 +44,7 @@ export default function App() {
   const isTodayFavorite = favorites.includes(currentDayIndex);
 
   return (
-    <div className="min-h-screen bg-midnight-900 text-slate-100 flex flex-col justify-between max-w-md mx-auto relative border-x border-rosegold-500/10 shadow-2xl">
+    <div className={`min-h-screen ${timeTheme.gradientClass} text-slate-100 flex flex-col justify-between max-w-md mx-auto relative border-x border-rosegold-500/10 shadow-2xl transition-colors duration-1000`}>
       {/* Push Notification Banner */}
       <NotificationBanner />
 
@@ -125,6 +129,7 @@ export default function App() {
             favorites={favorites}
             isDayUnlocked={isDayUnlocked}
             onToggleFavorite={toggleFavorite}
+            onMarkOpened={markDayOpened}
             onOpenSecretModal={() => setIsSecretModalOpen(true)}
           />
         )}
@@ -153,6 +158,7 @@ export default function App() {
                 favorites={favorites}
                 isDayUnlocked={isDayUnlocked}
                 onToggleFavorite={toggleFavorite}
+                onMarkOpened={markDayOpened}
                 onOpenSecretModal={() => setIsSecretModalOpen(true)}
               />
             )}

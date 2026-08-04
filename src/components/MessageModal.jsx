@@ -1,16 +1,45 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, X } from 'lucide-react';
+import { Heart, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { fireDayAnimation } from '../utils/confettiUtils';
-
 import { getSpecialDayInfo } from '../utils/specialDaysUtils';
+import ScratchCard from './ScratchCard';
 
-export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggleFavorite }) {
+export default function MessageModal({
+  day,
+  isOpen,
+  onClose,
+  isFavorite,
+  onToggleFavorite,
+  isOpened,
+  onMarkOpened,
+  onNavigatePrev,
+  onNavigateNext,
+  hasPrev,
+  hasNext,
+}) {
+  const [showScratch, setShowScratch] = useState(false);
+
   useEffect(() => {
     if (isOpen && day) {
+      if (!isOpened) {
+        setShowScratch(true);
+      } else {
+        setShowScratch(false);
+        fireDayAnimation(day.id);
+      }
+    }
+  }, [isOpen, day, isOpened]);
+
+  const handleScratchComplete = () => {
+    setShowScratch(false);
+    if (onMarkOpened && day) {
+      onMarkOpened(day.id);
+    }
+    if (day) {
       fireDayAnimation(day.id);
     }
-  }, [isOpen, day]);
+  };
 
   if (!isOpen || !day) return null;
 
@@ -71,23 +100,62 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
 
   const currentAnim = animationVariants[mode] || animationVariants[1];
 
+  // Drag End handler for Tinder-style swiping
+  const handleDragEnd = (event, info) => {
+    const swipeThreshold = 50;
+    if (info.offset.x < -swipeThreshold && hasNext && onNavigateNext) {
+      onNavigateNext();
+    } else if (info.offset.x > swipeThreshold && hasPrev && onNavigatePrev) {
+      onNavigatePrev();
+    }
+  };
+
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md">
+        {/* Previous Navigation Chevron */}
+        {hasPrev && (
+          <button
+            onClick={onNavigatePrev}
+            className="absolute left-2 z-50 p-3 rounded-full bg-midnight-800/80 text-rosegold-300 hover:text-white hover:bg-rosegold-500/20 border border-rosegold-500/30 transition-all shadow-rose-glow"
+            title="Vorheriger Tag"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+        )}
+
+        {/* Next Navigation Chevron */}
+        {hasNext && (
+          <button
+            onClick={onNavigateNext}
+            className="absolute right-2 z-50 p-3 rounded-full bg-midnight-800/80 text-rosegold-300 hover:text-white hover:bg-rosegold-500/20 border border-rosegold-500/30 transition-all shadow-rose-glow"
+            title="Nächster Tag"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+        )}
+
         <motion.div
+          key={day.id}
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={handleDragEnd}
           initial={currentAnim.initial}
           animate={currentAnim.animate}
           exit={currentAnim.exit}
           transition={currentAnim.transition}
-          className="w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col justify-between"
+          className="w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col justify-between cursor-grab active:cursor-grabbing"
         >
+          {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
+            className="absolute top-4 right-4 z-30 p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
 
+          {/* Header */}
           <div className="flex items-center gap-2 border-b border-rosegold-500/20 pb-3 mb-4">
             <span className="px-3 py-1 rounded-full text-xs font-semibold bg-rosegold-500/20 text-rosegold-200 border border-rosegold-500/30">
               Tag {day.id} von 365
@@ -99,7 +167,12 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
             )}
           </div>
 
-          <div className="py-8 text-center">
+          {/* Text Content Area with ScratchCard Overlay */}
+          <div className="py-8 text-center relative min-h-[160px] flex flex-col justify-center items-center">
+            {showScratch && (
+              <ScratchCard onComplete={handleScratchComplete} threshold={0.4} />
+            )}
+
             <span className="text-3xl font-serif text-rosegold-400/40 select-none block mb-1">“</span>
             <p className="text-lg sm:text-xl font-serif leading-relaxed text-slate-100 font-medium gold-gradient-text">
               {day.text}
@@ -107,6 +180,14 @@ export default function MessageModal({ day, isOpen, onClose, isFavorite, onToggl
             <span className="text-3xl font-serif text-rosegold-400/40 select-none block mt-1">”</span>
           </div>
 
+          {/* Swipe Hint */}
+          {(hasPrev || hasNext) && (
+            <div className="text-[10px] text-center text-slate-400 mb-2 font-mono tracking-tight select-none">
+              ← Wische nach links/rechts für andere Tage →
+            </div>
+          )}
+
+          {/* Footer */}
           <div className="border-t border-rosegold-500/20 pt-4 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <button

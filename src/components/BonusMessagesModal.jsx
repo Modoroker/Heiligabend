@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Gift, Lock, Sparkles, Heart } from 'lucide-react';
+import { X, Gift, Lock, Sparkles } from 'lucide-react';
 import bonusMessages from '../data/bonusMessages.json';
 import { fireHeartExplosion } from '../utils/confettiUtils';
 

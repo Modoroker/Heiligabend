@@ -28,6 +28,7 @@ export default function CalendarGrid({
   favorites,
   isDayUnlocked,
   onToggleFavorite,
+  onMarkOpened,
 }) {
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'unlocked', 'favorites'
   const [selectedMonth, setSelectedMonth] = useState('all');
@@ -51,7 +52,33 @@ export default function CalendarGrid({
     { id: '2027-12', label: 'Dezember \'27' },
   ];
 
-  // Filter messages
+  // List of all currently unlocked messages
+  const unlockedMessages = useMemo(() => {
+    return messages.filter((m) => isDayUnlocked(m.id));
+  }, [messages, isDayUnlocked]);
+
+  // Index of selectedDay within unlockedMessages for swipe navigation
+  const selectedIndex = useMemo(() => {
+    if (!selectedDay) return -1;
+    return unlockedMessages.findIndex((m) => m.id === selectedDay.id);
+  }, [selectedDay, unlockedMessages]);
+
+  const hasPrev = selectedIndex > 0;
+  const hasNext = selectedIndex >= 0 && selectedIndex < unlockedMessages.length - 1;
+
+  const handleNavigatePrev = () => {
+    if (hasPrev) {
+      setSelectedDay(unlockedMessages[selectedIndex - 1]);
+    }
+  };
+
+  const handleNavigateNext = () => {
+    if (hasNext) {
+      setSelectedDay(unlockedMessages[selectedIndex + 1]);
+    }
+  };
+
+  // Filter messages for display
   const filteredMessages = useMemo(() => {
     return messages.filter((msg) => {
       const unlocked = isDayUnlocked(msg.id);
@@ -121,7 +148,7 @@ export default function CalendarGrid({
           </button>
         </div>
 
-        {/* Month Selector Pills with '26 & '27 on EVERY month */}
+        {/* Month Selector Pills */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
           {monthOptions.map((m) => (
             <button
@@ -240,6 +267,12 @@ export default function CalendarGrid({
         onClose={() => setSelectedDay(null)}
         isFavorite={selectedDay ? favorites.includes(selectedDay.id) : false}
         onToggleFavorite={onToggleFavorite}
+        isOpened={selectedDay ? openedDays.includes(selectedDay.id) : false}
+        onMarkOpened={onMarkOpened}
+        onNavigatePrev={handleNavigatePrev}
+        onNavigateNext={handleNavigateNext}
+        hasPrev={hasPrev}
+        hasNext={hasNext}
       />
     </div>
   );
