@@ -102,27 +102,27 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     // Random type selection
     const rand = Math.random();
     let type = 'classic';
-    let size = 28;
+    let size = 30;
     let speedMult = 1.0;
     let points = 10;
 
     if (rand < 0.75) {
       type = 'classic'; // 75%
-      size = 28;
+      size = 30;
       speedMult = 1.0;
       points = 10;
     } else if (rand < 0.85) {
       type = 'gold'; // 10%
-      size = 30;
+      size = 32;
       speedMult = 1.4;
       points = 25;
     } else if (rand < 0.95) {
       type = 'broken'; // 10%
-      size = 28;
+      size = 34; // Slightly larger dark broken heart
       speedMult = 1.0;
       points = -10;
     } else {
-      type = 'mini_bonus'; // 5% Extra tiny +1 Life bonus heart
+      type = 'mini_bonus'; // 5% Extra tiny (18px) Neon Green +1 Life bonus heart
       size = 18;
       speedMult = 1.6;
       points = 30;
@@ -241,17 +241,17 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
             if (heart.type === 'classic') {
               updateScoreAndCheckHighscore(state.score + 10);
-              addPopup('+10', heart.x, heart.y, '#FF4D6D');
-              createParticles(heart.x, heart.y, '#FF4D6D', 6);
+              addPopup('+10', heart.x, heart.y, '#FF0054');
+              createParticles(heart.x, heart.y, '#FF0054', 6);
             } else if (heart.type === 'gold') {
               updateScoreAndCheckHighscore(state.score + 25);
               addPopup('+25', heart.x, heart.y, '#FBBF24');
               createParticles(heart.x, heart.y, '#FBBF24', 10);
             } else if (heart.type === 'broken') {
               updateScoreAndCheckHighscore(state.score - 10);
-              addPopup('-10', heart.x, heart.y, '#6B5B6E');
+              addPopup('-10', heart.x, heart.y, '#991B1B');
               addPopup('-1 ❤️', heart.x, heart.y - 20, '#EF4444');
-              createParticles(heart.x, heart.y, '#6B5B6E', 8);
+              createParticles(heart.x, heart.y, '#1F2937', 8);
 
               state.lives -= 1;
               setLives(state.lives);
@@ -261,15 +261,15 @@ export default function HeartCatchGame({ isOpen, onClose }) {
                 setIsGameOver(true);
               }
             } else if (heart.type === 'mini_bonus') {
-              // Extra +1 Life Mini-Bonus Heart!
+              // Extra +1 Life Mini-Bonus Green Heart!
               updateScoreAndCheckHighscore(state.score + 30);
               const nextLives = Math.min(3, state.lives + 1);
               state.lives = nextLives;
               setLives(nextLives);
 
-              addPopup('+30', heart.x, heart.y, '#10B981');
-              addPopup('+1 ❤️', heart.x, heart.y - 20, '#10B981');
-              createParticles(heart.x, heart.y, '#10B981', 12);
+              addPopup('+30', heart.x, heart.y, '#00E676');
+              addPopup('+1 ❤️', heart.x, heart.y - 20, '#00E676');
+              createParticles(heart.x, heart.y, '#00E676', 12);
             }
             continue;
           }
@@ -326,40 +326,59 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       ctx.fillText('♥', 320, 280 + Math.cos(currentTime / 1200) * 10);
       ctx.fillText('♥', 180, 420 + Math.sin(currentTime / 800) * 8);
 
-      // Render Falling Hearts
+      // Render Falling Hearts with highly distinct visuals & glowing auras
       state.hearts.forEach((h) => {
         ctx.save();
         ctx.translate(h.x, h.y);
         ctx.rotate(h.rotation);
 
         if (h.type === 'classic') {
-          ctx.fillStyle = '#FF4D6D';
-          ctx.font = '28px sans-serif';
+          // Classic Red Heart ❤️
+          ctx.fillStyle = '#FF0054';
+          ctx.shadowColor = 'rgba(255, 0, 84, 0.4)';
+          ctx.shadowBlur = 8;
+          ctx.font = '30px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('❤️', 0, 0);
         } else if (h.type === 'gold') {
-          ctx.fillStyle = '#FBBF24';
-          ctx.font = '30px sans-serif';
+          // Golden Sparkle Heart 💛
+          ctx.shadowColor = '#FBBF24';
+          ctx.shadowBlur = 14;
+          ctx.font = '32px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.shadowColor = '#FBBF24';
-          ctx.shadowBlur = 12;
           ctx.fillText('💛', 0, 0);
         } else if (h.type === 'broken') {
-          ctx.fillStyle = '#6B5B6E';
-          ctx.font = '28px sans-serif';
+          // Dark Broken Heart 💔 with Dark Charcoal Aura & Red Edge
+          ctx.shadowColor = '#1F2937';
+          ctx.shadowBlur = 16;
+          
+          // Render dark aura circle behind broken heart for instant visual danger
+          ctx.fillStyle = 'rgba(31, 41, 55, 0.85)';
+          ctx.beginPath();
+          ctx.arc(0, 0, 18, 0, Math.PI * 2);
+          ctx.fill();
+          
+          ctx.font = '30px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('💔', 0, 0);
         } else if (h.type === 'mini_bonus') {
-          ctx.fillStyle = '#10B981';
-          ctx.font = '18px sans-serif';
+          // Extra Tiny Neon Emerald Green Bonus Heart 💚 (+1 Life)
+          ctx.shadowColor = '#00E676';
+          ctx.shadowBlur = 16;
+
+          // Render glowing neon green circle background behind mini bonus heart
+          ctx.fillStyle = 'rgba(0, 230, 118, 0.25)';
+          ctx.beginPath();
+          ctx.arc(0, 0, 14, 0, Math.PI * 2);
+          ctx.fill();
+
+          ctx.font = '20px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.shadowColor = '#10B981';
-          ctx.shadowBlur = 8;
-          ctx.fillText('💖', 0, 0);
+          ctx.fillText('💚', 0, 0);
         }
 
         ctx.restore();
@@ -383,7 +402,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         ctx.fillStyle = pop.color;
         ctx.font = `bold ${Math.round(18 * pop.scale)}px sans-serif`;
         ctx.textAlign = 'center';
-        ctx.shadowColor = 'rgba(0,0,0,0.2)';
+        ctx.shadowColor = 'rgba(0,0,0,0.3)';
         ctx.shadowBlur = 4;
         ctx.fillText(pop.text, pop.x, pop.y);
         ctx.restore();
