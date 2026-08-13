@@ -51,12 +51,14 @@ export default function Navbar({
           className="flex items-center gap-2 cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-rosegold-400 rounded-lg p-1 min-w-0 flex-1"
           title="Tippe 3x auf den Titel für den Geheimcode-Dialog"
         >
-          <div className="w-8 h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/30 flex-shrink-0 flex items-center justify-center">
-            <Heart className="w-4 h-4 text-red-400 fill-red-400/40 ekg-heartbeat" />
+          <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/30 flex-shrink-0 flex items-center justify-center">
+            <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 fill-red-400/40 ekg-heartbeat" />
           </div>
-          <div className="min-w-0 flex-1">
-            <h1 className="text-xs sm:text-base font-serif font-bold gold-gradient-text tracking-wide leading-tight truncate">
-              365 Gründe, warum ich dich liebe
+          <div className="min-w-0">
+            <h1 className="text-[11px] sm:text-sm font-serif font-bold gold-gradient-text tracking-tight leading-tight">
+              <span>365 Gründe,</span>
+              <br className="inline sm:hidden" />
+              <span className="sm:inline"> warum ich dich liebe</span>
             </h1>
           </div>
         </div>
