@@ -101,17 +101,17 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     drawCornerStar(width - 8, height - 8);
 
     // 4. Center 3D Royal Seal Emblem
-    const sealSize = Math.min(68, Math.floor(height * 0.38));
+    const sealSize = Math.min(84, Math.max(54, Math.floor(height * 0.36)));
     const sealX = width / 2;
-    const sealY = height / 2 - 14;
+    const sealY = height * 0.38;
 
     // Glowing halo behind seal
-    const haloGrad = ctx.createRadialGradient(sealX, sealY, 10, sealX, sealY, sealSize * 0.75);
-    haloGrad.addColorStop(0, 'rgba(255, 215, 0, 0.45)');
+    const haloGrad = ctx.createRadialGradient(sealX, sealY, 10, sealX, sealY, sealSize * 0.8);
+    haloGrad.addColorStop(0, 'rgba(255, 215, 0, 0.5)');
     haloGrad.addColorStop(1, 'rgba(255, 215, 0, 0)');
     ctx.fillStyle = haloGrad;
     ctx.beginPath();
-    ctx.arc(sealX, sealY, sealSize * 0.75, 0, Math.PI * 2);
+    ctx.arc(sealX, sealY, sealSize * 0.8, 0, Math.PI * 2);
     ctx.fill();
 
     const sealImg = sealImgRef.current;
@@ -123,7 +123,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
       ctx.beginPath();
       ctx.arc(sealX, sealY, sealSize / 2, 0, Math.PI * 2);
       ctx.fill();
-      ctx.font = '24px sans-serif';
+      ctx.font = '26px sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillText('💖', sealX, sealY);
@@ -134,15 +134,15 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     ctx.font = 'bold 15px serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
     ctx.shadowBlur = 6;
     ctx.shadowOffsetY = 2;
-    ctx.fillText('✨ RUBBEL MICH FREI ✨', width / 2, sealY + sealSize / 2 + 18);
+    ctx.fillText('✨ RUBBEL MICH FREI ✨', width / 2, sealY + sealSize / 2 + 22);
 
     ctx.fillStyle = '#FCE7F3';
-    ctx.font = '11px sans-serif';
-    ctx.shadowBlur = 3;
-    ctx.fillText('Mit dem Finger drüberstreichen ❤️', width / 2, sealY + sealSize / 2 + 34);
+    ctx.font = '12px sans-serif';
+    ctx.shadowBlur = 4;
+    ctx.fillText('Mit dem Finger drüberstreichen ❤️', width / 2, sealY + sealSize / 2 + 40);
 
     ctx.restore();
   }, []);

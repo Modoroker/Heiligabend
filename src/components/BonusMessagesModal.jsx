@@ -53,14 +53,14 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
         aria-modal="true"
         aria-labelledby="bonus-modal-title"
         onClick={onClose}
-        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-midnight-900/85 backdrop-blur-md"
+        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-midnight-950/85 backdrop-blur-md"
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: 20 }}
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.85, y: 20 }}
+          exit={{ opacity: 0, scale: 0.9, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-md glass-card rounded-3xl p-4 sm:p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col max-h-[92dvh] sm:max-h-[88vh]"
+          className="w-full max-w-md glass-card rounded-3xl p-4 sm:p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col max-h-[85vh] sm:max-h-[82vh]"
         >
           {/* Header */}
           <div className="flex items-center justify-between pb-3 border-b border-rosegold-500/20 flex-shrink-0">
@@ -80,6 +80,7 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
 
             <button
               onClick={onClose}
+              aria-label="Schließen"
               className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors flex-shrink-0 ml-1"
             >
               <X className="w-5 h-5" />
@@ -87,26 +88,28 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
           </div>
 
           {/* Body: List or Selected Detail View */}
-          <div className="py-3 overflow-y-auto no-scrollbar space-y-2.5 flex-1 overscroll-contain">
+          <div className="py-3 flex-1 min-h-0 overflow-y-auto space-y-2.5 overscroll-contain pr-0.5">
             {selectedBonus ? (
-              <div className="flex flex-col items-center justify-between flex-1 space-y-4 py-1">
-                <div className="w-full space-y-3 text-center">
+              <div className="flex flex-col items-center justify-between min-h-0 flex-1 space-y-4 py-1">
+                {/* Scrollable Letter Body */}
+                <div className="w-full flex-1 min-h-0 overflow-y-auto space-y-3 text-center px-1">
                   <span className="px-3.5 py-1 rounded-full text-xs font-semibold bg-rosegold-500/20 text-rosegold-200 border border-rosegold-500/30 inline-block shadow-sm">
                     {selectedBonus.title}
                   </span>
 
-                  <div className="p-4 sm:p-5 rounded-2xl bg-midnight-950/70 border border-rosegold-500/25 shadow-inner relative">
-                    <span className="text-2xl font-serif text-rosegold-400/40 select-none block -mb-1">“</span>
-                    <p className="text-sm sm:text-base font-serif leading-relaxed text-slate-100 font-medium px-1">
+                  <div className="p-4 sm:p-5 rounded-2xl bg-midnight-950/80 border border-rosegold-500/30 shadow-inner relative">
+                    <span className="text-3xl font-serif text-rosegold-400/40 select-none block -mb-1">“</span>
+                    <p className="text-base sm:text-lg font-serif leading-relaxed text-slate-100 font-medium px-1">
                       {selectedBonus.text}
                     </p>
-                    <span className="text-2xl font-serif text-rosegold-400/40 select-none block -mt-1">”</span>
+                    <span className="text-3xl font-serif text-rosegold-400/40 select-none block -mt-1">”</span>
                   </div>
                 </div>
 
+                {/* Back Button */}
                 <button
                   onClick={() => setSelectedBonus(null)}
-                  className="w-full py-2.5 rounded-2xl bg-gradient-to-r from-rosegold-500/30 to-champagne-500/30 hover:from-rosegold-500/40 hover:to-champagne-500/40 border border-rosegold-400/40 text-xs sm:text-sm font-semibold text-rosegold-200 transition-all flex items-center justify-center gap-1.5 shadow-md flex-shrink-0"
+                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-950 font-bold text-xs sm:text-sm hover:opacity-95 transition-all shadow-md flex items-center justify-center gap-1.5 flex-shrink-0"
                 >
                   ← Zurück zur Übersicht
                 </button>

@@ -147,13 +147,13 @@ export default function MessageModal({
           </div>
 
           {/* Text Content Area with ScratchCard Overlay */}
-          <div className="py-8 text-center relative min-h-[180px] flex flex-col justify-center items-center">
+          <div className="py-6 px-4 text-center relative min-h-[250px] sm:min-h-[270px] flex flex-col justify-center items-center rounded-2xl bg-midnight-950/50 border border-rosegold-500/20 my-2 shadow-inner">
             {showScratch && (
               <ScratchCard onComplete={handleScratchComplete} threshold={0.4} />
             )}
 
             <span className="text-3xl font-serif text-rosegold-400/40 select-none block mb-1">“</span>
-            <p className="text-lg sm:text-xl font-serif leading-relaxed text-slate-100 font-medium gold-gradient-text">
+            <p className="text-base sm:text-lg font-serif leading-relaxed text-slate-100 font-medium px-2">
               {day.text}
             </p>
             <span className="text-3xl font-serif text-rosegold-400/40 select-none block mt-1">”</span>
