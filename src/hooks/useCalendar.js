@@ -113,20 +113,21 @@ export function useCalendar() {
     return diffDays;
   }, [now]);
 
-  // Target unlock date calculation: Day 1 unlocks 24.12.2026 at 21:00, all other days at 00:00:00
+  // Target unlock date calculation (UTC consistent across all timezones)
   const getUnlockDate = useCallback((dayId) => {
     if (dayId <= 1) {
-      return new Date('2026-12-24T21:00:00');
+      // Day 1: 2026-12-24 at 21:00 German time (CET UTC+1 -> 20:00:00 UTC)
+      return new Date(Date.UTC(2026, 11, 24, 20, 0, 0));
     }
-    const targetDate = new Date('2026-12-24T00:00:00');
-    targetDate.setDate(targetDate.getDate() + (dayId - 1));
-    return targetDate;
+    // Day N (2..365): 2026-12-24 00:00:00 UTC + (dayId - 1) days
+    const ts = ANCHOR_UTC + (dayId - 1) * MS_PER_DAY;
+    return new Date(ts);
   }, []);
 
-  // Centralized unlock check (directly compares now >= getUnlockDate)
+  // Centralized unlock check (directly compares timestamps)
   const isDayUnlocked = useCallback((dayId) => {
     if (adminBypass) return true;
-    return now >= getUnlockDate(dayId);
+    return now.getTime() >= getUnlockDate(dayId).getTime();
   }, [now, adminBypass, getUnlockDate]);
 
   // Time remaining until unlock (supports days, hours, minutes, seconds)

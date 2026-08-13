@@ -19,16 +19,15 @@ function computeDayIndex(date) {
 
 function getUnlockDate(dayId) {
   if (dayId <= 1) {
-    return new Date('2026-12-24T21:00:00');
+    return new Date(Date.UTC(2026, 11, 24, 20, 0, 0));
   }
-  const targetDate = new Date('2026-12-24T00:00:00');
-  targetDate.setDate(targetDate.getDate() + (dayId - 1));
-  return targetDate;
+  const ts = ANCHOR_UTC + (dayId - 1) * MS_PER_DAY;
+  return new Date(ts);
 }
 
 function isDayUnlocked(dayId, now, adminBypass = false) {
   if (adminBypass) return true;
-  return now >= getUnlockDate(dayId);
+  return now.getTime() >= getUnlockDate(dayId).getTime();
 }
 
 function getTimeUntilUnlock(dayId, now) {
@@ -56,31 +55,31 @@ function safeParseNumberArray(raw) {
   return [];
 }
 
-console.log('🧪 Running Comprehensive Unit & PWA Integrity Tests...');
+console.log('🧪 Running Comprehensive Unit & UTC Unlock Tests...');
 
-// Test 1: Day 1 before 21:00 on 24.12.2026 is locked
-const eveBefore21 = new Date('2026-12-24T18:00:00');
+// Test 1: Day 1 before 20:00 UTC (21:00 German Time) on 24.12.2026 is locked
+const eveBefore21 = new Date(Date.UTC(2026, 11, 24, 18, 0, 0));
 assert.strictEqual(computeDayIndex(eveBefore21), 1, 'Eve before 21:00 is Day 1');
 assert.strictEqual(isDayUnlocked(1, eveBefore21), false, 'Day 1 is locked before 21:00');
 
-// Test 2: Day 1 at 21:00:01 on 24.12.2026 is unlocked
-const eveAfter21 = new Date('2026-12-24T21:00:01');
+// Test 2: Day 1 at 20:00:01 UTC (21:00:01 German Time) on 24.12.2026 is unlocked
+const eveAfter21 = new Date(Date.UTC(2026, 11, 24, 20, 0, 1));
 assert.strictEqual(isDayUnlocked(1, eveAfter21), true, 'Day 1 unlocks at 21:00:01');
 
-// Test 3: Day 2 on 25.12.2026 at 00:00:00 is unlocked
-const day2Morning = new Date('2026-12-25T08:30:00');
+// Test 3: Day 2 on 25.12.2026 at 00:00:00 UTC is unlocked
+const day2Morning = new Date(Date.UTC(2026, 11, 25, 8, 30, 0));
 assert.strictEqual(computeDayIndex(day2Morning), 2, '25.12.2026 is Day 2');
 assert.strictEqual(isDayUnlocked(2, day2Morning), true, 'Day 2 is unlocked on 25.12.2026');
 assert.strictEqual(isDayUnlocked(3, day2Morning), false, 'Day 3 is still locked on 25.12.2026');
 
-// Test 4: Countdown calculations
-const remaining = getTimeUntilUnlock(1, new Date('2026-12-24T19:00:00'));
-assert.strictEqual(remaining.hours, 2, '2 hours remaining until 21:00');
+// Test 4: Countdown calculations (2 hours remaining until unlock)
+const remaining = getTimeUntilUnlock(1, new Date(Date.UTC(2026, 11, 24, 18, 0, 0)));
+assert.strictEqual(remaining.hours, 2, '2 hours remaining until 21:00 German time');
 assert.strictEqual(remaining.minutes, 0);
 assert.strictEqual(remaining.isUnlocked, false);
 
 // Test 5: Day 365 on 23.12.2027
-const lastDay = new Date('2027-12-23T12:00:00');
+const lastDay = new Date(Date.UTC(2027, 11, 23, 12, 0, 0));
 assert.strictEqual(computeDayIndex(lastDay), 365, '23.12.2027 is Day 365');
 assert.strictEqual(isDayUnlocked(365, lastDay), true, 'Day 365 is unlocked on 23.12.2027');
 
@@ -96,4 +95,4 @@ assert.strictEqual(messages.length, 365, 'Exactly 365 messages present');
 assert.strictEqual(messages[0].date, '2026-12-24', 'Day 1 starts on 2026-12-24');
 assert.strictEqual(messages[364].date, '2027-12-23', 'Day 365 ends on 2027-12-23');
 
-console.log('✅ ALL UNIT & PWA INTEGRITY TESTS PASSED (100%)!');
+console.log('✅ ALL UNIT & UTC UNLOCK TESTS PASSED (100%)!');
