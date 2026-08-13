@@ -1,20 +1,24 @@
 import QRCode from 'qrcode';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const targetUrl = 'https://heiligabend.vercel.app';
-const outputDir = 'C:\\Users\\Dennis\\.gemini\\antigravity\\brain\\12dc5d06-ec55-4958-ba14-f2d569945d5b';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(__dirname, '..');
+
+const targetUrl = process.env.VITE_APP_URL || 'https://heiligabend.vercel.app';
+const outputDir = path.join(rootDir, 'public');
 
 const pngPath = path.join(outputDir, 'qr_heiligabend.png');
 const svgPath = path.join(outputDir, 'qr_heiligabend.svg');
-const htmlPath = path.join(outputDir, 'qr_geschenkkarte.html');
+const htmlPath = path.join(rootDir, 'qr_geschenkkarte.html');
 
 async function main() {
   // Generate PNG
   await QRCode.toFile(pngPath, targetUrl, {
     color: {
-      dark: '#070B19',  // Midnight blue QR modules
-      light: '#FFFFFF'  // White background
+      dark: '#070B19',
+      light: '#FFFFFF'
     },
     width: 600,
     margin: 2
@@ -153,7 +157,7 @@ async function main() {
 </html>`;
 
   fs.writeFileSync(htmlPath, htmlContent);
-  console.log('SUCCESS: Generated QR Code PNG, SVG, and HTML Printable Card!');
+  console.log('SUCCESS: Generated QR Code PNG, SVG, and HTML Printable Card with relative paths!');
 }
 
 main().catch(console.error);

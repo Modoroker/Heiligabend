@@ -6,14 +6,13 @@
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "node scripts/test_calendar.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.475.0",
-    "playwright": "^1.62.1",
-    "qrcode": "^1.5.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -23,7 +22,9 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
+    "playwright": "^1.62.1",
     "postcss": "^8.5.2",
+    "qrcode": "^1.5.4",
     "tailwindcss": "^3.4.17",
     "vercel": "^58.5.1",
     "vite": "^6.1.0",

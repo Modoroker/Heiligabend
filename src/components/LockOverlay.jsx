@@ -57,9 +57,20 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
           : 'Diese liebevolle Botschaft schaltet sich am jeweiligen Tag um 00:00 Uhr frei.'}
       </p>
 
-      {/* Countdown display */}
+      {/* Countdown display (supports Days, Hours, Minutes, Seconds) */}
       {!countdown.isUnlocked && (
-        <div className="flex items-center justify-center gap-3 my-2 bg-midnight-800/80 px-6 py-3 rounded-2xl border border-rosegold-500/20 shadow-inner">
+        <div className="flex items-center justify-center gap-2.5 my-2 bg-midnight-800/80 px-4 sm:px-5 py-3 rounded-2xl border border-rosegold-500/20 shadow-inner">
+          {countdown.days > 0 && (
+            <>
+              <div className="flex flex-col items-center">
+                <span className="text-2xl font-bold font-mono text-champagne-300">
+                  {countdown.days}
+                </span>
+                <span className="text-[10px] text-slate-400 uppercase tracking-widest">Tage</span>
+              </div>
+              <span className="text-xl font-bold text-rosegold-500/60 mb-3">:</span>
+            </>
+          )}
           <div className="flex flex-col items-center">
             <span className="text-2xl font-bold font-mono text-rosegold-300">
               {String(countdown.hours).padStart(2, '0')}
@@ -82,7 +93,6 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
           </div>
         </div>
       )}
-
     </motion.div>
   );
 }

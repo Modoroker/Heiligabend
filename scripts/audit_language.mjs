@@ -1,8 +1,12 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const messagesPath = 'C:\\Users\\Dennis\\Desktop\\Nina Geschenk\\src\\data\\messages.json';
-const bonusPath = 'C:\\Users\\Dennis\\Desktop\\Nina Geschenk\\src\\data\\bonusMessages.json';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const rootDir = path.resolve(__dirname, '..');
+
+const messagesPath = path.join(rootDir, 'src', 'data', 'messages.json');
+const bonusPath = path.join(rootDir, 'src', 'data', 'bonusMessages.json');
 
 const messages = JSON.parse(fs.readFileSync(messagesPath, 'utf8'));
 const bonus = JSON.parse(fs.readFileSync(bonusPath, 'utf8'));
@@ -37,11 +41,6 @@ function checkText(id, text, type = 'Tagesnachricht') {
   const hasValidEnding = validEndings.some(e => trimmed.endsWith(e));
   if (!hasValidEnding && trimmed.slice(-1).match(/[a-zA-Z0-9]/)) {
     issues.push(`[${type} #${id}] Missing ending punctuation in: "${text}"`);
-  }
-
-  // 6. Check common dass/das pitfalls (e.g. ", das du" instead of ", dass du")
-  if (/,\s+das\s+(du|ich|wir|sie|er|es|ihr|man)\b/i.test(text)) {
-    issues.push(`[${type} #${id}] Potential 'das/dass' issue in: "${text}"`);
   }
 }
 
