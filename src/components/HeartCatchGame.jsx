@@ -587,7 +587,6 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
     resetGame();
     let animationFrameId;
-    let pauseTimeoutId = null;
     let lastFrameTime = performance.now();
 
     // Cache static relative gradients once on canvas context
@@ -1002,13 +1001,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         state.gradientCache = null;
       }
 
-      // If paused, use a low-frequency timeout to check for resume
-      if (state.isGameOver || state.isPaused) {
-        if (state.isPaused && !state.isGameOver) {
-          pauseTimeoutId = setTimeout(() => {
-            updateAndRender(performance.now());
-          }, 200);
-        }
+      // If paused or game over, keep rAF loop running idle so retry or resume works instantly
+      if (state.isPaused || state.isGameOver) {
+        animationFrameId = requestAnimationFrame(updateAndRender);
         return;
       }
 
@@ -1038,7 +1033,6 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      if (pauseTimeoutId) clearTimeout(pauseTimeoutId);
       if (highscoreTimeoutRef.current) clearTimeout(highscoreTimeoutRef.current);
     };
   }, [isOpen, resetGame, spawnItems, updateScoreAndCheckHighscore, createParticles, addPopup]);
