@@ -1368,17 +1368,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               <button
                 ref={retryBtnRef}
                 onClick={resetGame}
-                className="w-full max-w-xs py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-champagne-300 mb-3"
+                className="w-full max-w-xs py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-champagne-300"
               >
                 <RotateCcw className="w-4 h-4" /> {TEXTS.RETRY}
-              </button>
-
-              {/* Exit/Close Button */}
-              <button
-                onClick={onClose}
-                className="text-xs text-slate-400 hover:text-slate-200 transition-colors py-1.5 px-4 rounded-xl border border-slate-800 hover:border-slate-700"
-              >
-                Zurück zur Übersicht
               </button>
             </div>
           )}
