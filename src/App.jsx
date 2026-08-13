@@ -1,11 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
 import DailyCard from './components/DailyCard';
 import LockOverlay from './components/LockOverlay';
 import CalendarGrid from './components/CalendarGrid';
-import SecretPinModal from './components/SecretPinModal';
-import BonusMessagesModal from './components/BonusMessagesModal';
-import HeartCatchGame from './components/HeartCatchGame';
 import MilestoneCard from './components/MilestoneCard';
 import NotificationBanner from './components/NotificationBanner';
 import StatsFooter from './components/StatsFooter';
@@ -13,6 +10,11 @@ import { useCalendar } from './hooks/useCalendar';
 import { getTimeOfDayTheme } from './utils/timeOfDayUtils';
 import { checkAndTriggerSpecialDayStartup } from './utils/specialDaysUtils';
 import { Calendar as CalendarIcon, Heart, Home } from 'lucide-react';
+
+// Code-split heavy modal components to optimize initial JS bundle
+const SecretPinModal = lazy(() => import('./components/SecretPinModal'));
+const BonusMessagesModal = lazy(() => import('./components/BonusMessagesModal'));
+const HeartCatchGame = lazy(() => import('./components/HeartCatchGame'));
 
 export default function App() {
   const {
@@ -178,28 +180,40 @@ export default function App() {
         <StatsFooter openedCount={openedDays.length} total={365} />
       </main>
 
-      {/* Secret PIN Modal */}
-      <SecretPinModal
-        isOpen={isSecretModalOpen}
-        onClose={() => setIsSecretModalOpen(false)}
-        onUnlockSecret={verifyAndUnlockSecret}
-      />
+      {/* Lazy Loaded Secret PIN Modal */}
+      <Suspense fallback={null}>
+        {isSecretModalOpen && (
+          <SecretPinModal
+            isOpen={isSecretModalOpen}
+            onClose={() => setIsSecretModalOpen(false)}
+            onUnlockSecret={verifyAndUnlockSecret}
+          />
+        )}
+      </Suspense>
 
-      {/* Bonus Secret Messages Modal */}
-      <BonusMessagesModal
-        isOpen={isBonusModalOpen}
-        onClose={() => setIsBonusModalOpen(false)}
-        openedCount={openedDays.length}
-        streak={streak}
-        now={now}
-        adminBypass={adminBypass}
-      />
+      {/* Lazy Loaded Bonus Secret Messages Modal */}
+      <Suspense fallback={null}>
+        {isBonusModalOpen && (
+          <BonusMessagesModal
+            isOpen={isBonusModalOpen}
+            onClose={() => setIsBonusModalOpen(false)}
+            openedCount={openedDays.length}
+            streak={streak}
+            now={now}
+            adminBypass={adminBypass}
+          />
+        )}
+      </Suspense>
 
-      {/* Heart Catch Minigame Modal 🎮 */}
-      <HeartCatchGame
-        isOpen={isGameModalOpen}
-        onClose={() => setIsGameModalOpen(false)}
-      />
+      {/* Lazy Loaded Heart Catch Minigame Modal 🎮 */}
+      <Suspense fallback={null}>
+        {isGameModalOpen && (
+          <HeartCatchGame
+            isOpen={isGameModalOpen}
+            onClose={() => setIsGameModalOpen(false)}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }

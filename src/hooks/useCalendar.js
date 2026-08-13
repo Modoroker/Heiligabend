@@ -1,31 +1,30 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import messagesData from '../data/messages.json';
 
 const LOCAL_STORAGE_OPENED_KEY = '365_reasons_opened_days';
 const LOCAL_STORAGE_FAVORITES_KEY = '365_reasons_favorites';
 const LOCAL_STORAGE_OVERRIDE_KEY = '365_reasons_admin_override';
 
-// Start date: 2026-12-24 at 21:00:00 (Bescherung at 21:00 Uhr)
-const START_CHRISTMAS_EVE = new Date('2026-12-24T21:00:00');
+const MS_PER_DAY = 24 * 60 * 60 * 1000;
+// Anchor: 2026-12-24 at 00:00:00 UTC
+const ANCHOR_UTC = Date.UTC(2026, 11, 24, 0, 0, 0);
+
+// Helper for safe array parsing and type validation from localStorage
+function safeParseNumberArray(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      return parsed.filter((x) => typeof x === 'number' && x >= 1 && x <= 365);
+    }
+  } catch {}
+  return [];
+}
 
 export function useCalendar() {
-  const [openedDays, setOpenedDays] = useState(() => {
-    try {
-      const saved = localStorage.getItem(LOCAL_STORAGE_OPENED_KEY);
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
-
-  const [favorites, setFavorites] = useState(() => {
-    try {
-      const saved = localStorage.getItem(LOCAL_STORAGE_FAVORITES_KEY);
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  });
+  const [openedDays, setOpenedDays] = useState(() => safeParseNumberArray(LOCAL_STORAGE_OPENED_KEY));
+  const [favorites, setFavorites] = useState(() => safeParseNumberArray(LOCAL_STORAGE_FAVORITES_KEY));
 
   const [adminBypass, setAdminBypass] = useState(() => {
     try {
@@ -35,24 +34,28 @@ export function useCalendar() {
     }
   });
 
-  // Current time state (updates every second for live countdown)
+  // Cached devDate reference to avoid re-parsing URL on every single interval tick
+  const devDateOffsetRef = useRef(null);
+
   const [now, setNow] = useState(() => {
-    // Check URL search params for ?devDate=2026-12-24T20:59:50
-    const params = new URLSearchParams(window.location.search);
-    const devDate = params.get('devDate');
-    if (devDate) {
-      const parsed = new Date(devDate);
-      if (!isNaN(parsed.getTime())) return parsed;
-    }
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const devDateParam = params.get('devDate');
+      if (devDateParam) {
+        const parsed = new Date(devDateParam);
+        if (!isNaN(parsed.getTime())) {
+          devDateOffsetRef.current = parsed.getTime() - Date.now();
+          return parsed;
+        }
+      }
+    } catch {}
     return new Date();
   });
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const params = new URLSearchParams(window.location.search);
-      const devDate = params.get('devDate');
-      if (devDate) {
-        setNow(new Date(devDate));
+      if (devDateOffsetRef.current !== null) {
+        setNow(new Date(Date.now() + devDateOffsetRef.current));
       } else {
         setNow(new Date());
       }
@@ -60,61 +63,53 @@ export function useCalendar() {
     return () => clearInterval(timer);
   }, []);
 
-  // Calculate current active day number based on date
+  // Compute current active day number (1..365) using UTC arithmetic to prevent DST & timezone edge bugs
   const currentDayIndex = useMemo(() => {
-    // Day 1 target: 2026-12-24
-    const anchor = new Date('2026-12-24T00:00:00');
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const diffTime = today.getTime() - anchor.getTime();
-    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    const todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+    const diffDays = Math.floor((todayUTC - ANCHOR_UTC) / MS_PER_DAY) + 1;
     
     if (diffDays < 1) return 1; // Before start date, focus on Day 1 countdown
     if (diffDays > 365) return 365;
     return diffDays;
   }, [now]);
 
-  // Check if specific day is unlocked
-  const isDayUnlocked = useCallback((dayId) => {
-    if (adminBypass) return true;
-
-    if (dayId === 1) {
-      // Day 1 unlocks on 2026-12-24 at 21:00:00
-      return now >= START_CHRISTMAS_EVE;
-    }
-
-    // Day N (2..365): unlocks on 2026-12-24 + (N-1) days at 00:00:00
-    const targetDate = new Date('2026-12-24T00:00:00');
-    targetDate.setDate(targetDate.getDate() + (dayId - 1));
-    return now >= targetDate;
-  }, [now, adminBypass]);
-
-  // Get unlock target date for a day
+  // Target unlock date calculation: Day 1 unlocks 24.12.2026 at 21:00, all other days at 00:00:00
   const getUnlockDate = useCallback((dayId) => {
-    if (dayId === 1) return START_CHRISTMAS_EVE;
+    if (dayId <= 1) {
+      return new Date('2026-12-24T21:00:00');
+    }
     const targetDate = new Date('2026-12-24T00:00:00');
     targetDate.setDate(targetDate.getDate() + (dayId - 1));
     return targetDate;
   }, []);
 
-  // Time remaining until unlock
+  // Centralized unlock check (directly compares now >= getUnlockDate)
+  const isDayUnlocked = useCallback((dayId) => {
+    if (adminBypass) return true;
+    return now >= getUnlockDate(dayId);
+  }, [now, adminBypass, getUnlockDate]);
+
+  // Time remaining until unlock (supports days, hours, minutes, seconds)
   const getTimeUntilUnlock = useCallback((dayId) => {
     const target = getUnlockDate(dayId);
     const diffMs = target.getTime() - now.getTime();
 
     if (diffMs <= 0) {
-      return { hours: 0, minutes: 0, seconds: 0, isUnlocked: true };
+      return { days: 0, hours: 0, minutes: 0, seconds: 0, isUnlocked: true };
     }
 
     const totalSeconds = Math.floor(diffMs / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
 
-    return { hours, minutes, seconds, isUnlocked: false };
+    return { days, hours, minutes, seconds, isUnlocked: false };
   }, [now, getUnlockDate]);
 
-  // Mark day as opened
+  // Mark day as opened with validation
   const markDayOpened = useCallback((dayId) => {
+    if (typeof dayId !== 'number' || dayId < 1 || dayId > 365) return;
     setOpenedDays((prev) => {
       if (prev.includes(dayId)) return prev;
       const next = [...prev, dayId];
@@ -127,8 +122,9 @@ export function useCalendar() {
     });
   }, []);
 
-  // Toggle favorite
+  // Toggle favorite with validation
   const toggleFavorite = useCallback((dayId) => {
+    if (typeof dayId !== 'number' || dayId < 1 || dayId > 365) return;
     setFavorites((prev) => {
       const next = prev.includes(dayId)
         ? prev.filter((id) => id !== dayId)
@@ -142,10 +138,10 @@ export function useCalendar() {
     });
   }, []);
 
-  // Validate Admin PIN (e.g., 2412, 1234, NINA, or MODOROKER)
+  // Validate Admin PIN (e.g. 2412 or NINA)
   const verifyAndUnlockSecret = useCallback((pin) => {
-    const validPins = ['2412', '1234', 'NINA', 'HEILIGABEND', '2026'];
-    const cleanPin = pin.trim().toUpperCase();
+    const validPins = ['2412', 'NINA', 'HEILIGABEND'];
+    const cleanPin = String(pin || '').trim().toUpperCase();
     if (validPins.includes(cleanPin)) {
       setAdminBypass(true);
       try {
@@ -172,7 +168,7 @@ export function useCalendar() {
     }
   }, []);
 
-  // Compute streak
+  // Compute total opened count
   const streak = useMemo(() => {
     return openedDays.length;
   }, [openedDays]);
