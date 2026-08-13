@@ -19,6 +19,13 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleLockClick();
+    }
+  };
+
   const isChristmasEve = day.id === 1;
 
   return (
@@ -33,10 +40,14 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
 
       {/* Lock Icon Circle */}
       <motion.div
+        role="button"
+        tabIndex={0}
+        aria-label="Gesperrtes Schloss"
+        onKeyDown={handleKeyDown}
         animate={isShaking ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
         onClick={handleLockClick}
-        className="cursor-pointer relative group mb-6"
+        className="cursor-pointer relative group mb-6 focus:outline-none focus:ring-2 focus:ring-rosegold-400 rounded-full"
       >
         <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-midnight-800 to-midnight-700 border border-rosegold-400/30 flex items-center justify-center shadow-lg group-hover:border-rosegold-400/60 transition-all">
           <Lock className="w-9 h-9 text-rosegold-400 group-hover:scale-110 transition-transform" />

@@ -6,6 +6,8 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const [isScratched, setIsScratched] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
   const isCompletedRef = useRef(false);
+  const lastCheckTimeRef = useRef(0);
+  const pendingCheckRef = useRef(false);
 
   // Initialize Canvas scratch layer
   const initCanvas = useCallback(() => {
@@ -14,8 +16,8 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     if (!canvas || !container) return;
 
     const rect = container.getBoundingClientRect();
-    const width = rect.width || container.clientWidth || 300;
-    const height = rect.height || container.clientHeight || 180;
+    const width = Math.floor(rect.width || container.clientWidth || 300);
+    const height = Math.floor(rect.height || container.clientHeight || 180);
 
     if (width === 0 || height === 0) return;
 
@@ -60,25 +62,27 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   }, []);
 
   useEffect(() => {
+    // Initial draw
     initCanvas();
 
-    // Re-initialize canvas at 100ms, 300ms, and 550ms after Framer Motion 3D modal entrance ends
-    const timers = [
-      setTimeout(initCanvas, 100),
-      setTimeout(initCanvas, 300),
-      setTimeout(initCanvas, 550),
-    ];
+    // Use ResizeObserver for responsive resize tracking
+    let observer;
+    if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
+      observer = new ResizeObserver(() => {
+        requestAnimationFrame(initCanvas);
+      });
+      observer.observe(containerRef.current);
+    }
 
-    const handleResize = () => setTimeout(initCanvas, 100);
-    window.addEventListener('resize', handleResize);
+    const timer = setTimeout(initCanvas, 150);
 
     return () => {
-      timers.forEach((t) => clearTimeout(t));
-      window.removeEventListener('resize', handleResize);
+      clearTimeout(timer);
+      if (observer) observer.disconnect();
     };
   }, [initCanvas]);
 
-  // Check how much percent has been cleared
+  // High-performance downsampled scratch percentage check
   const checkScratchPercentage = useCallback(() => {
     if (isCompletedRef.current) return;
     const canvas = canvasRef.current;
@@ -89,16 +93,19 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const pixels = imageData.data;
     let transparentPixels = 0;
+    let sampleCount = 0;
 
-    // Check alpha channel (index 3)
-    for (let i = 3; i < pixels.length; i += 4) {
+    // Fast sampling (check every 16th pixel = 64 bytes in rgba array)
+    const step = 64;
+    for (let i = 3; i < pixels.length; i += step) {
+      sampleCount++;
       if (pixels[i] === 0) {
         transparentPixels++;
       }
     }
 
-    const totalPixels = pixels.length / 4;
-    const percentCleared = transparentPixels / totalPixels;
+    if (sampleCount === 0) return;
+    const percentCleared = transparentPixels / sampleCount;
 
     if (percentCleared >= threshold && !isCompletedRef.current) {
       isCompletedRef.current = true;
@@ -108,6 +115,25 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
       }
     }
   }, [threshold, onComplete]);
+
+  // Throttled percentage check to keep 60fps on mobile touch
+  const schedulePercentageCheck = useCallback((force = false) => {
+    const now = Date.now();
+    if (force || now - lastCheckTimeRef.current > 150) {
+      lastCheckTimeRef.current = now;
+      pendingCheckRef.current = false;
+      checkScratchPercentage();
+    } else if (!pendingCheckRef.current) {
+      pendingCheckRef.current = true;
+      setTimeout(() => {
+        if (pendingCheckRef.current) {
+          pendingCheckRef.current = false;
+          lastCheckTimeRef.current = Date.now();
+          checkScratchPercentage();
+        }
+      }, 150);
+    }
+  }, [checkScratchPercentage]);
 
   // Scratch action with dynamic coordinate scaling
   const scratch = (clientX, clientY) => {
@@ -120,7 +146,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     const rect = canvas.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return;
 
-    // Adjust for current CSS scaling / 3D transform matrix
+    // Adjust for current CSS scaling
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
@@ -132,7 +158,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     ctx.arc(x, y, 36, 0, Math.PI * 2); // 36px radius
     ctx.fill();
 
-    checkScratchPercentage();
+    schedulePercentageCheck(false);
   };
 
   // Mouse Handlers
@@ -151,6 +177,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const handleMouseUp = (e) => {
     if (e) e.stopPropagation();
     setIsDrawing(false);
+    schedulePercentageCheck(true);
   };
 
   // Touch Handlers
@@ -171,6 +198,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const handleTouchEnd = (e) => {
     if (e) e.stopPropagation();
     setIsDrawing(false);
+    schedulePercentageCheck(true);
   };
 
   if (isScratched) {
@@ -180,6 +208,9 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   return (
     <div
       ref={containerRef}
+      role="button"
+      tabIndex={0}
+      aria-label="Rubbelkarte zum Freirubbeln"
       className="absolute inset-0 z-30 rounded-2xl overflow-hidden cursor-pointer select-none touch-none shadow-inner"
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}

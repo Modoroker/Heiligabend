@@ -21,13 +21,24 @@ export default function Navbar({
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleLogoTap();
+    }
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full glass-panel border-b border-rosegold-500/20 px-4 py-3 shadow-lg">
       <div className="max-w-md mx-auto flex items-center justify-between">
         {/* Brand Logo with EKG Heartbeat & Secret Code Trigger */}
         <div
+          role="button"
+          tabIndex={0}
+          aria-label="365 Gründe warum ich dich Liebe (3x tippen für Geheimcode)"
           onClick={handleLogoTap}
-          className="flex items-center gap-2 cursor-pointer select-none group"
+          onKeyDown={handleKeyDown}
+          className="flex items-center gap-2 cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-rosegold-400 rounded-lg p-1"
           title="Tippe 3x auf den Titel für den Geheimcode-Dialog"
         >
           <div className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/30 flex items-center justify-center">
@@ -45,6 +56,7 @@ export default function Navbar({
           {adminBypass && (
             <button
               onClick={onResetAdmin}
+              aria-label="Admin Freigabe zurücksetzen"
               className="flex items-center gap-1 px-2 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-medium"
               title="Admin Freigabe zurücksetzen"
             >
@@ -55,6 +67,7 @@ export default function Navbar({
           {/* Minigame Button 🎮 */}
           <button
             onClick={onOpenGameModal}
+            aria-label="Herzen-Fang Minispiel öffnen"
             className="p-1.5 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 hover:bg-pink-500/30 transition-all relative"
             title="Herzen-Fang Minispiel spielen 🎮"
           >
@@ -64,6 +77,7 @@ export default function Navbar({
           {/* Bonus Secret Messages Gift Modal */}
           <button
             onClick={onOpenBonusModal}
+            aria-label="Geheim-Nachrichten und Geschenke öffnen"
             className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 text-champagne-300 hover:bg-rosegold-500/30 transition-all relative"
             title="Geheim-Nachrichten öffnen 🎁"
           >

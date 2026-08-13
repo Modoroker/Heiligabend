@@ -449,6 +449,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
         gameStateRef.current.inputMode = 'keyboard';
         gameStateRef.current.keysPressed[e.key] = true;
       }
@@ -456,6 +457,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
     const handleKeyUp = (e) => {
       if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
         gameStateRef.current.keysPressed[e.key] = false;
       }
     };

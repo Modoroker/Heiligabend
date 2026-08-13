@@ -197,12 +197,21 @@ export default function CalendarGrid({
                 return (
                   <div
                     key={msg.id}
+                    role="button"
+                    tabIndex={unlocked ? 0 : -1}
+                    aria-label={`Tag ${msg.id}: ${formattedDate}${unlocked ? (opened ? ' (Geöffnet)' : ' (Bereit zum Öffnen)') : ' (Gesperrt)'}`}
                     onClick={() => {
                       if (unlocked) {
                         setSelectedDay(msg);
                       }
                     }}
-                    className={`aspect-square rounded-2xl p-2 flex flex-col items-center justify-between cursor-pointer border transition-all relative overflow-hidden select-none group ${
+                    onKeyDown={(e) => {
+                      if (unlocked && (e.key === 'Enter' || e.key === ' ')) {
+                        e.preventDefault();
+                        setSelectedDay(msg);
+                      }
+                    }}
+                    className={`aspect-square rounded-2xl p-2 flex flex-col items-center justify-between cursor-pointer border transition-all relative overflow-hidden select-none group focus:outline-none focus:ring-2 focus:ring-rosegold-400 ${
                       specialInfo
                         ? 'border-amber-400 shadow-gold-glow bg-gradient-to-b from-amber-500/20 to-midnight-800/90 animate-pulse'
                         : opened

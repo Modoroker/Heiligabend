@@ -24,6 +24,13 @@ export default function DailyCard({
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleOpenEnvelope();
+    }
+  };
+
   return (
     <div className="w-full relative perspective-1000">
       <AnimatePresence mode="wait">
@@ -31,12 +38,16 @@ export default function DailyCard({
           /* CLOSED ENVELOPE RITUAL */
           <motion.div
             key="envelope-closed"
+            role="button"
+            tabIndex={0}
+            aria-label={`Tagesbotschaft ${day.id} öffnen`}
+            onKeyDown={handleKeyDown}
             initial={{ opacity: 0, scale: 0.9, rotateX: -10 }}
             animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             exit={{ opacity: 0, scale: 1.05, rotateY: 90 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
             onClick={handleOpenEnvelope}
-            className="w-full glass-panel rounded-3xl p-8 cursor-pointer border border-rosegold-500/40 shadow-envelope flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[380px] group select-none hover:border-rosegold-400 transition-all"
+            className="w-full glass-panel rounded-3xl p-8 cursor-pointer border border-rosegold-500/40 shadow-envelope flex flex-col items-center justify-center text-center relative overflow-hidden min-h-[380px] group select-none hover:border-rosegold-400 focus:outline-none focus:ring-2 focus:ring-rosegold-400 transition-all"
           >
             {/* Ambient shimmer */}
             <div className="absolute inset-0 bg-gradient-to-br from-rosegold-500/10 via-transparent to-champagne-500/10 opacity-70 group-hover:opacity-100 transition-opacity" />
@@ -89,6 +100,7 @@ export default function DailyCard({
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => onToggleFavorite(day.id)}
+                  aria-label={isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"}
                   className={`p-2 rounded-full transition-colors ${
                     isFavorite
                       ? 'text-red-400 bg-red-500/10'

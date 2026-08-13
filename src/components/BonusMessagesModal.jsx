@@ -97,8 +97,17 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
                 return (
                   <div
                     key={bonus.id}
+                    role="button"
+                    tabIndex={unlocked ? 0 : -1}
+                    aria-label={`${bonus.title}: ${bonus.subtitle}${unlocked ? ' (Freigeschaltet)' : ' (Gesperrt)'}`}
                     onClick={() => handleOpenBonus(bonus)}
-                    className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between cursor-pointer ${
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        handleOpenBonus(bonus);
+                      }
+                    }}
+                    className={`p-3.5 rounded-2xl border transition-all flex items-center justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-rosegold-400 ${
                       unlocked
                         ? 'bg-midnight-800/80 border-rosegold-500/40 hover:border-rosegold-300 shadow-rose-glow'
                         : 'bg-midnight-900/40 border-slate-800/60 opacity-60'

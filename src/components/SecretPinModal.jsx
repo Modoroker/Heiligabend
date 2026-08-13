@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { KeyRound, Heart, X, CheckCircle2 } from 'lucide-react';
+import { KeyRound, X, CheckCircle2 } from 'lucide-react';
 
 export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
   const [pin, setPin] = useState('');
@@ -28,7 +28,12 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="secret-pin-title"
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md"
+      >
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -37,6 +42,7 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
         >
           <button
             onClick={onClose}
+            aria-label="Schließen"
             className="absolute top-4 right-4 p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
           >
             <X className="w-5 h-5" />
@@ -50,11 +56,11 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
             </div>
 
             <div>
-              <h3 className="text-xl font-serif font-bold gold-gradient-text">
+              <h3 id="secret-pin-title" className="text-xl font-serif font-bold gold-gradient-text">
                 Secret Override Code
               </h3>
               <p className="text-xs text-slate-400 mt-1">
-                Gib deinen Geheimcode ein, um die Tagesbotschaft sofort freizuschalten.
+                Gib deinen Geheimcode ein, um die Botschaften freizuschalten.
               </p>
             </div>
 
@@ -64,7 +70,8 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
                   type="password"
                   value={pin}
                   onChange={(e) => setPin(e.target.value)}
-                  placeholder="z. B. 2412 oder NINA"
+                  placeholder="Geheimcode eingeben"
+                  aria-label="Geheimcode"
                   className={`w-full px-4 py-3 bg-midnight-900/90 rounded-2xl border text-center text-lg font-mono tracking-widest text-rosegold-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-rosegold-400 transition-all ${
                     error ? 'border-red-500 animate-wiggle' : 'border-rosegold-500/30'
                   }`}
@@ -74,7 +81,7 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
 
               {error && (
                 <p className="text-xs text-red-400 font-medium">
-                  Ungültiger Geheimcode. Versuche 2412 oder NINA.
+                  Ungültiger Geheimcode. Bitte überprüfe deine Eingabe.
                 </p>
               )}
 

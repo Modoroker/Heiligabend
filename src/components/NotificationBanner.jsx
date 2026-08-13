@@ -25,11 +25,25 @@ export default function NotificationBanner() {
         setPermissionState(result);
         if (result === 'granted') {
           setShowBanner(false);
-          // Show test notification
-          new Notification('Liebesbotschaften Erinnerung 💌', {
+          const notifTitle = 'Liebesbotschaften Erinnerung 💌';
+          const notifOptions = {
             body: 'Toll! Du wirst jetzt jeden Morgen an deine neue Botschaft erinnert. ❤️',
-            icon: '/icon-192.png'
-          });
+            icon: '/pwa-192x192.png',
+            badge: '/pwa-192x192.png',
+          };
+
+          // Try Service Worker registration first for mobile PWA support
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready
+              .then((reg) => {
+                reg.showNotification(notifTitle, notifOptions);
+              })
+              .catch(() => {
+                new Notification(notifTitle, notifOptions);
+              });
+          } else {
+            new Notification(notifTitle, notifOptions);
+          }
         }
       } catch (err) {
         console.error('Notification error', err);
@@ -54,6 +68,8 @@ export default function NotificationBanner() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
+        role="region"
+        aria-label="Benachrichtigung aktivieren"
         className="w-full bg-gradient-to-r from-rosegold-500/20 via-midnight-800 to-rosegold-500/20 border-b border-rosegold-500/30 px-4 py-2.5 shadow-md"
       >
         <div className="max-w-md mx-auto flex items-center justify-between gap-2 text-xs">
@@ -74,12 +90,14 @@ export default function NotificationBanner() {
           <div className="flex items-center gap-1.5">
             <button
               onClick={handleRequestPermission}
+              aria-label="Erinnerung aktivieren"
               className="px-3 py-1 rounded-full bg-rosegold-500 hover:bg-rosegold-400 text-white font-medium text-[11px] shadow-rose-glow flex items-center gap-1 transition-all"
             >
               <Check className="w-3.5 h-3.5" /> Ja!
             </button>
             <button
               onClick={handleDismiss}
+              aria-label="Banner schließen"
               className="p-1 rounded-full text-slate-400 hover:text-slate-200 transition-colors"
             >
               <X className="w-4 h-4" />

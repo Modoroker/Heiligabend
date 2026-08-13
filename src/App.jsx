@@ -149,7 +149,6 @@ export default function App() {
             isDayUnlocked={isDayUnlocked}
             onToggleFavorite={toggleFavorite}
             onMarkOpened={markDayOpened}
-            onOpenSecretModal={() => setIsSecretModalOpen(true)}
           />
         )}
 
@@ -178,7 +177,6 @@ export default function App() {
                 isDayUnlocked={isDayUnlocked}
                 onToggleFavorite={toggleFavorite}
                 onMarkOpened={markDayOpened}
-                onOpenSecretModal={() => setIsSecretModalOpen(true)}
               />
             )}
           </div>
