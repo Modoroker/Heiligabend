@@ -50,17 +50,17 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     inputMode: 'none',
   });
 
-  // Generate background ambient twinkling stars
+  // Generate background ambient stars with crisp coordinates
   const initBgStars = () => {
     const stars = [];
-    for (let i = 0; i < 35; i++) {
+    for (let i = 0; i < 30; i++) {
       stars.push({
         x: Math.random() * LOGICAL_WIDTH,
         y: Math.random() * LOGICAL_HEIGHT,
-        size: Math.random() * 2 + 1,
+        size: Math.random() * 1.8 + 1,
         speed: Math.random() * 0.8 + 0.2,
-        twinkleSpeed: Math.random() * 3 + 1,
-        opacity: Math.random() * 0.7 + 0.3,
+        twinkleSpeed: Math.random() * 2 + 1,
+        opacity: Math.random() * 0.6 + 0.4,
       });
     }
     return stars;
@@ -134,21 +134,20 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     }
   }, []);
 
-  // Particle Explosions
-  const createParticles = useCallback((x, y, color, count = 16, shape = 'circle') => {
+  // Particle Explosions (sharp clean dots & stars)
+  const createParticles = useCallback((x, y, color, count = 14) => {
     for (let i = 0; i < count; i++) {
       const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5);
-      const speed = Math.random() * 160 + 50;
+      const speed = Math.random() * 150 + 60;
       gameStateRef.current.particles.push({
         x,
         y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        size: Math.random() * 4 + 2,
+        size: Math.random() * 3 + 2,
         color,
-        shape,
         alpha: 1.0,
-        life: Math.random() * 0.4 + 0.4,
+        life: Math.random() * 0.35 + 0.35,
       });
     }
   }, []);
@@ -172,8 +171,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     const isFrozen = gameStateRef.current.freezeTimeLeft > 0;
     const isFeverNow = gameStateRef.current.feverTimeLeft > 0;
 
-    // Faster spawn interval in fever mode or higher score
-    const baseInterval = isFeverNow ? 400 : Math.max(450, 1050 - Math.floor(currentScore / 100) * 45);
+    const baseInterval = isFeverNow ? 420 : Math.max(450, 1050 - Math.floor(currentScore / 100) * 45);
     const spawnInterval = isFrozen ? baseInterval * 1.5 : baseInterval;
 
     if (nowTime - gameStateRef.current.lastSpawnTime < spawnInterval) return;
@@ -186,7 +184,6 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     let points = 10;
 
     if (isFeverNow && rand < 0.6) {
-      // In Fever Mode: heavy golden & diamond heart rain!
       type = rand < 0.35 ? 'diamond' : 'gold';
       size = 32;
       speedMult = 1.3;
@@ -223,7 +220,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       points = 15;
     } else {
       type = 'emerald'; // 3% Emerald Life Bonus Heart 💚
-      size = 22;
+      size = 24;
       speedMult = 1.6;
       points = 30;
     }
@@ -241,11 +238,11 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       speed: finalSpeed,
       points,
       rotation: Math.random() * Math.PI * 2,
-      rotationSpeed: (Math.random() - 0.5) * 3.0,
+      rotationSpeed: (Math.random() - 0.5) * 2.5,
     });
   }, []);
 
-  // Main 60 FPS Game Loop
+  // Main 60 FPS Game Loop with Crisp High-DPI Scaling
   useEffect(() => {
     if (!isOpen) return;
 
@@ -259,9 +256,21 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
       const state = gameStateRef.current;
       const canvas = canvasRef.current;
-      if (!canvas) return;
+      const container = containerRef.current;
+      if (!canvas || !container) return;
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
+
+      // Handle Crisp High-DPI (Retina) Canvas Resolution
+      const dpr = window.devicePixelRatio || 1;
+      const rect = container.getBoundingClientRect();
+      const displayW = Math.floor(rect.width || LOGICAL_WIDTH);
+      const displayH = Math.floor(rect.height || LOGICAL_HEIGHT);
+
+      if (canvas.width !== displayW * dpr || canvas.height !== displayH * dpr) {
+        canvas.width = displayW * dpr;
+        canvas.height = displayH * dpr;
+      }
 
       // Stop update loop if Game Over
       if (state.isGameOver) {
@@ -300,7 +309,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         state.targetBasketX = state.basketX;
       } else {
         const clampedTarget = Math.max(0, Math.min(LOGICAL_WIDTH - state.basketWidth, state.targetBasketX));
-        state.basketX += (clampedTarget - state.basketX) * Math.min(1.0, 22 * dt);
+        state.basketX += (clampedTarget - state.basketX) * Math.min(1.0, 24 * dt);
       }
 
       // --- 3. SPAWN ITEMS ---
@@ -314,10 +323,10 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       for (let i = state.hearts.length - 1; i >= 0; i--) {
         const item = state.hearts[i];
         
-        // Magnet Power-Up effect: Pull nearby good hearts toward the basket!
+        // Magnet Power-Up effect
         if (state.magnetTimeLeft > 0 && item.type !== 'broken' && item.y > 100) {
           const dx = basketCenterX - item.x;
-          item.x += dx * 3.5 * dt;
+          item.x += dx * 3.8 * dt;
         }
 
         // Apply movement
@@ -326,7 +335,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         item.rotation += item.rotationSpeed * dt;
 
         // Collision Check with Basket Catch-Zone
-        const inHorizontalRange = item.x >= state.basketX - 8 && item.x <= state.basketX + state.basketWidth + 8;
+        const inHorizontalRange = item.x >= state.basketX - 10 && item.x <= state.basketX + state.basketWidth + 10;
         const inVerticalRange = item.y >= basketTop - 10 && item.y <= basketBottom;
 
         if (inHorizontalRange && inVerticalRange) {
@@ -334,7 +343,6 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
           // Handle item-specific effects
           if (item.type === 'broken') {
-            // Broken Heart caught! Reset combo & deduct life
             state.combo = 0;
             state.feverTimeLeft = 0;
             setCombo(0);
@@ -345,69 +353,66 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             setLives(state.lives);
 
             addPopup('-10 💔', item.x, item.y, '#EF4444');
-            createParticles(item.x, item.y, '#1F2937', 18);
+            createParticles(item.x, item.y, '#EF4444', 16);
 
             if (state.lives <= 0) {
               state.isGameOver = true;
               setIsGameOver(true);
             }
           } else {
-            // Good item caught! Increase Combo
             state.combo += 1;
             setCombo(state.combo);
 
-            // Combo & Fever Triggers
             if (state.combo === 5) {
               addPopup('🔥 2x COMBO!', basketCenterX, basketTop - 40, '#F59E0B');
               createParticles(basketCenterX, basketTop, '#F59E0B', 20);
             } else if (state.combo >= 10 && state.feverTimeLeft <= 0) {
-              state.feverTimeLeft = 6.0; // 6 seconds Fever Mode!
+              state.feverTimeLeft = 6.0;
               setIsFever(true);
-              addPopup('⚡ FEVER MODE 3x! 🌟', basketCenterX, basketTop - 40, '#E8B4B8');
-              createParticles(basketCenterX, basketTop, '#D4AF37', 35);
+              addPopup('⚡ 3x FEVER MODE! 🌟', basketCenterX, basketTop - 40, '#F43F5E');
+              createParticles(basketCenterX, basketTop, '#FFD700', 30);
             }
 
             if (item.type === 'classic') {
               updateScoreAndCheckHighscore(item.points);
-              addPopup(`+${item.points}`, item.x, item.y, '#FB7185');
-              createParticles(item.x, item.y, '#FF0054', 12);
+              addPopup(`+${item.points}`, item.x, item.y, '#FF0054');
+              createParticles(item.x, item.y, '#FF1E56', 12);
             } else if (item.type === 'gold') {
               updateScoreAndCheckHighscore(item.points);
-              addPopup(`+${item.points} ⭐`, item.x, item.y, '#FBBF24');
-              createParticles(item.x, item.y, '#FBBF24', 18);
+              addPopup(`+${item.points} ⭐`, item.x, item.y, '#FFD700');
+              createParticles(item.x, item.y, '#FFD700', 16);
             } else if (item.type === 'diamond') {
               updateScoreAndCheckHighscore(item.points);
-              addPopup(`+${item.points} 💎`, item.x, item.y, '#38BDF8');
-              createParticles(item.x, item.y, '#38BDF8', 24);
+              addPopup(`+${item.points} 💎`, item.x, item.y, '#00E5FF');
+              createParticles(item.x, item.y, '#00E5FF', 22);
             } else if (item.type === 'emerald') {
               updateScoreAndCheckHighscore(item.points);
               const nextLives = Math.min(3, state.lives + 1);
               state.lives = nextLives;
               setLives(nextLives);
-              addPopup('+1 ❤️ Leben', item.x, item.y, '#10B981');
-              createParticles(item.x, item.y, '#10B981', 16);
+              addPopup('+1 ❤️', item.x, item.y, '#00E676');
+              createParticles(item.x, item.y, '#00E676', 16);
             } else if (item.type === 'magnet') {
               state.magnetTimeLeft = 5.0;
               setMagnetActive(true);
               updateScoreAndCheckHighscore(item.points);
-              addPopup('🧲 MAGNET AKTIV!', item.x, item.y, '#A78BFA');
-              createParticles(item.x, item.y, '#C084FC', 20);
+              addPopup('🧲 MAGNET!', item.x, item.y, '#C084FC');
+              createParticles(item.x, item.y, '#C084FC', 18);
             } else if (item.type === 'freeze') {
               state.freezeTimeLeft = 4.0;
               setFreezeActive(true);
               updateScoreAndCheckHighscore(item.points);
-              addPopup('❄️ ZEITLUPE!', item.x, item.y, '#67E8F9');
-              createParticles(item.x, item.y, '#67E8F9', 20);
+              addPopup('❄️ ZEITLUPE!', item.x, item.y, '#38BDF8');
+              createParticles(item.x, item.y, '#38BDF8', 18);
             }
           }
           continue;
         }
 
-        // Missed item logic (flew past bottom)
+        // Missed item logic
         if (item.y > LOGICAL_HEIGHT + 25) {
           state.hearts.splice(i, 1);
 
-          // Missed classic red heart deducts 1 life and resets combo
           if (item.type === 'classic') {
             state.combo = 0;
             setCombo(0);
@@ -445,115 +450,96 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         if (star.y > LOGICAL_HEIGHT) star.y = 0;
       });
 
-      // --- 6. RENDER CANVAS (Luxury Midnight & Roségold Glow Theme) ---
-      ctx.clearRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+      // --- 6. RENDER CANVAS (Razor-Sharp, High-Contrast Crisp Colors) ---
+      ctx.save();
+      // Apply High-DPI resolution scaling
+      ctx.scale((displayW / LOGICAL_WIDTH) * dpr, (displayH / LOGICAL_HEIGHT) * dpr);
 
-      // Deep Midnight Luxury Gradient
+      // Deep Midnight Crisp Navy Background
       const bgGrad = ctx.createLinearGradient(0, 0, 0, LOGICAL_HEIGHT);
-      bgGrad.addColorStop(0, '#070B19');
-      bgGrad.addColorStop(0.5, '#0B132B');
-      bgGrad.addColorStop(1, '#161B33');
+      bgGrad.addColorStop(0, '#090D1A');
+      bgGrad.addColorStop(0.6, '#0D1426');
+      bgGrad.addColorStop(1, '#131B33');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
-      // Render Twinkling Stars in Background
+      // Render Crisp Twinkling Stars (No Blurry Halos)
       state.bgStars.forEach((star) => {
         const pulse = Math.sin(currentTime / 1000 * star.twinkleSpeed) * 0.3 + 0.7;
-        ctx.fillStyle = `rgba(247, 231, 206, ${star.opacity * pulse})`;
+        ctx.fillStyle = `rgba(255, 235, 180, ${star.opacity * pulse})`;
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      // Ambient Rose Nebula Glow
-      const glowGrad = ctx.createRadialGradient(
-        LOGICAL_WIDTH / 2,
-        LOGICAL_HEIGHT / 2,
-        50,
-        LOGICAL_WIDTH / 2,
-        LOGICAL_HEIGHT / 2,
-        280
-      );
-      glowGrad.addColorStop(0, 'rgba(183, 110, 121, 0.08)');
-      glowGrad.addColorStop(1, 'rgba(7, 11, 25, 0)');
-      ctx.fillStyle = glowGrad;
-      ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
-
-      // If Freeze Mode is active, overlay soft icy mist
+      // Soft Icy Mist when Frozen
       if (state.freezeTimeLeft > 0) {
-        ctx.fillStyle = 'rgba(56, 189, 248, 0.08)';
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
         ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
       }
 
-      // Render Falling Hearts with High-End Glowing Auras
+      // Render Falling Hearts with Crisp Contours & Sharp Colors
       state.hearts.forEach((h) => {
         ctx.save();
         ctx.translate(h.x, h.y);
         ctx.rotate(h.rotation);
 
+        // Render clean, sharp items without muddy shadow blur
         if (h.type === 'classic') {
-          // Classic Red Ruby Heart ❤️
-          ctx.shadowColor = '#FF0054';
-          ctx.shadowBlur = 14;
-          ctx.font = '30px sans-serif';
+          // Crisp Ruby Red Heart ❤️
+          ctx.font = '32px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('❤️', 0, 0);
         } else if (h.type === 'gold') {
-          // Sparkling Golden Star Heart 💛
-          ctx.shadowColor = '#FBBF24';
-          ctx.shadowBlur = 18;
-          ctx.font = '32px sans-serif';
+          // Crisp Golden Star Heart 💛
+          ctx.font = '34px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('💛', 0, 0);
         } else if (h.type === 'diamond') {
-          // Shimmering Diamond Heart 💎
-          ctx.shadowColor = '#38BDF8';
-          ctx.shadowBlur = 20;
-          ctx.font = '30px sans-serif';
+          // Crisp Diamond Heart 💎
+          ctx.font = '32px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('💎', 0, 0);
         } else if (h.type === 'broken') {
-          // Dark Broken Heart 💔 with Danger Charcoal Aura
-          ctx.shadowColor = '#EF4444';
-          ctx.shadowBlur = 12;
-          ctx.fillStyle = 'rgba(15, 23, 42, 0.9)';
+          // Sharp Broken Heart 💔 with crisp red hazard outline
+          ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
+          ctx.strokeStyle = '#EF4444';
+          ctx.lineWidth = 2;
           ctx.beginPath();
           ctx.arc(0, 0, 18, 0, Math.PI * 2);
           ctx.fill();
+          ctx.stroke();
 
           ctx.font = '28px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('💔', 0, 0);
         } else if (h.type === 'emerald') {
-          // Emerald Green +1 Life Heart 💚
-          ctx.shadowColor = '#10B981';
-          ctx.shadowBlur = 18;
-          ctx.fillStyle = 'rgba(16, 185, 129, 0.25)';
+          // Sharp Emerald Heart 💚 with clean green badge
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.3)';
+          ctx.strokeStyle = '#10B981';
+          ctx.lineWidth = 1.5;
           ctx.beginPath();
-          ctx.arc(0, 0, 14, 0, Math.PI * 2);
+          ctx.arc(0, 0, 15, 0, Math.PI * 2);
           ctx.fill();
+          ctx.stroke();
 
           ctx.font = '22px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('💚', 0, 0);
         } else if (h.type === 'magnet') {
-          // Magnet Star 🌟
-          ctx.shadowColor = '#A78BFA';
-          ctx.shadowBlur = 18;
-          ctx.font = '30px sans-serif';
+          // Crisp Magnet Star 🌟
+          ctx.font = '32px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('🌟', 0, 0);
         } else if (h.type === 'freeze') {
-          // Ice Crystal ❄️
-          ctx.shadowColor = '#67E8F9';
-          ctx.shadowBlur = 18;
-          ctx.font = '28px sans-serif';
+          // Crisp Ice Crystal ❄️
+          ctx.font = '30px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillText('❄️', 0, 0);
@@ -562,84 +548,68 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         ctx.restore();
       });
 
-      // Render Particles
+      // Render Particles (Crisp, High-Contrast)
       state.particles.forEach((p) => {
         ctx.save();
         ctx.globalAlpha = Math.max(0, p.alpha);
         ctx.fillStyle = p.color;
-        ctx.shadowColor = p.color;
-        ctx.shadowBlur = 6;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
         ctx.restore();
       });
 
-      // Render Floating Score Popups
+      // Render Floating Score Popups (Sharp Clear Typography)
       state.popups.forEach((pop) => {
         ctx.save();
         ctx.globalAlpha = Math.max(0, pop.alpha);
         ctx.fillStyle = pop.color;
-        ctx.font = `bold ${Math.round(18 * pop.scale)}px 'Plus Jakarta Sans', sans-serif`;
+        ctx.font = `bold ${Math.round(18 * pop.scale)}px 'Plus Jakarta Sans', system-ui, sans-serif`;
         ctx.textAlign = 'center';
-        ctx.shadowColor = pop.color;
-        ctx.shadowBlur = 8;
+        ctx.strokeStyle = '#070B19';
+        ctx.lineWidth = 3;
+        ctx.strokeText(pop.text, pop.x, pop.y);
         ctx.fillText(pop.text, pop.x, pop.y);
         ctx.restore();
       });
 
-      // --- 7. RENDER BASKET (Luminous Rose-Gold & Champagne Luxury) ---
-      ctx.save();
+      // --- 7. RENDER BASKET (Sharp Roségold / Gold Edge) ---
       const bX = state.basketX;
       const bY = LOGICAL_HEIGHT - 54;
       const bW = state.basketWidth;
       const bH = state.basketHeight;
 
-      // Basket Aura based on Active State (Fever, Magnet, Freeze)
-      if (state.feverTimeLeft > 0) {
-        ctx.shadowColor = '#D4AF37';
-        ctx.shadowBlur = 25;
-      } else if (state.magnetTimeLeft > 0) {
-        ctx.shadowColor = '#A78BFA';
-        ctx.shadowBlur = 22;
-      } else if (state.freezeTimeLeft > 0) {
-        ctx.shadowColor = '#38BDF8';
-        ctx.shadowBlur = 20;
-      } else {
-        ctx.shadowColor = '#B76E79';
-        ctx.shadowBlur = 15;
-      }
-
-      // Metallic Roségold / Champagne Gradient Body
+      // Solid Metallic Roségold / Gold Gradient
       const basketGrad = ctx.createLinearGradient(bX, bY, bX, bY + bH);
-      basketGrad.addColorStop(0, '#E8B4B8');
-      basketGrad.addColorStop(0.4, '#D4AF37');
-      basketGrad.addColorStop(1, '#9B525E');
+      basketGrad.addColorStop(0, '#F3C5C9');
+      basketGrad.addColorStop(0.3, '#E5B2B8');
+      basketGrad.addColorStop(0.7, '#D4AF37');
+      basketGrad.addColorStop(1, '#8C4350');
 
       ctx.fillStyle = basketGrad;
-      ctx.strokeStyle = '#F7E7CE';
+      ctx.strokeStyle = state.feverTimeLeft > 0 ? '#FFD700' : state.magnetTimeLeft > 0 ? '#C084FC' : '#FFE4B5';
       ctx.lineWidth = 2.5;
       ctx.beginPath();
-      ctx.roundRect(bX, bY, bW, bH, [4, 4, 20, 20]);
+      ctx.roundRect(bX, bY, bW, bH, [4, 4, 18, 18]);
       ctx.fill();
       ctx.stroke();
 
-      // Golden Rim highlight
-      ctx.fillStyle = '#F7E7CE';
-      ctx.fillRect(bX - 4, bY, bW + 8, 7);
+      // Sharp Polished Golden Top Lip
+      ctx.fillStyle = '#FFF8DC';
+      ctx.fillRect(bX - 3, bY, bW + 6, 6);
 
-      // Center Bow 🎀 or Active Power-up Icon
+      // Center Icon
       ctx.fillStyle = '#FFFFFF';
-      ctx.font = '16px sans-serif';
+      ctx.font = '18px sans-serif';
       ctx.textAlign = 'center';
       if (state.magnetTimeLeft > 0) {
-        ctx.fillText('🧲', bX + bW / 2, bY + bH / 2 + 7);
+        ctx.fillText('🧲', bX + bW / 2, bY + bH / 2 + 8);
       } else if (state.feverTimeLeft > 0) {
-        ctx.fillText('🔥', bX + bW / 2, bY + bH / 2 + 7);
+        ctx.fillText('🔥', bX + bW / 2, bY + bH / 2 + 8);
       } else if (state.freezeTimeLeft > 0) {
-        ctx.fillText('❄️', bX + bW / 2, bY + bH / 2 + 7);
+        ctx.fillText('❄️', bX + bW / 2, bY + bH / 2 + 8);
       } else {
-        ctx.fillText('🎀', bX + bW / 2, bY + bH / 2 + 7);
+        ctx.fillText('🎀', bX + bW / 2, bY + bH / 2 + 8);
       }
 
       ctx.restore();
@@ -695,19 +665,19 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label="Herzen-Fangen Minispiel"
-        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-midnight-950/85 backdrop-blur-md"
+        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-midnight-950/90 backdrop-blur-sm"
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: 15 }}
+          initial={{ opacity: 0, scale: 0.88, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.85, y: 15 }}
-          transition={{ type: 'spring', damping: 20, stiffness: 240 }}
-          className="relative w-full max-w-sm aspect-[400/600] rounded-3xl overflow-hidden shadow-rose-glow border border-rosegold-500/40 bg-midnight-900 flex flex-col justify-between select-none"
+          exit={{ opacity: 0, scale: 0.88, y: 15 }}
+          transition={{ type: 'spring', damping: 22, stiffness: 260 }}
+          className="relative w-full max-w-sm aspect-[400/600] rounded-3xl overflow-hidden shadow-2xl border border-rosegold-400/40 bg-midnight-900 flex flex-col justify-between select-none"
         >
           {/* Header HUD Bar */}
-          <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between p-3.5 bg-midnight-900/80 backdrop-blur-md border-b border-rosegold-500/30">
+          <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between p-3.5 bg-midnight-900/95 border-b border-rosegold-500/30">
             {/* Lives Display */}
-            <div className="flex items-center gap-1 bg-midnight-800/90 border border-rosegold-500/30 px-2.5 py-1 rounded-full text-xs font-bold shadow-inner">
+            <div className="flex items-center gap-1 bg-midnight-800 px-2.5 py-1 rounded-full text-xs font-bold border border-slate-700">
               {[1, 2, 3].map((heartNum) => (
                 <span key={heartNum} className="text-sm">
                   {heartNum <= lives ? '❤️' : '🖤'}
@@ -718,22 +688,22 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             {/* Power-up / Combo Status Badges */}
             <div className="flex items-center gap-1.5">
               {isFever && (
-                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 animate-pulse">
+                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50 animate-pulse">
                   <Flame className="w-3 h-3 text-amber-400" /> 3x Fever
                 </span>
               )}
               {combo >= 5 && !isFever && (
-                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/50">
                   <Zap className="w-3 h-3 text-rose-400" /> {combo}x Combo
                 </span>
               )}
               {magnetActive && (
-                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/40 animate-pulse">
+                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/50 animate-pulse">
                   <Magnet className="w-3 h-3 text-purple-400" /> Magnet
                 </span>
               )}
               {freezeActive && (
-                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 animate-pulse">
+                <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 animate-pulse">
                   <Snowflake className="w-3 h-3 text-cyan-400" /> Zeitlupe
                 </span>
               )}
@@ -742,7 +712,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             {/* Score & Highscore & Close */}
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <div className="text-xs font-bold gold-gradient-text tracking-tight">
+                <div className="text-xs font-bold text-champagne-300 tracking-tight">
                   Punkte: {score}
                 </div>
                 <div className="text-[10px] text-slate-400 font-medium">
@@ -753,7 +723,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               <button
                 onClick={onClose}
                 aria-label="Spiel schließen"
-                className="p-1.5 rounded-full bg-midnight-800/90 text-slate-400 hover:text-white border border-rosegold-500/30 transition-colors"
+                className="p-1.5 rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors"
                 title="Spiel schließen"
               >
                 <X className="w-4 h-4" />
@@ -763,7 +733,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
           {/* New Highscore Banner */}
           {newHighScoreNotice && (
-            <div className="absolute top-16 inset-x-6 z-20 bg-gradient-to-r from-rosegold-500 via-champagne-400 to-rosegold-500 text-midnight-900 font-bold text-center py-1.5 rounded-2xl shadow-gold-glow animate-bounce text-xs">
+            <div className="absolute top-16 inset-x-6 z-20 bg-gradient-to-r from-amber-500 to-rose-500 text-white font-bold text-center py-1.5 rounded-2xl shadow-lg animate-bounce text-xs">
               ✨ Neuer persönlicher Highscore! 👑
             </div>
           )}
@@ -799,30 +769,28 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           >
             <canvas
               ref={canvasRef}
-              width={LOGICAL_WIDTH}
-              height={LOGICAL_HEIGHT}
               className="w-full h-full block"
             />
           </div>
 
           {/* Luxury Game Over Screen Overlay */}
           {isGameOver && (
-            <div className="absolute inset-0 z-30 bg-midnight-950/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center">
+            <div className="absolute inset-0 z-30 bg-midnight-950/95 flex flex-col items-center justify-center p-6 text-center">
               <span className="text-5xl mb-2 animate-bounce">💖</span>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold gold-gradient-text mb-1">
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-champagne-300 mb-1">
                 Spiel beendet
               </h2>
-              <p className="text-xs text-rosegold-200/90 mb-5 font-medium max-w-xs px-2 italic">
+              <p className="text-xs text-rosegold-200 mb-5 font-medium max-w-xs px-2 italic">
                 "{getGameOverLoveMessage(score)}"
               </p>
 
               {/* Stats Card */}
-              <div className="glass-panel rounded-2xl p-4 w-full max-w-xs border border-rosegold-500/30 shadow-rose-glow space-y-2 mb-6">
+              <div className="bg-midnight-900 rounded-2xl p-4 w-full max-w-xs border border-rosegold-500/40 shadow-xl space-y-2 mb-6">
                 <div className="flex justify-between items-center text-xs font-semibold text-slate-300">
                   <span>Deine Punkte:</span>
                   <span className="text-base font-bold font-mono text-champagne-300">{score}</span>
                 </div>
-                <div className="flex justify-between items-center text-xs font-semibold text-slate-300 border-t border-rosegold-500/20 pt-2">
+                <div className="flex justify-between items-center text-xs font-semibold text-slate-300 border-t border-slate-800 pt-2">
                   <span>Rekord:</span>
                   <span className="text-base font-bold font-mono text-amber-400 flex items-center gap-1">
                     <Trophy className="w-3.5 h-3.5" /> {highScore}
@@ -833,7 +801,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               {/* Retry Button */}
               <button
                 onClick={resetGame}
-                className="w-full max-w-xs py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-rose-glow hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm active:scale-95"
+                className="w-full max-w-xs py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm active:scale-95"
               >
                 <RotateCcw className="w-4 h-4" /> Nochmal spielen
               </button>
