@@ -59,62 +59,15 @@ export default function MessageModal({
 
   if (!isOpen || !day) return null;
 
-  const mode = day.id % 8;
   const specialInfo = getSpecialDayInfo(day.date);
 
-  // 8 Unique Framer Motion Animation Variants for the modal card
-  const animationVariants = {
-    1: {
-      initial: { opacity: 0, scale: 0.7, y: 50 },
-      animate: { opacity: 1, scale: 1, y: 0 },
-      exit: { opacity: 0, scale: 0.7, y: 50 },
-      transition: { type: 'spring', damping: 15, stiffness: 220 }
-    },
-    2: {
-      initial: { opacity: 0, rotateY: 90, scale: 0.8 },
-      animate: { opacity: 1, rotateY: 0, scale: 1 },
-      exit: { opacity: 0, rotateY: -90, scale: 0.8 },
-      transition: { duration: 0.5, ease: 'easeOut' }
-    },
-    3: {
-      initial: { opacity: 0, rotate: -15, scale: 0.6 },
-      animate: { opacity: 1, rotate: 0, scale: 1 },
-      exit: { opacity: 0, rotate: 15, scale: 0.6 },
-      transition: { type: 'spring', damping: 12, stiffness: 200 }
-    },
-    4: {
-      initial: { opacity: 0, y: -100, scale: 0.9 },
-      animate: { opacity: 1, y: 0, scale: 1 },
-      exit: { opacity: 0, y: -100, scale: 0.9 },
-      transition: { type: 'spring', damping: 16, stiffness: 240 }
-    },
-    5: {
-      initial: { opacity: 0, scale: 0.3 },
-      animate: { opacity: 1, scale: 1 },
-      exit: { opacity: 0, scale: 0.3 },
-      transition: { duration: 0.45, ease: 'backOut' }
-    },
-    6: {
-      initial: { opacity: 0, x: -100, rotate: -8 },
-      animate: { opacity: 1, x: 0, rotate: 0 },
-      exit: { opacity: 0, x: 100, rotate: 8 },
-      transition: { type: 'spring', damping: 18, stiffness: 220 }
-    },
-    7: {
-      initial: { opacity: 0, scale: 1.3, filter: 'blur(10px)' },
-      animate: { opacity: 1, scale: 1, filter: 'blur(0px)' },
-      exit: { opacity: 0, scale: 1.3, filter: 'blur(10px)' },
-      transition: { duration: 0.5, ease: 'easeOut' }
-    },
-    0: {
-      initial: { opacity: 0, rotateX: 60, y: 40 },
-      animate: { opacity: 1, rotateX: 0, y: 0 },
-      exit: { opacity: 0, rotateX: -60, y: -40 },
-      transition: { duration: 0.5, ease: 'easeOut' }
-    }
+  // Smooth, robust spring popup animation for all days (prevents 3D matrix canvas distortion on Day 2 etc.)
+  const modalAnim = {
+    initial: { opacity: 0, scale: 0.9, y: 15 },
+    animate: { opacity: 1, scale: 1, y: 0 },
+    exit: { opacity: 0, scale: 0.9, y: 15 },
+    transition: { type: 'spring', damping: 24, stiffness: 280 }
   };
-
-  const currentAnim = animationVariants[mode] || animationVariants[1];
 
   // Drag End handler for touch swipe left/right
   const handleDragEnd = (event, info) => {
@@ -165,10 +118,10 @@ export default function MessageModal({
           dragElastic={0.2}
           onDragEnd={handleDragEnd}
           onClick={(e) => e.stopPropagation()}
-          initial={currentAnim.initial}
-          animate={currentAnim.animate}
-          exit={currentAnim.exit}
-          transition={currentAnim.transition}
+          initial={modalAnim.initial}
+          animate={modalAnim.animate}
+          exit={modalAnim.exit}
+          transition={modalAnim.transition}
           className={`w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col justify-between ${
             showScratch ? '' : 'cursor-grab active:cursor-grabbing'
           }`}
