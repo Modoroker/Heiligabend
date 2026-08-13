@@ -6,6 +6,88 @@ const LOGICAL_WIDTH = 400;
 const LOGICAL_HEIGHT = 600;
 const HIGH_SCORE_KEY = 'heartcatch_highscore';
 
+// Helper to draw a crisp vector heart
+function drawVectorHeart(ctx, x, y, size, fillGrad, strokeColor, lineWidth = 2) {
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.beginPath();
+  const topCurveHeight = size * 0.3;
+  ctx.moveTo(0, topCurveHeight);
+  // Top left curve
+  ctx.bezierCurveTo(
+    -size / 2, -topCurveHeight,
+    -size, size / 3,
+    0, size
+  );
+  // Top right curve
+  ctx.bezierCurveTo(
+    size, size / 3,
+    size / 2, -topCurveHeight,
+    0, topCurveHeight
+  );
+  ctx.closePath();
+  ctx.fillStyle = fillGrad;
+  ctx.fill();
+  if (strokeColor) {
+    ctx.strokeStyle = strokeColor;
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+  }
+  // Specular white shine highlight
+  ctx.beginPath();
+  ctx.ellipse(-size * 0.32, 0, size * 0.14, size * 0.26, -Math.PI / 4, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+  ctx.fill();
+
+  ctx.restore();
+}
+
+// Helper to draw a crisp faceted diamond
+function drawVectorDiamond(ctx, x, y, size) {
+  ctx.save();
+  ctx.translate(x, y);
+  const w = size * 0.9;
+  const h = size * 0.85;
+
+  // Outer Diamond Shape
+  ctx.beginPath();
+  ctx.moveTo(0, -h);
+  ctx.lineTo(w, 0);
+  ctx.lineTo(0, h);
+  ctx.lineTo(-w, 0);
+  ctx.closePath();
+
+  const diamondGrad = ctx.createLinearGradient(0, -h, 0, h);
+  diamondGrad.addColorStop(0, '#FFFFFF');
+  diamondGrad.addColorStop(0.3, '#A5F3FC');
+  diamondGrad.addColorStop(0.7, '#00E5FF');
+  diamondGrad.addColorStop(1, '#0284C7');
+  ctx.fillStyle = diamondGrad;
+  ctx.fill();
+
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Inner facets
+  ctx.beginPath();
+  ctx.moveTo(0, -h);
+  ctx.lineTo(0, h);
+  ctx.moveTo(-w, 0);
+  ctx.lineTo(w, 0);
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Sparkling Glint
+  ctx.beginPath();
+  ctx.arc(-w * 0.25, -h * 0.25, 3.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fill();
+
+  ctx.restore();
+}
+
 export default function HeartCatchGame({ isOpen, onClose }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
@@ -50,17 +132,17 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     inputMode: 'none',
   });
 
-  // Generate background ambient stars with crisp coordinates
+  // Generate background ambient stars
   const initBgStars = () => {
     const stars = [];
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 28; i++) {
       stars.push({
         x: Math.random() * LOGICAL_WIDTH,
         y: Math.random() * LOGICAL_HEIGHT,
-        size: Math.random() * 1.8 + 1,
-        speed: Math.random() * 0.8 + 0.2,
+        size: Math.random() * 1.6 + 1,
+        speed: Math.random() * 0.7 + 0.2,
         twinkleSpeed: Math.random() * 2 + 1,
-        opacity: Math.random() * 0.6 + 0.4,
+        opacity: Math.random() * 0.5 + 0.3,
       });
     }
     return stars;
@@ -134,17 +216,17 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     }
   }, []);
 
-  // Particle Explosions (sharp clean dots & stars)
-  const createParticles = useCallback((x, y, color, count = 14) => {
+  // Particle Explosions
+  const createParticles = useCallback((x, y, color, count = 16) => {
     for (let i = 0; i < count; i++) {
       const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5);
-      const speed = Math.random() * 150 + 60;
+      const speed = Math.random() * 160 + 60;
       gameStateRef.current.particles.push({
         x,
         y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        size: Math.random() * 3 + 2,
+        size: Math.random() * 3.5 + 2,
         color,
         alpha: 1.0,
         life: Math.random() * 0.35 + 0.35,
@@ -160,67 +242,67 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       y,
       color,
       alpha: 1.0,
-      life: 0.75,
+      life: 0.8,
       scale: 1.0,
     });
   }, []);
 
-  // Spawn Items with Dynamic Difficulty & Variety
+  // Spawn Items with High Variety & Contrast
   const spawnHeart = useCallback((nowTime) => {
     const currentScore = gameStateRef.current.score;
     const isFrozen = gameStateRef.current.freezeTimeLeft > 0;
     const isFeverNow = gameStateRef.current.feverTimeLeft > 0;
 
-    const baseInterval = isFeverNow ? 420 : Math.max(450, 1050 - Math.floor(currentScore / 100) * 45);
-    const spawnInterval = isFrozen ? baseInterval * 1.5 : baseInterval;
+    const baseInterval = isFeverNow ? 400 : Math.max(450, 1050 - Math.floor(currentScore / 100) * 45);
+    const spawnInterval = isFrozen ? baseInterval * 1.4 : baseInterval;
 
     if (nowTime - gameStateRef.current.lastSpawnTime < spawnInterval) return;
     gameStateRef.current.lastSpawnTime = nowTime;
 
     const rand = Math.random();
     let type = 'classic';
-    let size = 30;
+    let size = 32;
     let speedMult = 1.0;
     let points = 10;
 
-    if (isFeverNow && rand < 0.6) {
+    if (isFeverNow && rand < 0.65) {
       type = rand < 0.35 ? 'diamond' : 'gold';
-      size = 32;
+      size = 34;
       speedMult = 1.3;
       points = type === 'diamond' ? 50 : 25;
-    } else if (rand < 0.60) {
-      type = 'classic'; // 60% Red Heart
-      size = 30;
+    } else if (rand < 0.58) {
+      type = 'classic'; // 58% Ultra-Vivid Red Heart
+      size = 32;
       speedMult = 1.0;
       points = 10;
     } else if (rand < 0.74) {
-      type = 'gold'; // 14% Golden Star Heart
-      size = 32;
+      type = 'gold'; // 16% Radiant Gold Heart
+      size = 33;
       speedMult = 1.3;
       points = 25;
     } else if (rand < 0.82) {
-      type = 'diamond'; // 8% Diamond Heart
-      size = 32;
+      type = 'diamond'; // 8% Brilliant Diamond
+      size = 30;
       speedMult = 1.5;
       points = 50;
     } else if (rand < 0.90) {
-      type = 'broken'; // 8% Dark Broken Heart
+      type = 'broken'; // 8% Danger Dark Broken Heart
       size = 34;
       speedMult = 0.95;
       points = -10;
     } else if (rand < 0.94) {
-      type = 'magnet'; // 4% Magnet Star Power-Up 🌟
-      size = 28;
+      type = 'magnet'; // 4% Magnet Star 🌟
+      size = 30;
       speedMult = 1.2;
       points = 15;
     } else if (rand < 0.97) {
-      type = 'freeze'; // 3% Ice Crystal Power-Up ❄️
-      size = 28;
+      type = 'freeze'; // 3% Ice Crystal ❄️
+      size = 30;
       speedMult = 1.1;
       points = 15;
     } else {
       type = 'emerald'; // 3% Emerald Life Bonus Heart 💚
-      size = 24;
+      size = 28;
       speedMult = 1.6;
       points = 30;
     }
@@ -233,16 +315,16 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       id: Math.random(),
       type,
       x,
-      y: -30,
+      y: -35,
       size,
       speed: finalSpeed,
       points,
       rotation: Math.random() * Math.PI * 2,
-      rotationSpeed: (Math.random() - 0.5) * 2.5,
+      rotationSpeed: (Math.random() - 0.5) * 2.0,
     });
   }, []);
 
-  // Main 60 FPS Game Loop with Crisp High-DPI Scaling
+  // Main 60 FPS Game Loop
   useEffect(() => {
     if (!isOpen) return;
 
@@ -261,7 +343,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      // Handle Crisp High-DPI (Retina) Canvas Resolution
+      // Crisp High-DPI Resolution Scaling
       const dpr = window.devicePixelRatio || 1;
       const rect = container.getBoundingClientRect();
       const displayW = Math.floor(rect.width || LOGICAL_WIDTH);
@@ -272,10 +354,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         canvas.height = displayH * dpr;
       }
 
-      // Stop update loop if Game Over
-      if (state.isGameOver) {
-        return;
-      }
+      if (state.isGameOver) return;
 
       // --- 1. UPDATE TIMERS & POWER-UPS ---
       if (state.feverTimeLeft > 0) {
@@ -317,16 +396,16 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
       // --- 4. UPDATE HEARTS & COLLISION DETECTION ---
       const basketCenterX = state.basketX + state.basketWidth / 2;
-      const basketTop = LOGICAL_HEIGHT - 55;
-      const basketBottom = LOGICAL_HEIGHT - 12;
+      const basketTop = LOGICAL_HEIGHT - 56;
+      const basketBottom = LOGICAL_HEIGHT - 10;
 
       for (let i = state.hearts.length - 1; i >= 0; i--) {
         const item = state.hearts[i];
         
-        // Magnet Power-Up effect
-        if (state.magnetTimeLeft > 0 && item.type !== 'broken' && item.y > 100) {
+        // Magnet Power-Up: Pulls good items straight into basket
+        if (state.magnetTimeLeft > 0 && item.type !== 'broken' && item.y > 80) {
           const dx = basketCenterX - item.x;
-          item.x += dx * 3.8 * dt;
+          item.x += dx * 4.2 * dt;
         }
 
         // Apply movement
@@ -334,14 +413,13 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         item.y += currentSpeed * dt;
         item.rotation += item.rotationSpeed * dt;
 
-        // Collision Check with Basket Catch-Zone
-        const inHorizontalRange = item.x >= state.basketX - 10 && item.x <= state.basketX + state.basketWidth + 10;
-        const inVerticalRange = item.y >= basketTop - 10 && item.y <= basketBottom;
+        // Collision Check with Basket
+        const inHorizontalRange = item.x >= state.basketX - 12 && item.x <= state.basketX + state.basketWidth + 12;
+        const inVerticalRange = item.y >= basketTop - 12 && item.y <= basketBottom;
 
         if (inHorizontalRange && inVerticalRange) {
           state.hearts.splice(i, 1);
 
-          // Handle item-specific effects
           if (item.type === 'broken') {
             state.combo = 0;
             state.feverTimeLeft = 0;
@@ -352,8 +430,8 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             state.lives -= 1;
             setLives(state.lives);
 
-            addPopup('-10 💔', item.x, item.y, '#EF4444');
-            createParticles(item.x, item.y, '#EF4444', 16);
+            addPopup('-10 💔', item.x, item.y, '#FF3333');
+            createParticles(item.x, item.y, '#FF0033', 18);
 
             if (state.lives <= 0) {
               state.isGameOver = true;
@@ -364,52 +442,52 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             setCombo(state.combo);
 
             if (state.combo === 5) {
-              addPopup('🔥 2x COMBO!', basketCenterX, basketTop - 40, '#F59E0B');
-              createParticles(basketCenterX, basketTop, '#F59E0B', 20);
+              addPopup('🔥 2x COMBO!', basketCenterX, basketTop - 40, '#FFB703');
+              createParticles(basketCenterX, basketTop, '#FFB703', 20);
             } else if (state.combo >= 10 && state.feverTimeLeft <= 0) {
               state.feverTimeLeft = 6.0;
               setIsFever(true);
-              addPopup('⚡ 3x FEVER MODE! 🌟', basketCenterX, basketTop - 40, '#F43F5E');
-              createParticles(basketCenterX, basketTop, '#FFD700', 30);
+              addPopup('⚡ 3x FEVER MODE! 🌟', basketCenterX, basketTop - 40, '#FF0055');
+              createParticles(basketCenterX, basketTop, '#FFD700', 32);
             }
 
             if (item.type === 'classic') {
               updateScoreAndCheckHighscore(item.points);
-              addPopup(`+${item.points}`, item.x, item.y, '#FF0054');
-              createParticles(item.x, item.y, '#FF1E56', 12);
+              addPopup(`+${item.points}`, item.x, item.y, '#FF0055');
+              createParticles(item.x, item.y, '#FF0055', 14);
             } else if (item.type === 'gold') {
               updateScoreAndCheckHighscore(item.points);
               addPopup(`+${item.points} ⭐`, item.x, item.y, '#FFD700');
-              createParticles(item.x, item.y, '#FFD700', 16);
+              createParticles(item.x, item.y, '#FFD700', 18);
             } else if (item.type === 'diamond') {
               updateScoreAndCheckHighscore(item.points);
               addPopup(`+${item.points} 💎`, item.x, item.y, '#00E5FF');
-              createParticles(item.x, item.y, '#00E5FF', 22);
+              createParticles(item.x, item.y, '#00E5FF', 24);
             } else if (item.type === 'emerald') {
               updateScoreAndCheckHighscore(item.points);
               const nextLives = Math.min(3, state.lives + 1);
               state.lives = nextLives;
               setLives(nextLives);
-              addPopup('+1 ❤️', item.x, item.y, '#00E676');
-              createParticles(item.x, item.y, '#00E676', 16);
+              addPopup('+1 ❤️', item.x, item.y, '#00FF66');
+              createParticles(item.x, item.y, '#00FF66', 18);
             } else if (item.type === 'magnet') {
               state.magnetTimeLeft = 5.0;
               setMagnetActive(true);
               updateScoreAndCheckHighscore(item.points);
               addPopup('🧲 MAGNET!', item.x, item.y, '#C084FC');
-              createParticles(item.x, item.y, '#C084FC', 18);
+              createParticles(item.x, item.y, '#C084FC', 20);
             } else if (item.type === 'freeze') {
               state.freezeTimeLeft = 4.0;
               setFreezeActive(true);
               updateScoreAndCheckHighscore(item.points);
               addPopup('❄️ ZEITLUPE!', item.x, item.y, '#38BDF8');
-              createParticles(item.x, item.y, '#38BDF8', 18);
+              createParticles(item.x, item.y, '#38BDF8', 20);
             }
           }
           continue;
         }
 
-        // Missed item logic
+        // Missed item
         if (item.y > LOGICAL_HEIGHT + 25) {
           state.hearts.splice(i, 1);
 
@@ -444,72 +522,91 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         if (pop.alpha <= 0) state.popups.splice(i, 1);
       }
 
-      // Update background floating stars
+      // Background stars animation
       state.bgStars.forEach((star) => {
         star.y += star.speed * 18 * dt;
         if (star.y > LOGICAL_HEIGHT) star.y = 0;
       });
 
-      // --- 6. RENDER CANVAS (Razor-Sharp, High-Contrast Crisp Colors) ---
+      // --- 6. RENDER CANVAS (Ultra-Vivid, Maximum Contrast & Crystal Sharp) ---
       ctx.save();
-      // Apply High-DPI resolution scaling
       ctx.scale((displayW / LOGICAL_WIDTH) * dpr, (displayH / LOGICAL_HEIGHT) * dpr);
 
-      // Deep Midnight Crisp Navy Background
+      // Crisp Midnight Blue Background
       const bgGrad = ctx.createLinearGradient(0, 0, 0, LOGICAL_HEIGHT);
-      bgGrad.addColorStop(0, '#090D1A');
-      bgGrad.addColorStop(0.6, '#0D1426');
-      bgGrad.addColorStop(1, '#131B33');
+      bgGrad.addColorStop(0, '#060A17');
+      bgGrad.addColorStop(0.5, '#0B132B');
+      bgGrad.addColorStop(1, '#111827');
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
-      // Render Crisp Twinkling Stars (No Blurry Halos)
+      // Render Crisp Twinkling Stars
       state.bgStars.forEach((star) => {
         const pulse = Math.sin(currentTime / 1000 * star.twinkleSpeed) * 0.3 + 0.7;
-        ctx.fillStyle = `rgba(255, 235, 180, ${star.opacity * pulse})`;
+        ctx.fillStyle = `rgba(255, 240, 200, ${star.opacity * pulse})`;
         ctx.beginPath();
         ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      // Soft Icy Mist when Frozen
+      // Icy Crisp Frame on Freeze Mode (NO dark wash over playfield!)
       if (state.freezeTimeLeft > 0) {
-        ctx.fillStyle = 'rgba(56, 189, 248, 0.12)';
-        ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.7)';
+        ctx.lineWidth = 6;
+        ctx.strokeRect(3, 3, LOGICAL_WIDTH - 6, LOGICAL_HEIGHT - 6);
       }
 
-      // Render Falling Hearts with Crisp Contours & Sharp Colors
+      // --- 7. RENDER ULTRA-VIVID FALLING ITEMS ---
       state.hearts.forEach((h) => {
         ctx.save();
         ctx.translate(h.x, h.y);
         ctx.rotate(h.rotation);
 
-        // Render clean, sharp items without muddy shadow blur
         if (h.type === 'classic') {
-          // Crisp Ruby Red Heart ❤️
-          ctx.font = '32px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('❤️', 0, 0);
-        } else if (h.type === 'gold') {
-          // Crisp Golden Star Heart 💛
-          ctx.font = '34px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('💛', 0, 0);
-        } else if (h.type === 'diamond') {
-          // Crisp Diamond Heart 💎
-          ctx.font = '32px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('💎', 0, 0);
-        } else if (h.type === 'broken') {
-          // Sharp Broken Heart 💔 with crisp red hazard outline
-          ctx.fillStyle = 'rgba(15, 23, 42, 0.95)';
-          ctx.strokeStyle = '#EF4444';
-          ctx.lineWidth = 2;
+          // ❤️ ULTRA-VIVID RUBY RED HEART (Bright vector with radiant outline)
+          // Radiant aura underlay
           ctx.beginPath();
-          ctx.arc(0, 0, 18, 0, Math.PI * 2);
+          ctx.arc(0, 0, 22, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255, 0, 85, 0.25)';
+          ctx.fill();
+
+          const redGrad = ctx.createLinearGradient(0, -18, 0, 18);
+          redGrad.addColorStop(0, '#FF4D6D');
+          redGrad.addColorStop(0.5, '#FF0055');
+          redGrad.addColorStop(1, '#C90038');
+          drawVectorHeart(ctx, 0, -10, 20, redGrad, '#FFFFFF', 2.5);
+        } else if (h.type === 'gold') {
+          // 💛 RADIANT GOLDEN STAR HEART (Bright sunny gold)
+          ctx.beginPath();
+          ctx.arc(0, 0, 24, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(255, 215, 0, 0.3)';
+          ctx.fill();
+
+          const goldGrad = ctx.createLinearGradient(0, -18, 0, 18);
+          goldGrad.addColorStop(0, '#FFF9A6');
+          goldGrad.addColorStop(0.4, '#FFD700');
+          goldGrad.addColorStop(1, '#F59E0B');
+          drawVectorHeart(ctx, 0, -10, 21, goldGrad, '#FFFFFF', 2.5);
+        } else if (h.type === 'diamond') {
+          // 💎 BRILLIANT ELECTRIC CYAN DIAMOND
+          ctx.beginPath();
+          ctx.arc(0, 0, 24, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(0, 229, 255, 0.35)';
+          ctx.fill();
+
+          drawVectorDiamond(ctx, 0, 0, 20);
+        } else if (h.type === 'broken') {
+          // 💔 DANGER BROKEN HEART (Dark core + intense bright red warning border)
+          ctx.beginPath();
+          ctx.arc(0, 0, 22, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.3)';
+          ctx.fill();
+
+          ctx.fillStyle = '#0F172A';
+          ctx.strokeStyle = '#EF4444';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.arc(0, 0, 19, 0, Math.PI * 2);
           ctx.fill();
           ctx.stroke();
 
@@ -518,37 +615,61 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           ctx.textBaseline = 'middle';
           ctx.fillText('💔', 0, 0);
         } else if (h.type === 'emerald') {
-          // Sharp Emerald Heart 💚 with clean green badge
-          ctx.fillStyle = 'rgba(16, 185, 129, 0.3)';
-          ctx.strokeStyle = '#10B981';
-          ctx.lineWidth = 1.5;
+          // 💚 BRIGHT EMERALD GREEN LIFE HEART
           ctx.beginPath();
-          ctx.arc(0, 0, 15, 0, Math.PI * 2);
+          ctx.arc(0, 0, 22, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(0, 255, 102, 0.35)';
+          ctx.fill();
+
+          const greenGrad = ctx.createLinearGradient(0, -16, 0, 16);
+          greenGrad.addColorStop(0, '#B9F6CA');
+          greenGrad.addColorStop(0.5, '#00E676');
+          greenGrad.addColorStop(1, '#00C853');
+          drawVectorHeart(ctx, 0, -8, 17, greenGrad, '#FFFFFF', 2.5);
+        } else if (h.type === 'magnet') {
+          // 🌟 MAGNET STAR POWER-UP
+          ctx.beginPath();
+          ctx.arc(0, 0, 22, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(192, 132, 252, 0.35)';
+          ctx.fill();
+
+          ctx.fillStyle = '#7C3AED';
+          ctx.strokeStyle = '#F3E8FF';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.arc(0, 0, 18, 0, Math.PI * 2);
           ctx.fill();
           ctx.stroke();
 
           ctx.font = '22px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillText('💚', 0, 0);
-        } else if (h.type === 'magnet') {
-          // Crisp Magnet Star 🌟
-          ctx.font = '32px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('🌟', 0, 0);
+          ctx.fillText('🧲', 0, 1);
         } else if (h.type === 'freeze') {
-          // Crisp Ice Crystal ❄️
-          ctx.font = '30px sans-serif';
+          // ❄️ ICE CRYSTAL POWER-UP
+          ctx.beginPath();
+          ctx.arc(0, 0, 22, 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(56, 189, 248, 0.35)';
+          ctx.fill();
+
+          ctx.fillStyle = '#0284C7';
+          ctx.strokeStyle = '#E0F2FE';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.arc(0, 0, 18, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.font = '22px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.fillText('❄️', 0, 0);
+          ctx.fillText('❄️', 0, 1);
         }
 
         ctx.restore();
       });
 
-      // Render Particles (Crisp, High-Contrast)
+      // Render Particles
       state.particles.forEach((p) => {
         ctx.save();
         ctx.globalAlpha = Math.max(0, p.alpha);
@@ -559,43 +680,42 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         ctx.restore();
       });
 
-      // Render Floating Score Popups (Sharp Clear Typography)
+      // Render Floating Popups
       state.popups.forEach((pop) => {
         ctx.save();
         ctx.globalAlpha = Math.max(0, pop.alpha);
         ctx.fillStyle = pop.color;
         ctx.font = `bold ${Math.round(18 * pop.scale)}px 'Plus Jakarta Sans', system-ui, sans-serif`;
         ctx.textAlign = 'center';
-        ctx.strokeStyle = '#070B19';
-        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#050814';
+        ctx.lineWidth = 3.5;
         ctx.strokeText(pop.text, pop.x, pop.y);
         ctx.fillText(pop.text, pop.x, pop.y);
         ctx.restore();
       });
 
-      // --- 7. RENDER BASKET (Sharp Roségold / Gold Edge) ---
+      // --- 8. RENDER BASKET ---
       const bX = state.basketX;
       const bY = LOGICAL_HEIGHT - 54;
       const bW = state.basketWidth;
       const bH = state.basketHeight;
 
-      // Solid Metallic Roségold / Gold Gradient
       const basketGrad = ctx.createLinearGradient(bX, bY, bX, bY + bH);
-      basketGrad.addColorStop(0, '#F3C5C9');
-      basketGrad.addColorStop(0.3, '#E5B2B8');
+      basketGrad.addColorStop(0, '#FCE7F3');
+      basketGrad.addColorStop(0.3, '#E8B4B8');
       basketGrad.addColorStop(0.7, '#D4AF37');
-      basketGrad.addColorStop(1, '#8C4350');
+      basketGrad.addColorStop(1, '#831843');
 
       ctx.fillStyle = basketGrad;
-      ctx.strokeStyle = state.feverTimeLeft > 0 ? '#FFD700' : state.magnetTimeLeft > 0 ? '#C084FC' : '#FFE4B5';
-      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = state.feverTimeLeft > 0 ? '#FFD700' : state.magnetTimeLeft > 0 ? '#C084FC' : '#FFFBEB';
+      ctx.lineWidth = 3;
       ctx.beginPath();
       ctx.roundRect(bX, bY, bW, bH, [4, 4, 18, 18]);
       ctx.fill();
       ctx.stroke();
 
-      // Sharp Polished Golden Top Lip
-      ctx.fillStyle = '#FFF8DC';
+      // Golden Top Lip
+      ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(bX - 3, bY, bW + 6, 6);
 
       // Center Icon
@@ -621,7 +741,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     return () => cancelAnimationFrame(animationFrameId);
   }, [isOpen, resetGame, spawnHeart, updateScoreAndCheckHighscore, createParticles, addPopup]);
 
-  // Input Listeners (Keyboard, Touch, Mouse)
+  // Input Listeners
   useEffect(() => {
     if (!isOpen) return;
 
@@ -651,7 +771,6 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  // Romantic Love Message on Game Over based on Score
   const getGameOverLoveMessage = (finalScore) => {
     if (finalScore >= 350) return 'Unglaublich! Du hast mein ganzes Herz erobert! 👑❤️';
     if (finalScore >= 200) return 'Wundervoll gespielt! Du bist mein wertvollster Schatz. ✨💖';
@@ -672,7 +791,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.88, y: 15 }}
           transition={{ type: 'spring', damping: 22, stiffness: 260 }}
-          className="relative w-full max-w-sm aspect-[400/600] rounded-3xl overflow-hidden shadow-2xl border border-rosegold-400/40 bg-midnight-900 flex flex-col justify-between select-none"
+          className="relative w-full max-w-sm aspect-[400/600] rounded-3xl overflow-hidden shadow-2xl border-2 border-rosegold-400/50 bg-midnight-900 flex flex-col justify-between select-none"
         >
           {/* Header HUD Bar */}
           <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between p-3.5 bg-midnight-900/95 border-b border-rosegold-500/30">
