@@ -119,6 +119,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     popups: [],
     bgStars: [],
     lastSpawnTime: 0,
+    lastMagnetSpawnTime: 0,
     keysPressed: { ArrowLeft: false, ArrowRight: false },
     score: 0,
     lives: 3,
@@ -151,6 +152,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
   // Reset Game
   const resetGame = useCallback(() => {
     const savedHighScore = parseInt(localStorage.getItem(HIGH_SCORE_KEY) || '0', 10);
+    const now = performance.now();
     gameStateRef.current = {
       basketX: LOGICAL_WIDTH / 2 - 45,
       targetBasketX: LOGICAL_WIDTH / 2 - 45,
@@ -160,7 +162,8 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       particles: [],
       popups: [],
       bgStars: initBgStars(),
-      lastSpawnTime: performance.now(),
+      lastSpawnTime: now,
+      lastMagnetSpawnTime: now - 5000, // First magnet can appear after ~15s
       keysPressed: { ArrowLeft: false, ArrowRight: false },
       score: 0,
       lives: 3,
@@ -247,17 +250,18 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     });
   }, []);
 
-  // Spawn Items with High Variety & Contrast
+  // Spawn Items with Balanced Magnet Pacing & Variety
   const spawnHeart = useCallback((nowTime) => {
-    const currentScore = gameStateRef.current.score;
-    const isFrozen = gameStateRef.current.freezeTimeLeft > 0;
-    const isFeverNow = gameStateRef.current.feverTimeLeft > 0;
+    const state = gameStateRef.current;
+    const currentScore = state.score;
+    const isFrozen = state.freezeTimeLeft > 0;
+    const isFeverNow = state.feverTimeLeft > 0;
 
     const baseInterval = isFeverNow ? 400 : Math.max(450, 1050 - Math.floor(currentScore / 100) * 45);
     const spawnInterval = isFrozen ? baseInterval * 1.4 : baseInterval;
 
-    if (nowTime - gameStateRef.current.lastSpawnTime < spawnInterval) return;
-    gameStateRef.current.lastSpawnTime = nowTime;
+    if (nowTime - state.lastSpawnTime < spawnInterval) return;
+    state.lastSpawnTime = nowTime;
 
     const rand = Math.random();
     let type = 'classic';
@@ -265,43 +269,50 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     let speedMult = 1.0;
     let points = 10;
 
-    if (isFeverNow && rand < 0.65) {
+    // --- Magnet Spawn Control (15-20s Pacing, No Duplicates) ---
+    const timeSinceLastMagnet = nowTime - (state.lastMagnetSpawnTime || 0);
+    const isMagnetActive = state.magnetTimeLeft > 0;
+    const magnetPityTrigger = !isMagnetActive && timeSinceLastMagnet >= 20000;
+    const magnetCooldownPassed = !isMagnetActive && timeSinceLastMagnet >= 14000;
+
+    if (magnetPityTrigger || (magnetCooldownPassed && Math.random() < 0.08)) {
+      type = 'magnet'; // Guaranteed regular magnet drop every 15-20s!
+      size = 32;
+      speedMult = 1.15;
+      points = 15;
+      state.lastMagnetSpawnTime = nowTime;
+    } else if (isFeverNow && rand < 0.65) {
       type = rand < 0.35 ? 'diamond' : 'gold';
       size = 34;
       speedMult = 1.3;
       points = type === 'diamond' ? 50 : 25;
-    } else if (rand < 0.58) {
-      type = 'classic'; // 58% Ultra-Vivid Red Heart
+    } else if (rand < 0.60) {
+      type = 'classic'; // 60% Ultra-Vivid Red Heart
       size = 32;
       speedMult = 1.0;
       points = 10;
-    } else if (rand < 0.74) {
+    } else if (rand < 0.76) {
       type = 'gold'; // 16% Radiant Gold Heart
       size = 33;
       speedMult = 1.3;
       points = 25;
-    } else if (rand < 0.82) {
+    } else if (rand < 0.84) {
       type = 'diamond'; // 8% Brilliant Diamond
       size = 30;
       speedMult = 1.5;
       points = 50;
-    } else if (rand < 0.90) {
+    } else if (rand < 0.92) {
       type = 'broken'; // 8% Danger Dark Broken Heart
       size = 34;
       speedMult = 0.95;
       points = -10;
-    } else if (rand < 0.94) {
-      type = 'magnet'; // 4% Magnet Star 🌟
-      size = 30;
-      speedMult = 1.2;
-      points = 15;
-    } else if (rand < 0.97) {
-      type = 'freeze'; // 3% Ice Crystal ❄️
+    } else if (rand < 0.96) {
+      type = 'freeze'; // 4% Ice Crystal ❄️
       size = 30;
       speedMult = 1.1;
       points = 15;
     } else {
-      type = 'emerald'; // 3% Emerald Life Bonus Heart 💚
+      type = 'emerald'; // 4% Emerald Life Bonus Heart 💚
       size = 28;
       speedMult = 1.6;
       points = 30;
@@ -311,7 +322,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     const finalSpeed = isFrozen ? baseSpeed * speedMult * 0.5 : baseSpeed * speedMult;
     const x = Math.random() * (LOGICAL_WIDTH - 70) + 35;
 
-    gameStateRef.current.hearts.push({
+    state.hearts.push({
       id: Math.random(),
       type,
       x,
@@ -401,11 +412,10 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
       for (let i = state.hearts.length - 1; i >= 0; i--) {
         const item = state.hearts[i];
-        
-        // Magnet Power-Up: Pulls good items straight into basket
+          // Magnet Power-Up: Pulls good items straight into basket
         if (state.magnetTimeLeft > 0 && item.type !== 'broken' && item.y > 80) {
           const dx = basketCenterX - item.x;
-          item.x += dx * 4.2 * dt;
+          item.x += dx * 5.2 * dt;
         }
 
         // Apply movement
@@ -458,7 +468,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             } else if (item.type === 'gold') {
               updateScoreAndCheckHighscore(item.points);
               addPopup(`+${item.points} ⭐`, item.x, item.y, '#FFD700');
-              createParticles(item.x, item.y, '#FFD700', 18);
+              createParticles(item.x, item.y, '#FFD700', 16);
             } else if (item.type === 'diamond') {
               updateScoreAndCheckHighscore(item.points);
               addPopup(`+${item.points} 💎`, item.x, item.y, '#00E5FF');
@@ -471,11 +481,12 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               addPopup('+1 ❤️', item.x, item.y, '#00FF66');
               createParticles(item.x, item.y, '#00FF66', 18);
             } else if (item.type === 'magnet') {
-              state.magnetTimeLeft = 5.0;
+              state.magnetTimeLeft = 6.0;
+              state.lastMagnetSpawnTime = performance.now();
               setMagnetActive(true);
               updateScoreAndCheckHighscore(item.points);
-              addPopup('🧲 MAGNET!', item.x, item.y, '#C084FC');
-              createParticles(item.x, item.y, '#C084FC', 20);
+              addPopup('🧲 MAGNET AKTIV!', item.x, item.y, '#C084FC');
+              createParticles(item.x, item.y, '#C084FC', 22);
             } else if (item.type === 'freeze') {
               state.freezeTimeLeft = 4.0;
               setFreezeActive(true);
