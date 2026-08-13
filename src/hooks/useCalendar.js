@@ -39,12 +39,12 @@ export function useCalendar() {
   // Cached devDate reference to avoid re-parsing URL on every single interval tick
   const devDateOffsetRef = useRef(null);
 
-  // Runtime fetch for /messages.json (avoids large static bundle while keeping 100% offline service-worker caching)
+  // Runtime fetch for /messages.json (optimized for PWA offline cache and lightweight bundle)
   useEffect(() => {
     let isMounted = true;
     fetch('/messages.json')
       .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch messages.json');
+        if (!res.ok) throw new Error('Failed to fetch /messages.json');
         return res.json();
       })
       .then((data) => {
@@ -54,17 +54,8 @@ export function useCalendar() {
         }
       })
       .catch((err) => {
-        console.warn('Failed to load /messages.json via fetch, falling back to dynamic import:', err);
-        import('../data/messages.json')
-          .then((mod) => {
-            if (isMounted) {
-              setMessages(mod.default || mod || []);
-              setIsLoadingMessages(false);
-            }
-          })
-          .catch(() => {
-            if (isMounted) setIsLoadingMessages(false);
-          });
+        console.error('Error loading /messages.json:', err);
+        if (isMounted) setIsLoadingMessages(false);
       });
 
     return () => {
@@ -173,7 +164,7 @@ export function useCalendar() {
     });
   }, []);
 
-  // Validate Admin PIN (e.g. 2412 or NINA)
+  // Validate Admin PIN (e.g. 2412, NINA, HEILIGABEND)
   const verifyAndUnlockSecret = useCallback((pin) => {
     const validPins = ['2412', 'NINA', 'HEILIGABEND'];
     const cleanPin = String(pin || '').trim().toUpperCase();

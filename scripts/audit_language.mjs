@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
 
-const messagesPath = path.join(rootDir, 'src', 'data', 'messages.json');
+const messagesPath = path.join(rootDir, 'public', 'messages.json');
 const bonusPath = path.join(rootDir, 'src', 'data', 'bonusMessages.json');
 
 const messages = JSON.parse(fs.readFileSync(messagesPath, 'utf8'));
