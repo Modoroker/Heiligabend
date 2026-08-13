@@ -279,14 +279,6 @@ function drawVectorDiamond(ctx, x, y, size, fillStyle) {
   ctx.restore();
 }
 
-// Static love messages on game over
-function getGameOverLoveMessage(finalScore) {
-  if (finalScore >= 350) return 'Unglaublich! Du hast mein ganzes Herz erobert! 👑❤️';
-  if (finalScore >= 200) return 'Wundervoll gespielt! Du bist mein wertvollster Schatz. ✨💖';
-  if (finalScore >= 100) return 'Toll gemacht, mein Schatz! Ich liebe dein Lächeln. 🌹';
-  return 'Jeder Versuch ist wunderschön – genau wie du! ❤️';
-}
-
 // ==========================================
 // 4. MAIN REACT COMPONENT
 // ==========================================
@@ -1321,12 +1313,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           {isGameOver && (
             <div className="absolute inset-0 z-30 bg-midnight-950/95 flex flex-col items-center justify-center p-6 text-center">
               <span className="text-5xl mb-2 animate-bounce">💖</span>
-              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-champagne-300 mb-1">
+              <h2 className="text-2xl sm:text-3xl font-serif font-bold text-champagne-300 mb-6">
                 {TEXTS.GAME_OVER}
               </h2>
-              <p className="text-xs text-rosegold-200 mb-5 font-medium max-w-xs px-2 italic">
-                "{getGameOverLoveMessage(score)}"
-              </p>
 
               {/* Stats Card */}
               <div className="bg-midnight-900 rounded-2xl p-4 w-full max-w-xs border border-rosegold-500/40 shadow-xl space-y-2 mb-6">

@@ -25,68 +25,55 @@ async function prepareAssets() {
 
   const browser = await chromium.launch();
   const page = await browser.newPage();
+  await page.setContent('<!DOCTYPE html><html><body><canvas id="c"></canvas></body></html>');
 
   for (const item of assets) {
     const filePath = path.join(artifactsDir, item.src);
     if (!fs.existsSync(filePath)) {
-      console.warn('File not found:', filePath);
+      console.error('File NOT found:', filePath);
       continue;
     }
 
     const base64 = fs.readFileSync(filePath).toString('base64');
-    const dataUrl = `data:image/jpeg;base64,${base64}`;
 
-    const html = `
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <style>
-            body { margin: 0; background: transparent; overflow: hidden; }
-            canvas { display: block; }
-          </style>
-        </head>
-        <body>
-          <canvas id="c" width="${item.size}" height="${item.size}"></canvas>
-          <script>
-            const img = new Image();
-            img.onload = () => {
-              const c = document.getElementById('c');
-              const ctx = c.getContext('2d');
-              ctx.drawImage(img, 0, 0, ${item.size}, ${item.size});
+    const dataUrlResult = await page.evaluate(async ({ base64Data, size }) => {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          const c = document.getElementById('c');
+          c.width = size;
+          c.height = size;
+          const ctx = c.getContext('2d');
+          ctx.clearRect(0, 0, size, size);
+          ctx.drawImage(img, 0, 0, size, size);
 
-              // Process transparent alpha for black background
-              const imgData = ctx.getImageData(0, 0, ${item.size}, ${item.size});
-              const d = imgData.data;
-              for (let i = 0; i < d.length; i += 4) {
-                const r = d[i], g = d[i+1], b = d[i+2];
-                const lum = Math.max(r, g, b);
-                if (lum < 10) {
-                  d[i+3] = 0; // Pure transparent
-                } else if (lum < 40) {
-                  // Smooth anti-aliased edge falloff
-                  d[i+3] = Math.round(((lum - 10) / 30) * 255);
-                }
-              }
-              ctx.putImageData(imgData, 0, 0);
-              window.renderDone = true;
-            };
-            img.src = '${dataUrl}';
-          </script>
-        </body>
-      </html>
-    `;
+          const imgData = ctx.getImageData(0, 0, size, size);
+          const d = imgData.data;
+          for (let i = 0; i < d.length; i += 4) {
+            const r = d[i], g = d[i + 1], b = d[i + 2];
+            const lum = Math.max(r, g, b);
+            if (lum < 15) {
+              d[i + 3] = 0;
+            } else if (lum < 50) {
+              d[i + 3] = Math.round(((lum - 15) / 35) * 255);
+            }
+          }
+          ctx.putImageData(imgData, 0, 0);
+          resolve(c.toDataURL('image/png'));
+        };
+        img.onerror = (e) => reject(new Error('Failed to load image in page'));
+        img.src = `data:image/jpeg;base64,${base64Data}`;
+      });
+    }, { base64Data: base64, size: item.size });
 
-    await page.setViewportSize({ width: item.size, height: item.size });
-    await page.setContent(html);
-    await page.waitForFunction(() => window.renderDone === true);
-
+    const pngBuffer = Buffer.from(dataUrlResult.replace(/^data:image\/png;base64,/, ''), 'base64');
     const outPath = path.join(outDir, item.name);
-    await page.screenshot({ path: outPath, type: 'png', omitBackground: true });
-    console.log(`✅ Exported 3D sprite: ${item.name} (${item.size}x${item.size})`);
+    fs.writeFileSync(outPath, pngBuffer);
+    console.log(`✅ Saved ${item.name} (${item.size}x${item.size}, ${pngBuffer.length} bytes)`);
   }
 
   await browser.close();
-  console.log('🎉 All 3D sprites ready in public/sprites/!');
+  console.log('🎉 All 3D sprites exported with full data!');
 }
 
 prepareAssets().catch(console.error);
