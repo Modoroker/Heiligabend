@@ -39,40 +39,40 @@ export function useCalendar() {
   // Cached devDate reference to avoid re-parsing URL on every single interval tick
   const devDateOffsetRef = useRef(null);
 
-  // Runtime fetch with retry mechanism (up to 3 attempts with backoff)
+  // Runtime fetch with AbortController and Exponential Backoff
   useEffect(() => {
+    const controller = new AbortController();
     let isMounted = true;
-    let attempts = 0;
     const maxAttempts = 3;
 
-    const fetchMessages = () => {
-      attempts += 1;
-      fetch('/messages.json')
-        .then((res) => {
-          if (!res.ok) throw new Error(`HTTP error ${res.status}`);
-          return res.json();
-        })
-        .then((data) => {
-          if (isMounted) {
-            setMessages(Array.isArray(data) ? data : []);
-            setIsLoadingMessages(false);
-          }
-        })
-        .catch((err) => {
-          console.warn(`Attempt ${attempts} failed to load /messages.json:`, err);
-          if (attempts < maxAttempts && isMounted) {
-            const delay = attempts * 500;
-            setTimeout(fetchMessages, delay);
-          } else if (isMounted) {
-            console.error('All retry attempts to fetch /messages.json failed.');
-            setIsLoadingMessages(false);
-          }
-        });
+    const fetchWithRetry = async (attempt = 1) => {
+      try {
+        const res = await fetch('/messages.json', { signal: controller.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        if (isMounted) {
+          setMessages(Array.isArray(data) ? data : []);
+          setIsLoadingMessages(false);
+        }
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        console.warn(`Attempt ${attempt} failed to load /messages.json:`, err);
+        if (attempt < maxAttempts && isMounted) {
+          const delay = Math.min(500 * Math.pow(2, attempt - 1), 4000);
+          setTimeout(() => {
+            if (isMounted) fetchWithRetry(attempt + 1);
+          }, delay);
+        } else if (isMounted) {
+          console.error('All retry attempts to fetch /messages.json failed.');
+          setIsLoadingMessages(false);
+        }
+      }
     };
 
-    fetchMessages();
+    fetchWithRetry(1);
 
     return () => {
+      controller.abort();
       isMounted = false;
     };
   }, []);

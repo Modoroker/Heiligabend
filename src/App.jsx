@@ -5,6 +5,7 @@ import LockOverlay from './components/LockOverlay';
 import CalendarGrid from './components/CalendarGrid';
 import MilestoneCard from './components/MilestoneCard';
 import NotificationBanner from './components/NotificationBanner';
+import PWAUpdateToast from './components/PWAUpdateToast';
 import StatsFooter from './components/StatsFooter';
 import { useCalendar } from './hooks/useCalendar';
 import { getTimeOfDayTheme } from './utils/timeOfDayUtils';
@@ -59,6 +60,9 @@ export default function App() {
 
   return (
     <div className={`min-h-screen ${timeTheme.gradientClass} text-slate-100 flex flex-col justify-between max-w-md mx-auto relative border-x border-rosegold-500/10 shadow-2xl transition-colors duration-1000`}>
+      {/* PWA New Version Update Toast */}
+      <PWAUpdateToast />
+
       {/* Push Notification Banner */}
       <NotificationBanner />
 
