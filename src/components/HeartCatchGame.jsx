@@ -532,33 +532,33 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       size = 34;
       speedMult = 1.3;
       points = type === 'diamond' ? 50 : 25;
-    } else if (rand < 0.60) {
-      type = 'classic';
+    } else if (rand < 0.72) {
+      type = 'classic'; // 72% Red Hearts (deutlich mehr rote Herzen!)
       size = 32;
       speedMult = 1.0;
       points = 10;
-    } else if (rand < 0.76) {
-      type = 'gold';
+    } else if (rand < 0.86) {
+      type = 'gold'; // 14% Goldene Herzen
       size = 33;
       speedMult = 1.3;
       points = 25;
-    } else if (rand < 0.84) {
-      type = 'diamond';
+    } else if (rand < 0.91) {
+      type = 'diamond'; // 5% Diamanten
       size = 30;
       speedMult = 1.5;
       points = 50;
-    } else if (rand < 0.92) {
-      type = 'broken';
+    } else if (rand < 0.95) {
+      type = 'broken'; // 4% Gefahr / Gebrochenes Herz
       size = 34;
       speedMult = 0.95;
       points = -10;
-    } else if (rand < 0.96) {
-      type = 'freeze';
+    } else if (rand < 0.975) {
+      type = 'freeze'; // 2.5% Zeitlupe
       size = 30;
       speedMult = 1.1;
       points = 15;
     } else {
-      type = 'emerald';
+      type = 'emerald'; // 2.5% Extra Leben
       size = 28;
       speedMult = 1.6;
       points = 30;
@@ -786,7 +786,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         if (item.y > LOGICAL_HEIGHT + 25) {
           state.hearts.splice(i, 1);
 
-          if (item.type === 'classic') {
+          if (item.type === 'classic' || item.type === 'gold') {
             state.combo = 0;
             setCombo(0);
             state.lives -= 1;
@@ -798,7 +798,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               setIsGameOver(true);
               setLiveAnnouncement(`Spiel beendet! Punktzahl: ${state.score}`);
             }
-          } else if (item.type === 'gold' || item.type === 'diamond' || item.type === 'emerald') {
+          } else if (item.type === 'diamond' || item.type === 'emerald') {
             state.combo = 0;
             setCombo(0);
           }
