@@ -39,8 +39,8 @@ export default function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full glass-panel border-b border-rosegold-500/20 px-4 py-3 shadow-lg">
-      <div className="max-w-md mx-auto flex items-center justify-between">
+    <header className="sticky top-0 z-40 w-full glass-panel border-b border-rosegold-500/20 px-3 sm:px-4 py-2.5 sm:py-3 shadow-lg">
+      <div className="max-w-md mx-auto flex items-center justify-between gap-2">
         {/* Brand Logo with EKG Heartbeat & Secret Code Trigger */}
         <div
           role="button"
@@ -48,26 +48,26 @@ export default function Navbar({
           aria-label="365 Gründe, warum ich dich liebe (3x tippen für Geheimcode)"
           onClick={handleLogoTap}
           onKeyDown={handleKeyDown}
-          className="flex items-center gap-2 cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-rosegold-400 rounded-lg p-1"
+          className="flex items-center gap-2 cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-rosegold-400 rounded-lg p-1 min-w-0 flex-1"
           title="Tippe 3x auf den Titel für den Geheimcode-Dialog"
         >
-          <div className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/30 flex items-center justify-center">
-            <Heart className="w-5 h-5 text-red-400 fill-red-400/40 ekg-heartbeat" />
+          <div className="w-8 h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/30 flex-shrink-0 flex items-center justify-center">
+            <Heart className="w-4 h-4 text-red-400 fill-red-400/40 ekg-heartbeat" />
           </div>
-          <div>
-            <h1 className="text-sm sm:text-base font-serif font-bold gold-gradient-text tracking-wide leading-tight">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xs sm:text-base font-serif font-bold gold-gradient-text tracking-wide leading-tight truncate">
               365 Gründe, warum ich dich liebe
             </h1>
           </div>
         </div>
 
-        {/* Right Actions, Game Button & Streak */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        {/* Right Actions: Admin, Game, Gift Box, and Streak */}
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           {adminBypass && (
             <button
               onClick={onResetAdmin}
               aria-label="Admin Freigabe zurücksetzen"
-              className="flex items-center gap-1 px-2 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-medium"
+              className="flex items-center gap-1 px-2 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] sm:text-[11px] font-medium flex-shrink-0"
               title="Admin Freigabe zurücksetzen"
             >
               <KeyRound className="w-3 h-3" /> Admin
@@ -78,30 +78,30 @@ export default function Navbar({
           <button
             onClick={onOpenGameModal}
             aria-label="Herzen-Fang Minispiel öffnen"
-            className="p-1.5 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 hover:bg-pink-500/30 transition-all relative"
+            className="w-8 h-8 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 hover:bg-pink-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm"
             title="Herzen-Fang Minispiel spielen 🎮"
           >
             <Gamepad2 className="w-4 h-4 text-pink-300 animate-pulse" />
           </button>
 
-          {/* Bonus Secret Messages Gift Modal */}
+          {/* Bonus Secret Messages Gift Modal 🎁 (Fixed size to never squash!) */}
           <button
             onClick={onOpenBonusModal}
             aria-label="Geheim-Nachrichten und Geschenke öffnen"
-            className="p-1 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 hover:bg-rosegold-500/30 transition-all relative flex items-center justify-center"
+            className="w-8 h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 hover:bg-rosegold-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm p-1"
             title="Geheim-Nachrichten öffnen 🎁"
           >
-            <img src="/sprites/gift-box.png" alt="Geschenk" className="w-5 h-5 object-contain animate-bounce" />
+            <img src="/sprites/gift-box.png" alt="Geschenk" className="w-5 h-5 object-contain animate-bounce pointer-events-none" />
           </button>
 
           {/* Streak Badge */}
           <div
             aria-label={`Fortschritt: ${streak} von ${total} Gründen geöffnet`}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-midnight-800/90 border border-rosegold-500/30 text-xs font-semibold shadow-inner"
+            className="flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full bg-midnight-800/90 border border-rosegold-500/30 text-[11px] sm:text-xs font-semibold shadow-inner flex-shrink-0"
           >
-            <Flame className="w-4 h-4 text-amber-400 fill-amber-400/20 animate-pulse" />
-            <span className="text-rosegold-200">{streak}</span>
-            <span className="text-slate-500 font-normal">/ {total}</span>
+            <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20 animate-pulse" />
+            <span className="text-rosegold-200 font-mono">{streak}</span>
+            <span className="text-slate-500 font-normal font-mono text-[10px]">/{total}</span>
           </div>
         </div>
       </div>
