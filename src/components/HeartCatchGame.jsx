@@ -61,6 +61,9 @@ if (typeof window !== 'undefined') {
   Object.entries(SPRITE_SOURCES).forEach(([key, src]) => {
     const img = new Image();
     img.src = src;
+    if (typeof img.decode === 'function') {
+      img.decode().catch(() => {});
+    }
     loadedSprites[key] = img;
   });
 }
@@ -111,6 +114,12 @@ class SoundEffects {
       gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
       osc.connect(gain);
       gain.connect(this.ctx.destination);
+      osc.onended = () => {
+        try {
+          osc.disconnect();
+          gain.disconnect();
+        } catch {}
+      };
       osc.start();
       osc.stop(this.ctx.currentTime + duration);
     } catch {
@@ -683,7 +692,8 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         state.targetBasketX = state.basketX;
       } else {
         const clampedTarget = Math.max(0, Math.min(LOGICAL_WIDTH - state.basketWidth, state.targetBasketX));
-        state.basketX += (clampedTarget - state.basketX) * Math.min(1.0, GAME_CONFIG.BASKET_LERP * dt);
+        const factor = 1 - Math.exp(-GAME_CONFIG.BASKET_LERP * dt);
+        state.basketX += (clampedTarget - state.basketX) * factor;
       }
     };
 
@@ -952,14 +962,13 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
     const renderParticlesAndPopups = (ctx, state) => {
       state.particles.forEach((p) => {
-        ctx.save();
         ctx.globalAlpha = Math.max(0, p.alpha);
         ctx.fillStyle = p.color;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
-        ctx.restore();
       });
+      ctx.globalAlpha = 1.0;
 
       state.popups.forEach((pop) => {
         ctx.save();

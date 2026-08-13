@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Gift, Lock, Sparkles } from 'lucide-react';
 import bonusMessages from '../data/bonusMessages.json';
@@ -6,6 +6,18 @@ import { fireHeartExplosion } from '../utils/confettiUtils';
 
 export default function BonusMessagesModal({ isOpen, onClose, openedCount, streak, now, adminBypass }) {
   const [selectedBonus, setSelectedBonus] = useState(null);
+
+  // Keyboard navigation (Escape to close)
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -36,11 +48,18 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="bonus-modal-title"
+        onClick={onClose}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md"
+      >
         <motion.div
           initial={{ opacity: 0, scale: 0.85, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.85, y: 20 }}
+          onClick={(e) => e.stopPropagation()}
           className="w-full max-w-md glass-card rounded-3xl p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col max-h-[85vh]"
         >
           {/* Header */}
@@ -50,7 +69,7 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
                 <img src="/sprites/gift-box.png" alt="Geschenkbox" className="w-full h-full object-contain" />
               </div>
               <div>
-                <h3 className="text-base font-serif font-bold gold-gradient-text">
+                <h3 id="bonus-modal-title" className="text-base font-serif font-bold gold-gradient-text">
                   Geheim-Nachrichten
                 </h3>
                 <span className="text-[11px] text-slate-400">

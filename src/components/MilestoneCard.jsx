@@ -26,12 +26,12 @@ export default function MilestoneCard({ openedCount = 0, streak = 0, startDateSt
             <h4 className="text-xs font-bold text-slate-100 font-serif">
               Dein Liebes-Meilenstein
             </h4>
-            <span className="text-[11px] text-slate-400">
-              {isStarted ? (
-                <>Vor <strong className="text-rosegold-200">{daysSinceStart} Tagen</strong> begonnen ❤️</>
-              ) : (
-                <>Startet an <strong className="text-rosegold-200">Heiligabend 2026</strong> 🎄</>
-              )}
+            <span className="text-[11px] text-rosegold-300 font-medium">
+              {daysSinceStart < 0
+                ? 'Startet an Heiligabend 2026 🎄'
+                : daysSinceStart === 1
+                ? 'Vor 1 Tag begonnen ❤️'
+                : `Vor ${daysSinceStart} Tagen begonnen ❤️`}
             </span>
           </div>
         </div>

@@ -4,12 +4,13 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const [isScratched, setIsScratched] = useState(false);
-  const [isDrawing, setIsDrawing] = useState(false);
+  const isDrawingRef = useRef(false);
   const isCompletedRef = useRef(false);
   const hasScratchedRef = useRef(false);
   const lastPointRef = useRef(null);
   const lastCheckTimeRef = useRef(0);
   const pendingCheckRef = useRef(false);
+  const checkTimeoutRef = useRef(null);
 
   // Preload 3D seal image for the scratch surface
   const sealImgRef = useRef(null);
@@ -21,6 +22,10 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
       if (!hasScratchedRef.current) initCanvas();
     };
     sealImgRef.current = img;
+    return () => {
+      img.onload = null;
+      if (checkTimeoutRef.current) clearTimeout(checkTimeoutRef.current);
+    };
   }, []);
 
   // Initialize Canvas luxury scratch layer
@@ -210,7 +215,8 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
       checkScratchPercentage();
     } else if (!pendingCheckRef.current) {
       pendingCheckRef.current = true;
-      setTimeout(() => {
+      if (checkTimeoutRef.current) clearTimeout(checkTimeoutRef.current);
+      checkTimeoutRef.current = setTimeout(() => {
         if (pendingCheckRef.current) {
           pendingCheckRef.current = false;
           lastCheckTimeRef.current = Date.now();
@@ -263,20 +269,20 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   // Mouse Handlers
   const handleMouseDown = (e) => {
     e.stopPropagation();
-    setIsDrawing(true);
+    isDrawingRef.current = true;
     lastPointRef.current = null;
     scratch(e.clientX, e.clientY);
   };
 
   const handleMouseMove = (e) => {
     e.stopPropagation();
-    if (!isDrawing) return;
+    if (!isDrawingRef.current) return;
     scratch(e.clientX, e.clientY);
   };
 
   const handleMouseUp = (e) => {
     if (e) e.stopPropagation();
-    setIsDrawing(false);
+    isDrawingRef.current = false;
     lastPointRef.current = null;
     schedulePercentageCheck(true);
   };
@@ -284,7 +290,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   // Touch Handlers
   const handleTouchStart = (e) => {
     e.stopPropagation();
-    setIsDrawing(true);
+    isDrawingRef.current = true;
     lastPointRef.current = null;
     if (e.touches[0]) {
       scratch(e.touches[0].clientX, e.touches[0].clientY);
@@ -293,13 +299,13 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
 
   const handleTouchMove = (e) => {
     e.stopPropagation();
-    if (!isDrawing || !e.touches[0]) return;
+    if (!isDrawingRef.current || !e.touches[0]) return;
     scratch(e.touches[0].clientX, e.touches[0].clientY);
   };
 
   const handleTouchEnd = (e) => {
     if (e) e.stopPropagation();
-    setIsDrawing(false);
+    isDrawingRef.current = false;
     lastPointRef.current = null;
     schedulePercentageCheck(true);
   };

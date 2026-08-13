@@ -41,6 +41,22 @@ export default function MessageModal({
     }
   };
 
+  // Keyboard navigation (Escape to close, Left/Right arrows to navigate)
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      } else if (e.key === 'ArrowLeft' && hasPrev && !showScratch && onNavigatePrev) {
+        onNavigatePrev();
+      } else if (e.key === 'ArrowRight' && hasNext && !showScratch && onNavigateNext) {
+        onNavigateNext();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose, hasPrev, hasNext, showScratch, onNavigatePrev, onNavigateNext]);
+
   if (!isOpen || !day) return null;
 
   const mode = day.id % 8;
@@ -64,43 +80,43 @@ export default function MessageModal({
       initial: { opacity: 0, rotate: -15, scale: 0.6 },
       animate: { opacity: 1, rotate: 0, scale: 1 },
       exit: { opacity: 0, rotate: 15, scale: 0.6 },
-      transition: { type: 'spring', damping: 12, stiffness: 180 }
+      transition: { type: 'spring', damping: 12, stiffness: 200 }
     },
     4: {
-      initial: { opacity: 0, y: -100 },
-      animate: { opacity: 1, y: 0 },
-      exit: { opacity: 0, y: 100 },
-      transition: { type: 'spring', damping: 18, stiffness: 200 }
+      initial: { opacity: 0, y: -100, scale: 0.9 },
+      animate: { opacity: 1, y: 0, scale: 1 },
+      exit: { opacity: 0, y: -100, scale: 0.9 },
+      transition: { type: 'spring', damping: 16, stiffness: 240 }
     },
     5: {
-      initial: { opacity: 0, scale: 0.2 },
-      animate: { opacity: 1, scale: [0.2, 1.08, 1] },
-      exit: { opacity: 0, scale: 0.5 },
-      transition: { duration: 0.45 }
+      initial: { opacity: 0, scale: 0.3 },
+      animate: { opacity: 1, scale: 1 },
+      exit: { opacity: 0, scale: 0.3 },
+      transition: { duration: 0.45, ease: 'backOut' }
     },
     6: {
-      initial: { opacity: 0, x: -80, rotate: -5 },
+      initial: { opacity: 0, x: -100, rotate: -8 },
       animate: { opacity: 1, x: 0, rotate: 0 },
-      exit: { opacity: 0, x: 80, rotate: 5 },
-      transition: { type: 'spring', damping: 16, stiffness: 190 }
+      exit: { opacity: 0, x: 100, rotate: 8 },
+      transition: { type: 'spring', damping: 18, stiffness: 220 }
     },
     7: {
-      initial: { opacity: 0, y: 120, scale: 0.8 },
-      animate: { opacity: 1, y: 0, scale: 1 },
-      exit: { opacity: 0, y: -120, scale: 0.8 },
-      transition: { type: 'spring', damping: 14, stiffness: 210 }
+      initial: { opacity: 0, scale: 1.3, filter: 'blur(10px)' },
+      animate: { opacity: 1, scale: 1, filter: 'blur(0px)' },
+      exit: { opacity: 0, scale: 1.3, filter: 'blur(10px)' },
+      transition: { duration: 0.5, ease: 'easeOut' }
     },
     0: {
-      initial: { opacity: 0, rotateX: 60, scale: 0.85 },
-      animate: { opacity: 1, rotateX: 0, scale: 1 },
-      exit: { opacity: 0, rotateX: -60, scale: 0.85 },
-      transition: { duration: 0.45, ease: 'easeOut' }
+      initial: { opacity: 0, rotateX: 60, y: 40 },
+      animate: { opacity: 1, rotateX: 0, y: 0 },
+      exit: { opacity: 0, rotateX: -60, y: -40 },
+      transition: { duration: 0.5, ease: 'easeOut' }
     }
   };
 
   const currentAnim = animationVariants[mode] || animationVariants[1];
 
-  // Drag End handler for Tinder-style swiping (only when card is unlocked/freigerubbelt)
+  // Drag End handler for touch swipe left/right
   const handleDragEnd = (event, info) => {
     if (showScratch) return; // Don't swipe while scratch layer is active!
     const swipeThreshold = 50;
@@ -113,11 +129,17 @@ export default function MessageModal({
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md">
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="message-modal-title"
+        onClick={onClose}
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md"
+      >
         {/* Previous Navigation Chevron */}
         {hasPrev && !showScratch && (
           <button
-            onClick={onNavigatePrev}
+            onClick={(e) => { e.stopPropagation(); onNavigatePrev(); }}
             className="absolute left-2 z-50 p-3 rounded-full bg-midnight-800/80 text-rosegold-300 hover:text-white hover:bg-rosegold-500/20 border border-rosegold-500/30 transition-all shadow-rose-glow"
             title="Vorheriger Tag"
           >
@@ -128,7 +150,7 @@ export default function MessageModal({
         {/* Next Navigation Chevron */}
         {hasNext && !showScratch && (
           <button
-            onClick={onNavigateNext}
+            onClick={(e) => { e.stopPropagation(); onNavigateNext(); }}
             className="absolute right-2 z-50 p-3 rounded-full bg-midnight-800/80 text-rosegold-300 hover:text-white hover:bg-rosegold-500/20 border border-rosegold-500/30 transition-all shadow-rose-glow"
             title="Nächster Tag"
           >
@@ -142,6 +164,7 @@ export default function MessageModal({
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.2}
           onDragEnd={handleDragEnd}
+          onClick={(e) => e.stopPropagation()}
           initial={currentAnim.initial}
           animate={currentAnim.animate}
           exit={currentAnim.exit}
