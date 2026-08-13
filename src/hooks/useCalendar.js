@@ -39,24 +39,38 @@ export function useCalendar() {
   // Cached devDate reference to avoid re-parsing URL on every single interval tick
   const devDateOffsetRef = useRef(null);
 
-  // Runtime fetch for /messages.json (optimized for PWA offline cache and lightweight bundle)
+  // Runtime fetch with retry mechanism (up to 3 attempts with backoff)
   useEffect(() => {
     let isMounted = true;
-    fetch('/messages.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch /messages.json');
-        return res.json();
-      })
-      .then((data) => {
-        if (isMounted) {
-          setMessages(Array.isArray(data) ? data : []);
-          setIsLoadingMessages(false);
-        }
-      })
-      .catch((err) => {
-        console.error('Error loading /messages.json:', err);
-        if (isMounted) setIsLoadingMessages(false);
-      });
+    let attempts = 0;
+    const maxAttempts = 3;
+
+    const fetchMessages = () => {
+      attempts += 1;
+      fetch('/messages.json')
+        .then((res) => {
+          if (!res.ok) throw new Error(`HTTP error ${res.status}`);
+          return res.json();
+        })
+        .then((data) => {
+          if (isMounted) {
+            setMessages(Array.isArray(data) ? data : []);
+            setIsLoadingMessages(false);
+          }
+        })
+        .catch((err) => {
+          console.warn(`Attempt ${attempts} failed to load /messages.json:`, err);
+          if (attempts < maxAttempts && isMounted) {
+            const delay = attempts * 500;
+            setTimeout(fetchMessages, delay);
+          } else if (isMounted) {
+            console.error('All retry attempts to fetch /messages.json failed.');
+            setIsLoadingMessages(false);
+          }
+        });
+    };
+
+    fetchMessages();
 
     return () => {
       isMounted = false;
