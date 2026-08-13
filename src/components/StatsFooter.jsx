@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 export default function StatsFooter({ openedCount = 0, total = 365 }) {
   const safeOpened = Number(openedCount) || 0;
@@ -7,34 +7,39 @@ export default function StatsFooter({ openedCount = 0, total = 365 }) {
   const percentage = Math.min(100, Math.max(0, Math.round((safeOpened / safeTotal) * 100)));
 
   return (
-    <footer className="w-full mt-8 pt-6 border-t border-rosegold-500/20 text-center space-y-4 pb-12">
-      {/* Progress Bar */}
-      <div className="max-w-xs mx-auto space-y-2">
-        <div className="flex justify-between text-xs text-slate-400 font-medium">
-          <span>Dein Jahres-Fortschritt</span>
-          <span className="text-rosegold-300 font-mono font-bold">{percentage}%</span>
+    <footer className="w-full mt-6 pt-2 text-center pb-8">
+      {/* Luxury Progress Bar */}
+      <div className="max-w-xs mx-auto space-y-2 px-2">
+        <div className="flex justify-between items-center text-xs">
+          <span className="text-slate-300 font-serif font-medium flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-champagne-400" />
+            Jahres-Fortschritt
+          </span>
+          <span className="px-2.5 py-0.5 rounded-full bg-rosegold-500/20 text-champagne-300 font-mono font-bold text-[11px] border border-rosegold-500/30 shadow-sm">
+            {percentage}%
+          </span>
         </div>
+
         <div
           role="progressbar"
           aria-valuenow={percentage}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-label="Dein Jahres-Fortschritt"
-          className="w-full h-2.5 bg-midnight-800 rounded-full overflow-hidden border border-rosegold-500/20"
+          className="w-full h-3.5 bg-midnight-950/80 rounded-full overflow-hidden p-0.5 border border-rosegold-400/30 shadow-inner relative"
         >
-          <div
-            className="h-full bg-gradient-to-r from-rosegold-500 via-rosegold-400 to-champagne-400 rounded-full transition-all duration-700 shadow-rose-glow"
-            style={{ width: `${Math.max(percentage, 2)}%` }}
-          />
-        </div>
-      </div>
+          {/* Ambient Background Track Glow */}
+          <div className="absolute inset-0 bg-gradient-to-r from-rosegold-500/5 via-champagne-500/10 to-transparent pointer-events-none" />
 
-      {/* Romantic Sign-off - Prominent "Jeden Tag ein Stück von meinem Herzen" with Heart */}
-      <div className="pt-3">
-        <p className="font-serif text-lg sm:text-xl font-bold tracking-wide gold-gradient-text flex items-center justify-center gap-2">
-          <Heart className="w-5 h-5 text-red-400 fill-red-400/30 animate-pulse" />
-          Jeden Tag ein Stück von meinem Herzen
-        </p>
+          {/* Glowing Fill Bar */}
+          <div
+            className="h-full bg-gradient-to-r from-rosegold-500 via-rose-400 to-champagne-300 rounded-full transition-all duration-1000 shadow-[0_0_12px_rgba(232,180,184,0.6)] relative overflow-hidden"
+            style={{ width: `${Math.max(percentage, 2)}%` }}
+          >
+            {/* Shimmer Light Reflection */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/35 to-transparent animate-shimmer" />
+          </div>
+        </div>
       </div>
     </footer>
   );
