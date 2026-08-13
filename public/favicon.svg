@@ -1,22 +1,51 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#E8B4B8"/>
-      <stop offset="50%" stop-color="#B76E79"/>
-      <stop offset="100%" stop-color="#9B525E"/>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="50%" stop-color="#070B19"/>
+      <stop offset="100%" stop-color="#020617"/>
     </linearGradient>
-    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F7E7CE"/>
-      <stop offset="100%" stop-color="#D4AF37"/>
+    <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF5C2"/>
+      <stop offset="30%" stop-color="#E2B774"/>
+      <stop offset="70%" stop-color="#D4AF37"/>
+      <stop offset="100%" stop-color="#996515"/>
     </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="12" result="blur" />
+    <linearGradient id="rubyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B8B"/>
+      <stop offset="40%" stop-color="#FF1744"/>
+      <stop offset="80%" stop-color="#D50032"/>
+      <stop offset="100%" stop-color="#88001F"/>
+    </linearGradient>
+    <filter id="luxuryGlow" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
       <feComposite in="SourceGraphic" in2="blur" operator="over" />
     </filter>
   </defs>
-  <rect width="512" height="512" rx="128" fill="#070B19"/>
-  <circle cx="256" cy="256" r="220" fill="#0B132B" stroke="url(#goldGrad)" stroke-width="6"/>
-  <path d="M256 410 C150 320 80 240 80 170 C80 110 125 70 180 70 C215 70 245 90 256 115 C267 90 297 70 332 70 C387 70 432 110 432 170 C432 240 362 320 256 410 Z" fill="url(#roseGrad)" filter="url(#glow)"/>
-  <circle cx="256" cy="220" r="30" fill="url(#goldGrad)" opacity="0.9"/>
-  <path d="M256 200 L260 215 L275 220 L260 225 L256 240 L252 225 L237 220 L252 215 Z" fill="#070B19"/>
+
+  <!-- Background rounded squircle -->
+  <rect width="512" height="512" rx="130" fill="url(#bgGrad)"/>
+  <rect width="504" height="504" x="4" y="4" rx="126" fill="none" stroke="url(#goldBorder)" stroke-width="4" opacity="0.6"/>
+
+  <!-- Halo sparkle glow -->
+  <circle cx="256" cy="240" r="170" fill="none" stroke="url(#goldBorder)" stroke-width="2" stroke-dasharray="6 8" opacity="0.4"/>
+
+  <!-- Luxury Heart Outline with Gold Frame -->
+  <path d="M256 425 C140 330 65 245 65 165 C65 98 118 52 182 52 C222 52 245 74 256 98 C267 74 290 52 330 52 C394 52 447 98 447 165 C447 245 372 330 256 425 Z" 
+        fill="url(#rubyGrad)" 
+        stroke="url(#goldBorder)" 
+        stroke-width="12" 
+        filter="url(#luxuryGlow)"/>
+
+  <!-- Facet Inner Highlights -->
+  <path d="M256 120 L256 390 M180 80 L256 240 L332 80 M100 170 L256 240 L412 170 M150 280 L256 390 L362 280" 
+        stroke="rgba(255, 255, 255, 0.45)" 
+        stroke-width="3" 
+        stroke-linecap="round"
+        fill="none"/>
+
+  <!-- Center Diamond Sparkle -->
+  <circle cx="256" cy="220" r="14" fill="#FFFFFF" opacity="0.95"/>
+  <path d="M256 185 L260 215 L290 220 L260 225 L256 255 L252 225 L222 220 L252 215 Z" fill="#FFFFFF" filter="url(#luxuryGlow)"/>
+  <path d="M256 195 L258 217 L280 220 L258 223 L256 245 L254 223 L232 220 L254 217 Z" fill="url(#goldBorder)"/>
 </svg>
