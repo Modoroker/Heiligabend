@@ -11,7 +11,10 @@ export default function NotificationBanner() {
   useEffect(() => {
     if ('Notification' in window) {
       setPermissionState(Notification.permission);
-      const isDismissed = localStorage.getItem(LOCAL_STORAGE_NOTIF_DISMISSED) === 'true';
+      let isDismissed = false;
+      try {
+        isDismissed = localStorage.getItem(LOCAL_STORAGE_NOTIF_DISMISSED) === 'true';
+      } catch {}
       if (Notification.permission === 'default' && !isDismissed) {
         setShowBanner(true);
       }

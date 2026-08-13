@@ -143,6 +143,7 @@ const sfx = new SoundEffects();
  * Cross-browser rounded rectangle fallback with full 4-corner asymmetric support
  */
 function drawRoundedRect(ctx, x, y, width, height, radii) {
+  ctx.beginPath();
   if (typeof ctx.roundRect === 'function') {
     ctx.roundRect(x, y, width, height, radii);
     return;
@@ -159,7 +160,6 @@ function drawRoundedRect(ctx, x, y, width, height, radii) {
     tl = tr = br = bl = radii;
   }
 
-  ctx.beginPath();
   ctx.moveTo(x + tl, y);
   ctx.lineTo(x + width - tr, y);
   ctx.quadraticCurveTo(x + width, y, x + width, y + tr);
@@ -167,7 +167,7 @@ function drawRoundedRect(ctx, x, y, width, height, radii) {
   ctx.quadraticCurveTo(x + width, y + height, x + width - br, y + height);
   ctx.lineTo(x + bl, y + height);
   ctx.quadraticCurveTo(x, y + height, x, y + height - bl);
-  ctx.lineTo(x + bl, y + tl);
+  ctx.lineTo(x, y + tl);
   ctx.quadraticCurveTo(x, y, x + tl, y);
   ctx.closePath();
 }
@@ -991,9 +991,8 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
       // Cap DPR to 2 to prevent excessive GPU allocation on 3x screens
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = container.getBoundingClientRect();
-      const displayW = Math.floor(rect.width || LOGICAL_WIDTH);
-      const displayH = Math.floor(rect.height || LOGICAL_HEIGHT);
+      const displayW = Math.floor(container.clientWidth || LOGICAL_WIDTH);
+      const displayH = Math.floor(container.clientHeight || LOGICAL_HEIGHT);
 
       if (canvas.width !== displayW * dpr || canvas.height !== displayH * dpr) {
         canvas.width = displayW * dpr;
@@ -1033,6 +1032,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      sfx.suspend();
       if (highscoreTimeoutRef.current) clearTimeout(highscoreTimeoutRef.current);
     };
   }, [isOpen, resetGame, spawnItems, updateScoreAndCheckHighscore, createParticles, addPopup]);

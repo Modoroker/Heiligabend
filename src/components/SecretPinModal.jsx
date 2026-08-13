@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { KeyRound, X, CheckCircle2 } from 'lucide-react';
 
@@ -6,23 +6,46 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
   const [pin, setPin] = useState('');
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
+  const successTimerRef = useRef(null);
+  const errorTimerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const ok = onUnlockSecret(pin);
+    const cleanPin = pin.trim();
+    const ok = onUnlockSecret(cleanPin);
     if (ok) {
       setSuccess(true);
       setError(false);
-      setTimeout(() => {
+      if (successTimerRef.current) clearTimeout(successTimerRef.current);
+      successTimerRef.current = setTimeout(() => {
         setSuccess(false);
         setPin('');
         onClose();
       }, 1200);
     } else {
       setError(true);
-      setTimeout(() => setError(false), 2000);
+      if (errorTimerRef.current) clearTimeout(errorTimerRef.current);
+      errorTimerRef.current = setTimeout(() => setError(false), 2000);
     }
   };
 
@@ -32,12 +55,14 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="secret-pin-title"
+        onClick={onClose}
         className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-midnight-900/80 backdrop-blur-md"
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          onClick={(e) => e.stopPropagation()}
           className="w-full max-w-sm glass-panel p-6 rounded-3xl border border-rosegold-500/30 shadow-rose-glow relative"
         >
           <button
@@ -72,6 +97,8 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
                   onChange={(e) => setPin(e.target.value)}
                   placeholder="Geheimcode eingeben"
                   aria-label="Geheimcode"
+                  autoCapitalize="characters"
+                  autoComplete="off"
                   className={`w-full px-4 py-3 bg-midnight-900/90 rounded-2xl border text-center text-lg font-mono tracking-widest text-rosegold-200 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-rosegold-400 transition-all ${
                     error ? 'border-red-500 animate-wiggle' : 'border-rosegold-500/30'
                   }`}

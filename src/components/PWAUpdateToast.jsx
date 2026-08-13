@@ -6,30 +6,36 @@ export default function PWAUpdateToast() {
   const [needRefresh, setNeedRefresh] = useState(false);
 
   useEffect(() => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistration().then((reg) => {
-        if (!reg) return;
+    if (!('serviceWorker' in navigator)) return;
 
-        reg.addEventListener('updatefound', () => {
-          const newWorker = reg.installing;
-          if (newWorker) {
-            newWorker.addEventListener('statechange', () => {
-              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                setNeedRefresh(true);
-              }
-            });
-          }
-        });
-      });
+    let refreshing = false;
+    const handleControllerChange = () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
+    };
 
-      let refreshing = false;
-      navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-          refreshing = true;
-          window.location.reload();
+    navigator.serviceWorker.addEventListener('controllerchange', handleControllerChange);
+
+    navigator.serviceWorker.getRegistration().then((reg) => {
+      if (!reg) return;
+
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        if (newWorker) {
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              setNeedRefresh(true);
+            }
+          });
         }
       });
-    }
+    });
+
+    return () => {
+      navigator.serviceWorker.removeEventListener('controllerchange', handleControllerChange);
+    };
   }, []);
 
   const handleUpdate = () => {
@@ -51,6 +57,8 @@ export default function PWAUpdateToast() {
   return (
     <AnimatePresence>
       <motion.div
+        role="alert"
+        aria-live="polite"
         initial={{ opacity: 0, y: -20, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: -20, scale: 0.9 }}
@@ -67,12 +75,14 @@ export default function PWAUpdateToast() {
         <div className="flex items-center gap-1.5">
           <button
             onClick={handleUpdate}
+            aria-label="App neu laden um Update zu aktivieren"
             className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 text-xs font-bold shadow-md hover:shadow-lg flex items-center gap-1 active:scale-95"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Neu laden
           </button>
           <button
             onClick={() => setNeedRefresh(false)}
+            aria-label="Update-Benachrichtigung schließen"
             className="p-1 text-slate-400 hover:text-slate-200"
             title="Schließen"
           >

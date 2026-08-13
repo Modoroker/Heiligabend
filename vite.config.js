@@ -8,7 +8,6 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: [
-        'favicon.ico',
         'favicon.svg',
         'apple-touch-icon.png',
         'pwa-192x192.png',
@@ -16,6 +15,7 @@ export default defineConfig({
         'messages.json'
       ],
       manifest: {
+        lang: 'de',
         name: '365 Gründe warum ich dich liebe ❤️',
         short_name: '365 Gründe',
         description: 'Ein Jahr voller Liebe und Wertschätzung für meine wundervolle Frau Nina.',

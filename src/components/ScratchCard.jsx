@@ -6,11 +6,16 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const [isScratched, setIsScratched] = useState(false);
   const [isDrawing, setIsDrawing] = useState(false);
   const isCompletedRef = useRef(false);
+  const hasScratchedRef = useRef(false);
+  const lastPointRef = useRef(null);
   const lastCheckTimeRef = useRef(0);
   const pendingCheckRef = useRef(false);
 
   // Initialize Canvas scratch layer
   const initCanvas = useCallback(() => {
+    // If user has already scratched significantly, do not wipe progress on resize
+    if (hasScratchedRef.current || isCompletedRef.current) return;
+
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
@@ -21,11 +26,15 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
 
     if (width === 0 || height === 0) return;
 
-    canvas.width = width;
-    canvas.height = height;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
 
     // Draw metallic rose-gold gradient cover
     const gradient = ctx.createLinearGradient(0, 0, width, height);
@@ -38,7 +47,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     ctx.fillRect(0, 0, width, height);
 
     // Overlay subtle sparkle texture
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
     for (let i = 10; i < width; i += 24) {
       for (let j = 10; j < height; j += 24) {
         if ((i + j) % 3 === 0) {
@@ -59,6 +68,8 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     ctx.fillText('✨ Rubbel mich frei! ✨', width / 2, height / 2 - 10);
     ctx.font = '12px sans-serif';
     ctx.fillText('Mit dem Finger drüberstreichen ❤️', width / 2, height / 2 + 15);
+
+    ctx.restore();
   }, []);
 
   useEffect(() => {
@@ -69,12 +80,16 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     let observer;
     if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
       observer = new ResizeObserver(() => {
-        requestAnimationFrame(initCanvas);
+        if (!hasScratchedRef.current) {
+          requestAnimationFrame(initCanvas);
+        }
       });
       observer.observe(containerRef.current);
     }
 
-    const timer = setTimeout(initCanvas, 150);
+    const timer = setTimeout(() => {
+      if (!hasScratchedRef.current) initCanvas();
+    }, 150);
 
     return () => {
       clearTimeout(timer);
@@ -135,7 +150,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     }
   }, [checkScratchPercentage]);
 
-  // Scratch action with dynamic coordinate scaling
+  // Continuous ribbon scratch action with dynamic coordinate scaling
   const scratch = (clientX, clientY) => {
     if (isCompletedRef.current) return;
     const canvas = canvasRef.current;
@@ -146,18 +161,32 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     const rect = canvas.getBoundingClientRect();
     if (rect.width === 0 || rect.height === 0) return;
 
-    // Adjust for current CSS scaling
+    hasScratchedRef.current = true;
+
+    // Adjust for High-DPI canvas backing buffer
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
     const x = (clientX - rect.left) * scaleX;
     const y = (clientY - rect.top) * scaleY;
+    const radius = 36 * (scaleX / (window.devicePixelRatio || 1));
 
     ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath();
-    ctx.arc(x, y, 36, 0, Math.PI * 2); // 36px radius
-    ctx.fill();
+    ctx.lineWidth = radius * 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
 
+    ctx.beginPath();
+    if (lastPointRef.current) {
+      ctx.moveTo(lastPointRef.current.x, lastPointRef.current.y);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    } else {
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    lastPointRef.current = { x, y };
     schedulePercentageCheck(false);
   };
 
@@ -165,6 +194,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const handleMouseDown = (e) => {
     e.stopPropagation();
     setIsDrawing(true);
+    lastPointRef.current = null;
     scratch(e.clientX, e.clientY);
   };
 
@@ -177,6 +207,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const handleMouseUp = (e) => {
     if (e) e.stopPropagation();
     setIsDrawing(false);
+    lastPointRef.current = null;
     schedulePercentageCheck(true);
   };
 
@@ -184,6 +215,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const handleTouchStart = (e) => {
     e.stopPropagation();
     setIsDrawing(true);
+    lastPointRef.current = null;
     if (e.touches[0]) {
       scratch(e.touches[0].clientX, e.touches[0].clientY);
     }
@@ -198,6 +230,7 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const handleTouchEnd = (e) => {
     if (e) e.stopPropagation();
     setIsDrawing(false);
+    lastPointRef.current = null;
     schedulePercentageCheck(true);
   };
 

@@ -21,7 +21,6 @@ export default function App() {
   const {
     now,
     messages,
-    isLoadingMessages,
     currentDayIndex,
     openedDays,
     favorites,
@@ -84,11 +83,20 @@ export default function App() {
           openedCount={openedDays.length}
           streak={streak}
           startDateStr="2026-12-24"
+          currentDate={now}
         />
 
-        {/* Navigation Tabs */}
-        <div className="flex items-center gap-2 p-1.5 bg-midnight-800/80 rounded-2xl border border-rosegold-500/20 text-xs font-semibold shadow-inner">
+        {/* Navigation Tabs with ARIA tablist semantics */}
+        <div
+          role="tablist"
+          aria-label="Hauptnavigation"
+          className="flex items-center gap-2 p-1.5 bg-midnight-800/80 rounded-2xl border border-rosegold-500/20 text-xs font-semibold shadow-inner"
+        >
           <button
+            role="tab"
+            aria-selected={activeTab === 'daily'}
+            aria-controls="panel-daily"
+            id="tab-daily"
             onClick={() => setActiveTab('daily')}
             className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
               activeTab === 'daily'
@@ -99,6 +107,10 @@ export default function App() {
             <Home className="w-4 h-4" /> Heute
           </button>
           <button
+            role="tab"
+            aria-selected={activeTab === 'calendar'}
+            aria-controls="panel-calendar"
+            id="tab-calendar"
             onClick={() => setActiveTab('calendar')}
             className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
               activeTab === 'calendar'
@@ -109,6 +121,10 @@ export default function App() {
             <CalendarIcon className="w-4 h-4" /> 365 Tage
           </button>
           <button
+            role="tab"
+            aria-selected={activeTab === 'favorites'}
+            aria-controls="panel-favorites"
+            id="tab-favorites"
             onClick={() => setActiveTab('favorites')}
             className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
               activeTab === 'favorites'
@@ -122,7 +138,7 @@ export default function App() {
 
         {/* Tab Content Views */}
         {activeTab === 'daily' && (
-          <div className="space-y-4">
+          <div role="tabpanel" id="panel-daily" aria-labelledby="tab-daily" className="space-y-4">
             {isTodayUnlocked ? (
               <DailyCard
                 day={todayMessage}
@@ -142,18 +158,20 @@ export default function App() {
         )}
 
         {activeTab === 'calendar' && (
-          <CalendarGrid
-            messages={messages}
-            openedDays={openedDays}
-            favorites={favorites}
-            isDayUnlocked={isDayUnlocked}
-            onToggleFavorite={toggleFavorite}
-            onMarkOpened={markDayOpened}
-          />
+          <div role="tabpanel" id="panel-calendar" aria-labelledby="tab-calendar">
+            <CalendarGrid
+              messages={messages}
+              openedDays={openedDays}
+              favorites={favorites}
+              isDayUnlocked={isDayUnlocked}
+              onToggleFavorite={toggleFavorite}
+              onMarkOpened={markDayOpened}
+            />
+          </div>
         )}
 
         {activeTab === 'favorites' && (
-          <div className="space-y-4">
+          <div role="tabpanel" id="panel-favorites" aria-labelledby="tab-favorites" className="space-y-4">
             <h2 className="text-xl font-serif font-bold gold-gradient-text flex items-center gap-2">
               <Heart className="w-5 h-5 text-red-400 fill-red-400" />
               Deine Lieblingsgründe ({favorites.length})

@@ -6,26 +6,32 @@ import { getSpecialDayInfo } from '../utils/specialDaysUtils';
 // Helper to format ISO date string (YYYY-MM-DD) to German calendar format e.g. "24. Dez"
 function formatCalendarDate(dateStr) {
   if (!dateStr) return '';
-  const d = new Date(dateStr);
+  const parts = dateStr.split('-');
+  if (parts.length !== 3) return dateStr;
+  const day = parseInt(parts[2], 10);
+  const month = parseInt(parts[1], 10);
   const monthNames = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
-  return `${d.getDate()}. ${monthNames[d.getMonth()]}`;
+  return `${day}. ${monthNames[month - 1] || ''}`;
 }
 
 function getMonthNameWithYear(dateStr) {
   if (!dateStr) return '';
-  const d = new Date(dateStr);
+  const parts = dateStr.split('-');
+  if (parts.length !== 3) return dateStr;
+  const year = parts[0];
+  const month = parseInt(parts[1], 10);
   const fullMonths = [
     'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
     'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
   ];
-  const shortYr = String(d.getFullYear()).slice(-2);
-  return `${fullMonths[d.getMonth()]} '${shortYr}`;
+  const shortYr = year.slice(-2);
+  return `${fullMonths[month - 1] || ''} '${shortYr}`;
 }
 
 export default function CalendarGrid({
-  messages,
-  openedDays,
-  favorites,
+  messages = [],
+  openedDays = [],
+  favorites = [],
   isDayUnlocked,
   onToggleFavorite,
   onMarkOpened,

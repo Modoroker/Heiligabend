@@ -43,6 +43,7 @@ export function useCalendar() {
   useEffect(() => {
     const controller = new AbortController();
     let isMounted = true;
+    let retryTimeoutId = null;
     const maxAttempts = 3;
 
     const fetchWithRetry = async (attempt = 1) => {
@@ -59,7 +60,7 @@ export function useCalendar() {
         console.warn(`Attempt ${attempt} failed to load /messages.json:`, err);
         if (attempt < maxAttempts && isMounted) {
           const delay = Math.min(500 * Math.pow(2, attempt - 1), 4000);
-          setTimeout(() => {
+          retryTimeoutId = setTimeout(() => {
             if (isMounted) fetchWithRetry(attempt + 1);
           }, delay);
         } else if (isMounted) {
@@ -74,6 +75,7 @@ export function useCalendar() {
     return () => {
       controller.abort();
       isMounted = false;
+      if (retryTimeoutId) clearTimeout(retryTimeoutId);
     };
   }, []);
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Flame, KeyRound, Gift, Heart, Gamepad2 } from 'lucide-react';
 
 export default function Navbar({
@@ -11,13 +11,23 @@ export default function Navbar({
   onResetAdmin,
 }) {
   const [logoTaps, setLogoTaps] = useState(0);
+  const tapTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (tapTimeoutRef.current) clearTimeout(tapTimeoutRef.current);
+    };
+  }, []);
 
   const handleLogoTap = () => {
+    if (tapTimeoutRef.current) clearTimeout(tapTimeoutRef.current);
     const next = logoTaps + 1;
     setLogoTaps(next);
     if (next >= 3) {
       setLogoTaps(0);
       onOpenSecretModal();
+    } else {
+      tapTimeoutRef.current = setTimeout(() => setLogoTaps(0), 2000);
     }
   };
 
@@ -35,7 +45,7 @@ export default function Navbar({
         <div
           role="button"
           tabIndex={0}
-          aria-label="365 Gründe warum ich dich Liebe (3x tippen für Geheimcode)"
+          aria-label="365 Gründe, warum ich dich liebe (3x tippen für Geheimcode)"
           onClick={handleLogoTap}
           onKeyDown={handleKeyDown}
           className="flex items-center gap-2 cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-rosegold-400 rounded-lg p-1"
@@ -46,7 +56,7 @@ export default function Navbar({
           </div>
           <div>
             <h1 className="text-sm sm:text-base font-serif font-bold gold-gradient-text tracking-wide leading-tight">
-              365 Gründe warum ich dich Liebe
+              365 Gründe, warum ich dich liebe
             </h1>
           </div>
         </div>
@@ -85,7 +95,10 @@ export default function Navbar({
           </button>
 
           {/* Streak Badge */}
-          <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-midnight-800/90 border border-rosegold-500/30 text-xs font-semibold shadow-inner">
+          <div
+            aria-label={`Fortschritt: ${streak} von ${total} Gründen geöffnet`}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-midnight-800/90 border border-rosegold-500/30 text-xs font-semibold shadow-inner"
+          >
             <Flame className="w-4 h-4 text-amber-400 fill-amber-400/20 animate-pulse" />
             <span className="text-rosegold-200">{streak}</span>
             <span className="text-slate-500 font-normal">/ {total}</span>
