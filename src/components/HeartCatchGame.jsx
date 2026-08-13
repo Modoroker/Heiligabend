@@ -40,6 +40,7 @@ const TEXTS = {
   HINT: 'Fange bunte Herzen & meide gebrochene! 🎀',
   COMBO_2X: '🔥 2x COMBO!',
   COMBO_3X: '⚡ 3x FEVER MODE! 🌟',
+  FEVER_EXTENDED: '🔥 FEVER VERLÄNGERT!',
   MAGNET_ACTIVE: '🧲 MAGNET AKTIV!',
   FREEZE_ACTIVE: '❄️ ZEITLUPE!',
 };
@@ -166,7 +167,7 @@ function drawRoundedRect(ctx, x, y, width, height, radii) {
   ctx.quadraticCurveTo(x + width, y + height, x + width - br, y + height);
   ctx.lineTo(x + bl, y + height);
   ctx.quadraticCurveTo(x, y + height, x, y + height - bl);
-  ctx.lineTo(x, y + tl);
+  ctx.lineTo(x + bl, y + tl);
   ctx.quadraticCurveTo(x, y, x + tl, y);
   ctx.closePath();
 }
@@ -328,6 +329,16 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     }
   }, [isGameOver]);
 
+  // Live region: announce score periodically while playing
+  useEffect(() => {
+    if (!isOpen || isPaused || isGameOver) return;
+    const interval = setInterval(() => {
+      const state = gameStateRef.current;
+      setLiveAnnouncement(`Punkte: ${state.score}, Leben: ${state.lives}, Serie: ${state.combo}`);
+    }, 8000);
+    return () => clearInterval(interval);
+  }, [isOpen, isPaused, isGameOver]);
+
   // Mutable Game State Ref for 60fps performance
   const gameStateRef = useRef({
     basketX: LOGICAL_WIDTH / 2 - GAME_CONFIG.BASKET_WIDTH / 2,
@@ -444,6 +455,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       if (!state.isNewHighScore) {
         state.isNewHighScore = true;
         setNewHighScoreNotice(true);
+        setLiveAnnouncement('Neuer Highscore!');
         if (highscoreTimeoutRef.current) clearTimeout(highscoreTimeoutRef.current);
         highscoreTimeoutRef.current = setTimeout(() => setNewHighScoreNotice(false), 2200);
       }
@@ -488,7 +500,10 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     const isFrozen = state.freezeTimeLeft > 0;
     const isFeverNow = state.feverTimeLeft > 0;
 
-    const baseInterval = isFeverNow ? 400 : Math.max(450, 1050 - Math.floor(currentScore / 100) * 45);
+    // Non-linear difficulty curve: slower at start, faster later, capped
+    const baseInterval = isFeverNow
+      ? 400
+      : Math.max(450, 1050 * Math.pow(0.97, Math.floor(currentScore / 50)));
     const spawnInterval = isFrozen ? baseInterval * 1.4 : baseInterval;
 
     if (nowTime - state.lastSpawnTime < spawnInterval) return;
@@ -572,6 +587,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
     resetGame();
     let animationFrameId;
+    let pauseTimeoutId = null;
     let lastFrameTime = performance.now();
 
     // Cache static relative gradients once on canvas context
@@ -616,35 +632,8 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       return state.gradientCache;
     };
 
-    const updateAndRender = (currentTime) => {
-      const dt = Math.min(0.064, (currentTime - lastFrameTime) / 1000);
-      lastFrameTime = currentTime;
-
-      const state = gameStateRef.current;
-      const canvas = canvasRef.current;
-      const container = containerRef.current;
-      if (!canvas || !container) return;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-
-      // Cap DPR to 2 to prevent excessive GPU allocation on 3x screens
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const rect = container.getBoundingClientRect();
-      const displayW = Math.floor(rect.width || LOGICAL_WIDTH);
-      const displayH = Math.floor(rect.height || LOGICAL_HEIGHT);
-
-      if (canvas.width !== displayW * dpr || canvas.height !== displayH * dpr) {
-        canvas.width = displayW * dpr;
-        canvas.height = displayH * dpr;
-        state.gradientCache = null;
-      }
-
-      if (state.isGameOver || state.isPaused) {
-        animationFrameId = requestAnimationFrame(updateAndRender);
-        return;
-      }
-
-      // --- 1. UPDATE TIMERS & POWER-UPS ---
+    // Helper update functions (defined inside effect for closure access)
+    const updateTimers = (state, dt) => {
       if (state.feverTimeLeft > 0) {
         state.feverTimeLeft -= dt;
         if (state.feverTimeLeft <= 0) {
@@ -666,8 +655,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           setFreezeActive(false);
         }
       }
+    };
 
-      // --- 2. UPDATE BASKET POSITION ---
+    const updateBasket = (state, dt) => {
       if (state.keysPressed.ArrowLeft) {
         state.basketX = Math.max(0, state.basketX - GAME_CONFIG.BASKET_SPEED * dt);
         state.targetBasketX = state.basketX;
@@ -678,11 +668,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         const clampedTarget = Math.max(0, Math.min(LOGICAL_WIDTH - state.basketWidth, state.targetBasketX));
         state.basketX += (clampedTarget - state.basketX) * Math.min(1.0, GAME_CONFIG.BASKET_LERP * dt);
       }
+    };
 
-      // --- 3. SPAWN ITEMS ---
-      spawnItems(currentTime);
-
-      // --- 4. UPDATE HEARTS & COLLISION DETECTION ---
+    const updateCollisions = (state, dt, currentTime) => {
       const basketCenterX = state.basketX + state.basketWidth / 2;
       const basketTop = LOGICAL_HEIGHT - 56;
       const basketBottom = LOGICAL_HEIGHT - 10;
@@ -701,7 +689,6 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         item.y += currentSpeed * dt;
         item.rotation += item.rotationSpeed * dt;
 
-        // Catch collision
         const inHorizontalRange = item.x >= state.basketX - 12 && item.x <= state.basketX + state.basketWidth + 12;
         const inVerticalRange = item.y >= basketTop - 12 && item.y <= basketBottom;
 
@@ -737,13 +724,18 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               addPopup(TEXTS.COMBO_2X, basketCenterX, basketTop - 40, '#FFB703');
               createParticles(basketCenterX, basketTop, '#FFB703', 20);
               setLiveAnnouncement('2-fach Combo aktiv!');
-            } else if (state.combo >= GAME_CONFIG.COMBO_3X_THRESHOLD && state.feverTimeLeft <= 0) {
-              sfx.powerUp();
+            } else if (state.combo >= GAME_CONFIG.COMBO_3X_THRESHOLD) {
+              const isNewFever = state.feverTimeLeft <= 0;
               state.feverTimeLeft = GAME_CONFIG.FEVER_DURATION;
               setIsFever(true);
-              addPopup(TEXTS.COMBO_3X, basketCenterX, basketTop - 40, '#FF0055');
-              createParticles(basketCenterX, basketTop, '#FFD700', 32);
-              setLiveAnnouncement('3-fach Fever Modus aktiv!');
+
+              if (isNewFever || state.combo % 10 === 0) {
+                sfx.powerUp();
+                const popupText = isNewFever ? TEXTS.COMBO_3X : TEXTS.FEVER_EXTENDED;
+                addPopup(popupText, basketCenterX, basketTop - 40, '#FF0055');
+                createParticles(basketCenterX, basketTop, '#FFD700', 32);
+                setLiveAnnouncement(isNewFever ? '3-fach Fever Modus aktiv!' : 'Fever verlängert!');
+              }
             }
 
             if (item.type === 'classic') {
@@ -807,14 +799,15 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               setIsGameOver(true);
               setLiveAnnouncement(`Spiel beendet! Punktzahl: ${state.score}`);
             }
-          } else if (item.type === 'gold' || item.type === 'diamond') {
+          } else if (item.type === 'gold' || item.type === 'diamond' || item.type === 'emerald') {
             state.combo = 0;
             setCombo(0);
           }
         }
       }
+    };
 
-      // --- 5. UPDATE PARTICLES & POPUPS ---
+    const updateParticlesAndPopups = (state, dt) => {
       for (let i = state.particles.length - 1; i >= 0; i--) {
         const p = state.particles[i];
         p.x += p.vx * dt;
@@ -831,23 +824,17 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         if (pop.alpha <= 0) state.popups.splice(i, 1);
       }
 
-      // Background stars
       state.bgStars.forEach((star) => {
         star.y += star.speed * 18 * dt;
         if (star.y > LOGICAL_HEIGHT) star.y = 0;
       });
+    };
 
-      // --- 6. RENDER CANVAS SCENE ---
-      ctx.save();
-      ctx.scale((displayW / LOGICAL_WIDTH) * dpr, (displayH / LOGICAL_HEIGHT) * dpr);
-
-      const grads = getCachedGradients(ctx);
-
-      // Background
+    // Render functions
+    const renderBackground = (ctx, state, currentTime, grads) => {
       ctx.fillStyle = grads.bgGrad;
       ctx.fillRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
-      // Stars
       state.bgStars.forEach((star) => {
         const pulse = Math.sin((currentTime / 1000) * star.twinkleSpeed) * 0.3 + 0.7;
         ctx.fillStyle = `rgba(255, 240, 200, ${star.opacity * pulse})`;
@@ -856,14 +843,14 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         ctx.fill();
       });
 
-      // Icy Frame on Freeze
       if (state.freezeTimeLeft > 0) {
         ctx.strokeStyle = 'rgba(56, 189, 248, 0.7)';
         ctx.lineWidth = 6;
         ctx.strokeRect(3, 3, LOGICAL_WIDTH - 6, LOGICAL_HEIGHT - 6);
       }
+    };
 
-      // Render Falling Items
+    const renderItems = (ctx, state, grads) => {
       state.hearts.forEach((h) => {
         ctx.save();
         ctx.translate(h.x, h.y);
@@ -927,8 +914,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
 
         ctx.restore();
       });
+    };
 
-      // Render Particles
+    const renderParticlesAndPopups = (ctx, state) => {
       state.particles.forEach((p) => {
         ctx.save();
         ctx.globalAlpha = Math.max(0, p.alpha);
@@ -939,7 +927,6 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         ctx.restore();
       });
 
-      // Render Popups
       state.popups.forEach((pop) => {
         ctx.save();
         ctx.globalAlpha = Math.max(0, pop.alpha);
@@ -952,8 +939,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         ctx.fillText(pop.text, pop.x, pop.y);
         ctx.restore();
       });
+    };
 
-      // --- 7. RENDER BASKET (Using Cached Relative Gradient) ---
+    const renderBasket = (ctx, state, grads) => {
       const bX = state.basketX;
       const bY = LOGICAL_HEIGHT - 54;
       const bW = state.basketWidth;
@@ -988,13 +976,69 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       }
 
       ctx.restore();
+    };
+
+    // Main update and render loop
+    const updateAndRender = (currentTime) => {
+      const dt = Math.min(0.064, (currentTime - lastFrameTime) / 1000);
+      lastFrameTime = currentTime;
+
+      const state = gameStateRef.current;
+      const canvas = canvasRef.current;
+      const container = containerRef.current;
+      if (!canvas || !container) return;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // Cap DPR to 2 to prevent excessive GPU allocation on 3x screens
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = container.getBoundingClientRect();
+      const displayW = Math.floor(rect.width || LOGICAL_WIDTH);
+      const displayH = Math.floor(rect.height || LOGICAL_HEIGHT);
+
+      if (canvas.width !== displayW * dpr || canvas.height !== displayH * dpr) {
+        canvas.width = displayW * dpr;
+        canvas.height = displayH * dpr;
+        state.gradientCache = null;
+      }
+
+      // If paused, use a low-frequency timeout to check for resume
+      if (state.isGameOver || state.isPaused) {
+        if (state.isPaused && !state.isGameOver) {
+          pauseTimeoutId = setTimeout(() => {
+            updateAndRender(performance.now());
+          }, 200);
+        }
+        return;
+      }
+
+      // --- UPDATE PHASE ---
+      updateTimers(state, dt);
+      updateBasket(state, dt);
+      spawnItems(currentTime);
+      updateCollisions(state, dt, currentTime);
+      updateParticlesAndPopups(state, dt);
+
+      // --- RENDER PHASE ---
+      ctx.save();
+      ctx.scale((displayW / LOGICAL_WIDTH) * dpr, (displayH / LOGICAL_HEIGHT) * dpr);
+
+      const grads = getCachedGradients(ctx);
+      renderBackground(ctx, state, currentTime, grads);
+      renderItems(ctx, state, grads);
+      renderParticlesAndPopups(ctx, state);
+      renderBasket(ctx, state, grads);
+
+      ctx.restore();
 
       animationFrameId = requestAnimationFrame(updateAndRender);
     };
 
     animationFrameId = requestAnimationFrame(updateAndRender);
+
     return () => {
       cancelAnimationFrame(animationFrameId);
+      if (pauseTimeoutId) clearTimeout(pauseTimeoutId);
       if (highscoreTimeoutRef.current) clearTimeout(highscoreTimeoutRef.current);
     };
   }, [isOpen, resetGame, spawnItems, updateScoreAndCheckHighscore, createParticles, addPopup]);
@@ -1052,6 +1096,11 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       const next = !prev;
       gameStateRef.current.isPaused = next;
       setLiveAnnouncement(next ? 'Spiel pausiert' : 'Spiel fortgesetzt');
+      if (next) {
+        sfx.suspend();
+      } else {
+        sfx.resume();
+      }
       return next;
     });
   };
@@ -1206,6 +1255,8 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           {/* Main Game Canvas Container */}
           <div
             ref={containerRef}
+            role="application"
+            aria-label="Spielbereich: Fange Herzen mit dem Korb"
             className="w-full h-full relative cursor-none touch-none"
             onMouseMove={(e) => {
               const container = containerRef.current;
@@ -1260,10 +1311,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
                 </div>
               </div>
 
-              {/* Retry Button with Autofocus */}
+              {/* Retry Button (autofocus via useEffect, no autoFocus attribute) */}
               <button
                 ref={retryBtnRef}
-                autoFocus
                 onClick={resetGame}
                 className="w-full max-w-xs py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-champagne-300"
               >
