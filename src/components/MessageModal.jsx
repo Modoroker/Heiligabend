@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, X, ChevronLeft, ChevronRight } from 'lucide-react';
-import { fireDayAnimation } from '../utils/confettiUtils';
+import { fireDayAnimation, fireRoyalCelebration } from '../utils/confettiUtils';
 import { getSpecialDayInfo } from '../utils/specialDaysUtils';
 import ScratchCard from './ScratchCard';
 
@@ -37,7 +37,7 @@ export default function MessageModal({
       onMarkOpened(day.id);
     }
     if (day) {
-      fireDayAnimation(day.id);
+      fireRoyalCelebration();
     }
   };
 

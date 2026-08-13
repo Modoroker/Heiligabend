@@ -11,7 +11,19 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
   const lastCheckTimeRef = useRef(0);
   const pendingCheckRef = useRef(false);
 
-  // Initialize Canvas scratch layer
+  // Preload 3D seal image for the scratch surface
+  const sealImgRef = useRef(null);
+  useEffect(() => {
+    const img = new Image();
+    img.src = '/sprites/wax-seal.png';
+    img.onload = () => {
+      sealImgRef.current = img;
+      if (!hasScratchedRef.current) initCanvas();
+    };
+    sealImgRef.current = img;
+  }, []);
+
+  // Initialize Canvas luxury scratch layer
   const initCanvas = useCallback(() => {
     // If user has already scratched significantly, do not wipe progress on resize
     if (hasScratchedRef.current || isCompletedRef.current) return;
@@ -36,38 +48,96 @@ export default function ScratchCard({ onComplete, threshold = 0.4 }) {
     ctx.save();
     ctx.scale(dpr, dpr);
 
-    // Draw metallic rose-gold gradient cover
+    // 1. Draw luxury metallic brushed rose-gold & ruby foil gradient
     const gradient = ctx.createLinearGradient(0, 0, width, height);
-    gradient.addColorStop(0, '#e2a9b2');
-    gradient.addColorStop(0.3, '#d4af37');
-    gradient.addColorStop(0.6, '#b76e79');
-    gradient.addColorStop(1, '#8b4513');
+    gradient.addColorStop(0, '#2D0A14');
+    gradient.addColorStop(0.2, '#581C28');
+    gradient.addColorStop(0.5, '#9F4958');
+    gradient.addColorStop(0.75, '#D4AF37');
+    gradient.addColorStop(0.9, '#E8B4B8');
+    gradient.addColorStop(1, '#3B0D18');
 
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, width, height);
 
-    // Overlay subtle sparkle texture
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
-    for (let i = 10; i < width; i += 24) {
-      for (let j = 10; j < height; j += 24) {
-        if ((i + j) % 3 === 0) {
+    // 2. Ornate Golden Filigree Frame
+    ctx.strokeStyle = 'rgba(247, 231, 206, 0.7)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(8, 8, width - 16, height - 16);
+
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.45)';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 4]);
+    ctx.strokeRect(12, 12, width - 24, height - 24);
+    ctx.setLineDash([]); // Reset line dash
+
+    // 3. Starlight sparkle dust overlay
+    ctx.fillStyle = 'rgba(255, 245, 200, 0.35)';
+    for (let i = 18; i < width - 18; i += 22) {
+      for (let j = 18; j < height - 18; j += 22) {
+        if ((i * 3 + j * 7) % 5 === 0) {
           ctx.beginPath();
-          ctx.arc(i, j, 2.5, 0, Math.PI * 2);
+          ctx.arc(i, j, 1.8, 0, Math.PI * 2);
           ctx.fill();
         }
       }
     }
 
-    // Overlay text & hint
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 16px sans-serif';
+    // Corner Star Glints
+    const drawCornerStar = (cx, cy) => {
+      ctx.fillStyle = '#FFF5C2';
+      ctx.beginPath();
+      ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+      ctx.fill();
+    };
+    drawCornerStar(8, 8);
+    drawCornerStar(width - 8, 8);
+    drawCornerStar(8, height - 8);
+    drawCornerStar(width - 8, height - 8);
+
+    // 4. Center 3D Royal Seal Emblem
+    const sealSize = Math.min(68, Math.floor(height * 0.38));
+    const sealX = width / 2;
+    const sealY = height / 2 - 14;
+
+    // Glowing halo behind seal
+    const haloGrad = ctx.createRadialGradient(sealX, sealY, 10, sealX, sealY, sealSize * 0.75);
+    haloGrad.addColorStop(0, 'rgba(255, 215, 0, 0.45)');
+    haloGrad.addColorStop(1, 'rgba(255, 215, 0, 0)');
+    ctx.fillStyle = haloGrad;
+    ctx.beginPath();
+    ctx.arc(sealX, sealY, sealSize * 0.75, 0, Math.PI * 2);
+    ctx.fill();
+
+    const sealImg = sealImgRef.current;
+    if (sealImg && sealImg.complete && sealImg.naturalWidth > 0) {
+      ctx.drawImage(sealImg, sealX - sealSize / 2, sealY - sealSize / 2, sealSize, sealSize);
+    } else {
+      // Fallback golden circle badge
+      ctx.fillStyle = '#D4AF37';
+      ctx.beginPath();
+      ctx.arc(sealX, sealY, sealSize / 2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.font = '24px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('💖', sealX, sealY);
+    }
+
+    // 5. Luxury Embossed Typography
+    ctx.fillStyle = '#FFF5C2';
+    ctx.font = 'bold 15px serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.6)';
-    ctx.shadowBlur = 4;
-    ctx.fillText('✨ Rubbel mich frei! ✨', width / 2, height / 2 - 10);
-    ctx.font = '12px sans-serif';
-    ctx.fillText('Mit dem Finger drüberstreichen ❤️', width / 2, height / 2 + 15);
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+    ctx.shadowBlur = 6;
+    ctx.shadowOffsetY = 2;
+    ctx.fillText('✨ RUBBEL MICH FREI ✨', width / 2, sealY + sealSize / 2 + 18);
+
+    ctx.fillStyle = '#FCE7F3';
+    ctx.font = '11px sans-serif';
+    ctx.shadowBlur = 3;
+    ctx.fillText('Mit dem Finger drüberstreichen ❤️', width / 2, sealY + sealSize / 2 + 34);
 
     ctx.restore();
   }, []);
