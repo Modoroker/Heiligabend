@@ -21,8 +21,8 @@ const GAME_CONFIG = {
   FEVER_DURATION: 7.0,
   MAGNET_DURATION: 6.0,
   FREEZE_DURATION: 4.5,
-  MAGNET_INTERVAL_MIN: 14000,
-  MAGNET_PITY_INTERVAL: 20000,
+  MAGNET_INTERVAL_MIN: 28000,
+  MAGNET_PITY_INTERVAL: 40000, // 40s guaranteed magnet interval
   MAGNET_SUCTION_FORCE: 5.2,
   MAGNET_DIAMOND_FORCE: 2.2, // Balanced gentle pull for rare diamonds
 };
@@ -521,7 +521,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     const magnetPityTrigger = !isMagnetActive && timeSinceLastMagnet >= GAME_CONFIG.MAGNET_PITY_INTERVAL;
     const magnetCooldownPassed = !isMagnetActive && timeSinceLastMagnet >= GAME_CONFIG.MAGNET_INTERVAL_MIN;
 
-    if (magnetPityTrigger || (magnetCooldownPassed && Math.random() < 0.08)) {
+    if (magnetPityTrigger || (magnetCooldownPassed && Math.random() < 0.06)) {
       type = 'magnet';
       size = 32;
       speedMult = 1.15;
@@ -532,26 +532,26 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       size = 34;
       speedMult = 1.3;
       points = type === 'diamond' ? 50 : 25;
-    } else if (rand < 0.72) {
-      type = 'classic'; // 72% Red Hearts (deutlich mehr rote Herzen!)
+    } else if (rand < 0.68) {
+      type = 'classic'; // 68% Red Hearts
       size = 32;
       speedMult = 1.0;
       points = 10;
-    } else if (rand < 0.86) {
-      type = 'gold'; // 14% Goldene Herzen
+    } else if (rand < 0.81) {
+      type = 'gold'; // 13% Goldene Herzen
       size = 33;
       speedMult = 1.3;
       points = 25;
     } else if (rand < 0.91) {
-      type = 'diamond'; // 5% Diamanten
-      size = 30;
-      speedMult = 1.5;
-      points = 50;
-    } else if (rand < 0.95) {
-      type = 'broken'; // 4% Gefahr / Gebrochenes Herz
+      type = 'broken'; // 10% Gefahr / Gebrochenes Herz (exakt 10%!)
       size = 34;
       speedMult = 0.95;
       points = -10;
+    } else if (rand < 0.95) {
+      type = 'diamond'; // 4% Diamanten
+      size = 30;
+      speedMult = 1.5;
+      points = 50;
     } else if (rand < 0.975) {
       type = 'freeze'; // 2.5% Zeitlupe
       size = 30;
