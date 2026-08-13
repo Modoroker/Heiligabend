@@ -197,7 +197,7 @@ export function useCalendar() {
     return false;
   }, []);
 
-  // Reset Admin mode AND clear all test progress / streak / opened days / favorites
+  // Reset Admin mode AND clear all test progress / streak / opened days / favorites / minigame highscore
   const resetAdminBypass = useCallback(() => {
     setAdminBypass(false);
     setOpenedDays([]);
@@ -206,6 +206,7 @@ export function useCalendar() {
       localStorage.removeItem(LOCAL_STORAGE_OVERRIDE_KEY);
       localStorage.removeItem(LOCAL_STORAGE_OPENED_KEY);
       localStorage.removeItem(LOCAL_STORAGE_FAVORITES_KEY);
+      localStorage.removeItem('heartcatch_highscore');
     } catch (e) {
       console.error('Failed to clear storage on admin reset', e);
     }

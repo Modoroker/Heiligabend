@@ -56,9 +56,6 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
             className="w-full h-full object-contain pointer-events-none"
           />
         </div>
-        <div className="absolute -bottom-1 -right-1 bg-champagne-500 text-midnight-900 rounded-full p-1 shadow-md">
-          <Sparkles className="w-4 h-4 animate-spin" style={{ animationDuration: '6s' }} />
-        </div>
       </motion.div>
 
       {/* Title */}

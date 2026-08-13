@@ -325,9 +325,15 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     } catch {}
   }, [isMuted]);
 
-  // Hide initial hint after 4s
+  // Reload fresh highscore and hide initial hint on modal open
   useEffect(() => {
     if (isOpen) {
+      try {
+        const stored = parseInt(localStorage.getItem(HIGH_SCORE_KEY) || '0', 10) || 0;
+        setHighScore(stored);
+      } catch {
+        setHighScore(0);
+      }
       setShowHint(true);
       const timer = setTimeout(() => setShowHint(false), 4000);
       return () => clearTimeout(timer);
@@ -1264,6 +1270,14 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           {/* Pause Overlay */}
           {isPaused && !isGameOver && (
             <div className="absolute inset-0 z-30 bg-midnight-950/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center">
+              <button
+                onClick={onClose}
+                aria-label="Spiel schließen"
+                className="absolute top-4 right-4 p-2 rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors"
+                title="Spiel schließen"
+              >
+                <X className="w-4 h-4" />
+              </button>
               <h3 className="text-2xl font-serif font-bold text-champagne-300 mb-2">Spiel Pausiert</h3>
               <p className="text-xs text-slate-400 mb-5">Tippe auf Fortsetzen, um weiterzuspielen.</p>
               <button
@@ -1312,6 +1326,16 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           {/* Luxury Game Over Screen Overlay */}
           {isGameOver && (
             <div className="absolute inset-0 z-30 bg-midnight-950/95 flex flex-col items-center justify-center p-6 text-center">
+              {/* Close Button on Game Over Screen */}
+              <button
+                onClick={onClose}
+                aria-label="Spiel schließen"
+                className="absolute top-4 right-4 p-2 rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors"
+                title="Spiel schließen"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
               <span className="text-5xl mb-2 animate-bounce">💖</span>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-champagne-300 mb-6">
                 {TEXTS.GAME_OVER}
@@ -1335,9 +1359,17 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               <button
                 ref={retryBtnRef}
                 onClick={resetGame}
-                className="w-full max-w-xs py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-champagne-300"
+                className="w-full max-w-xs py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-champagne-300 mb-3"
               >
                 <RotateCcw className="w-4 h-4" /> {TEXTS.RETRY}
+              </button>
+
+              {/* Exit/Close Button */}
+              <button
+                onClick={onClose}
+                className="text-xs text-slate-400 hover:text-slate-200 transition-colors py-1.5 px-4 rounded-xl border border-slate-800 hover:border-slate-700"
+              >
+                Zurück zur Übersicht
               </button>
             </div>
           )}
