@@ -18,7 +18,7 @@ async function prepareAssets() {
     { src: 'sprite_magnet_orb_1786653514719.jpg', name: 'magnet-orb.png', size: 128 },
     { src: 'sprite_freeze_ice_1786653530908.jpg', name: 'freeze-ice.png', size: 128 },
     { src: 'sprite_emerald_heart_1786653544497.jpg', name: 'emerald-heart.png', size: 128 },
-    { src: 'ui_wax_seal_1786653560792.jpg', name: 'wax-seal.png', size: 256 },
+    { src: 'ui_wax_seal_nd_1786653846562.jpg', name: 'wax-seal.png', size: 256 },
     { src: 'ui_heart_lock_1786653577803.jpg', name: 'heart-lock.png', size: 256 },
     { src: 'ui_gift_box_1786653592548.jpg', name: 'gift-box.png', size: 256 },
   ];
