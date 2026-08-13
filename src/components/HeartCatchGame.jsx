@@ -45,6 +45,26 @@ const TEXTS = {
   FREEZE_ACTIVE: '❄️ ZEITLUPE!',
 };
 
+// 3D Luxury Game Sprites Preload
+const SPRITE_SOURCES = {
+  classic: '/sprites/ruby-heart.png',
+  gold: '/sprites/gold-heart.png',
+  diamond: '/sprites/diamond.png',
+  broken: '/sprites/broken-heart.png',
+  magnet: '/sprites/magnet-orb.png',
+  freeze: '/sprites/freeze-ice.png',
+  emerald: '/sprites/emerald-heart.png',
+};
+
+const loadedSprites = {};
+if (typeof window !== 'undefined') {
+  Object.entries(SPRITE_SOURCES).forEach(([key, src]) => {
+    const img = new Image();
+    img.src = src;
+    loadedSprites[key] = img;
+  });
+}
+
 // ==========================================
 // 2. WEB AUDIO API SYNTHESIZER (100% Offline)
 // ==========================================
@@ -855,60 +875,77 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         ctx.translate(h.x, h.y);
         ctx.rotate(h.rotation);
 
-        if (h.type === 'classic') {
-          drawAura(ctx, 0, 0, 22, 'rgba(255, 0, 85, 0.25)');
-          drawVectorHeart(ctx, 0, -10, 20, grads.redGrad, '#FFFFFF', 2.5);
-        } else if (h.type === 'gold') {
-          drawAura(ctx, 0, 0, 24, 'rgba(255, 215, 0, 0.3)');
-          drawVectorHeart(ctx, 0, -10, 21, grads.goldGrad, '#FFFFFF', 2.5);
-        } else if (h.type === 'diamond') {
-          drawAura(ctx, 0, 0, 24, 'rgba(0, 229, 255, 0.35)');
-          drawVectorDiamond(ctx, 0, 0, 20, grads.diamondGrad);
-        } else if (h.type === 'broken') {
-          drawAura(ctx, 0, 0, 22, 'rgba(239, 68, 68, 0.3)');
-          ctx.fillStyle = '#0F172A';
-          ctx.strokeStyle = '#EF4444';
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.arc(0, 0, 19, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
+        const img = loadedSprites[h.type];
+        const sz = h.size * 1.35; // Slightly larger for 3D realism
 
-          ctx.font = '28px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('💔', 0, 0);
-        } else if (h.type === 'emerald') {
-          drawAura(ctx, 0, 0, 22, 'rgba(0, 255, 102, 0.35)');
-          drawVectorHeart(ctx, 0, -8, 17, grads.greenGrad, '#FFFFFF', 2.5);
-        } else if (h.type === 'magnet') {
-          drawAura(ctx, 0, 0, 22, 'rgba(192, 132, 252, 0.35)');
-          ctx.fillStyle = '#7C3AED';
-          ctx.strokeStyle = '#F3E8FF';
-          ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          ctx.arc(0, 0, 18, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
+        if (img && img.complete && img.naturalWidth > 0) {
+          // Dynamic glowing 3D aura
+          if (h.type === 'classic') drawAura(ctx, 0, 0, h.size * 0.75, 'rgba(255, 0, 85, 0.3)');
+          else if (h.type === 'gold') drawAura(ctx, 0, 0, h.size * 0.8, 'rgba(255, 215, 0, 0.35)');
+          else if (h.type === 'diamond') drawAura(ctx, 0, 0, h.size * 0.8, 'rgba(0, 229, 255, 0.4)');
+          else if (h.type === 'broken') drawAura(ctx, 0, 0, h.size * 0.75, 'rgba(239, 68, 68, 0.35)');
+          else if (h.type === 'emerald') drawAura(ctx, 0, 0, h.size * 0.75, 'rgba(0, 255, 102, 0.4)');
+          else if (h.type === 'magnet') drawAura(ctx, 0, 0, h.size * 0.75, 'rgba(192, 132, 252, 0.4)');
+          else if (h.type === 'freeze') drawAura(ctx, 0, 0, h.size * 0.75, 'rgba(56, 189, 248, 0.4)');
 
-          ctx.font = '22px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('🧲', 0, 1);
-        } else if (h.type === 'freeze') {
-          drawAura(ctx, 0, 0, 22, 'rgba(56, 189, 248, 0.35)');
-          ctx.fillStyle = '#0284C7';
-          ctx.strokeStyle = '#E0F2FE';
-          ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          ctx.arc(0, 0, 18, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
+          ctx.drawImage(img, -sz / 2, -sz / 2, sz, sz);
+        } else {
+          // Fallback to crisp vector shapes if still loading
+          if (h.type === 'classic') {
+            drawAura(ctx, 0, 0, 22, 'rgba(255, 0, 85, 0.25)');
+            drawVectorHeart(ctx, 0, -10, 20, grads.redGrad, '#FFFFFF', 2.5);
+          } else if (h.type === 'gold') {
+            drawAura(ctx, 0, 0, 24, 'rgba(255, 215, 0, 0.3)');
+            drawVectorHeart(ctx, 0, -10, 21, grads.goldGrad, '#FFFFFF', 2.5);
+          } else if (h.type === 'diamond') {
+            drawAura(ctx, 0, 0, 24, 'rgba(0, 229, 255, 0.35)');
+            drawVectorDiamond(ctx, 0, 0, 20, grads.diamondGrad);
+          } else if (h.type === 'broken') {
+            drawAura(ctx, 0, 0, 22, 'rgba(239, 68, 68, 0.3)');
+            ctx.fillStyle = '#0F172A';
+            ctx.strokeStyle = '#EF4444';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(0, 0, 19, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
 
-          ctx.font = '22px sans-serif';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText('❄️', 0, 1);
+            ctx.font = '28px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('💔', 0, 0);
+          } else if (h.type === 'emerald') {
+            drawAura(ctx, 0, 0, 22, 'rgba(0, 255, 102, 0.35)');
+            drawVectorHeart(ctx, 0, -8, 17, grads.greenGrad, '#FFFFFF', 2.5);
+          } else if (h.type === 'magnet') {
+            drawAura(ctx, 0, 0, 22, 'rgba(192, 132, 252, 0.35)');
+            ctx.fillStyle = '#7C3AED';
+            ctx.strokeStyle = '#F3E8FF';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(0, 0, 18, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = '22px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('🧲', 0, 1);
+          } else if (h.type === 'freeze') {
+            drawAura(ctx, 0, 0, 22, 'rgba(56, 189, 248, 0.35)');
+            ctx.fillStyle = '#0284C7';
+            ctx.strokeStyle = '#E0F2FE';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(0, 0, 18, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.font = '22px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('❄️', 0, 1);
+          }
         }
 
         ctx.restore();

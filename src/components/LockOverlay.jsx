@@ -38,19 +38,23 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
       <div className="absolute -top-12 -left-12 w-40 h-40 bg-rosegold-500/10 rounded-full blur-3xl" />
       <div className="absolute -bottom-12 -right-12 w-40 h-40 bg-champagne-500/10 rounded-full blur-3xl" />
 
-      {/* Lock Icon Circle */}
+      {/* 3D Heart Lock Icon */}
       <motion.div
         role="button"
         tabIndex={0}
-        aria-label="Gesperrtes Schloss"
+        aria-label={`Tag ${day?.id || ''} gesperrt`}
         onKeyDown={handleKeyDown}
         animate={isShaking ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
         onClick={handleLockClick}
-        className="cursor-pointer relative group mb-6 focus:outline-none focus:ring-2 focus:ring-rosegold-400 rounded-full"
+        className="cursor-pointer relative group mb-5 focus:outline-none focus:ring-2 focus:ring-rosegold-400 rounded-full"
       >
-        <div className="w-20 h-20 rounded-full bg-gradient-to-tr from-midnight-800 to-midnight-700 border border-rosegold-400/30 flex items-center justify-center shadow-lg group-hover:border-rosegold-400/60 transition-all">
-          <Lock className="w-9 h-9 text-rosegold-400 group-hover:scale-110 transition-transform" />
+        <div className="w-24 h-24 relative flex items-center justify-center drop-shadow-[0_10px_25px_rgba(212,175,55,0.4)] group-hover:scale-105 transition-transform">
+          <img
+            src="/sprites/heart-lock.png"
+            alt="Königliches Herzschloss"
+            className="w-full h-full object-contain pointer-events-none"
+          />
         </div>
         <div className="absolute -bottom-1 -right-1 bg-champagne-500 text-midnight-900 rounded-full p-1 shadow-md">
           <Sparkles className="w-4 h-4 animate-spin" style={{ animationDuration: '6s' }} />

@@ -46,8 +46,8 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
           {/* Header */}
           <div className="flex items-center justify-between pb-3 border-b border-rosegold-500/20">
             <div className="flex items-center gap-2">
-              <div className="p-2 rounded-xl bg-rosegold-500/20 text-rosegold-300">
-                <Gift className="w-5 h-5 text-amber-400" />
+              <div className="w-9 h-9 p-1 rounded-xl bg-rosegold-500/20 flex items-center justify-center">
+                <img src="/sprites/gift-box.png" alt="Geschenkbox" className="w-full h-full object-contain" />
               </div>
               <div>
                 <h3 className="text-base font-serif font-bold gold-gradient-text">

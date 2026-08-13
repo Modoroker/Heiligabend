@@ -88,10 +88,10 @@ export default function Navbar({
           <button
             onClick={onOpenBonusModal}
             aria-label="Geheim-Nachrichten und Geschenke öffnen"
-            className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 text-champagne-300 hover:bg-rosegold-500/30 transition-all relative"
+            className="p-1 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 hover:bg-rosegold-500/30 transition-all relative flex items-center justify-center"
             title="Geheim-Nachrichten öffnen 🎁"
           >
-            <Gift className="w-4 h-4 animate-bounce text-amber-300" />
+            <img src="/sprites/gift-box.png" alt="Geschenk" className="w-5 h-5 object-contain animate-bounce" />
           </button>
 
           {/* Streak Badge */}

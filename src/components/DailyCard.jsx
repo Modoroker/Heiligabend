@@ -60,21 +60,23 @@ export default function DailyCard({
                 Tagesbotschaft #{day.id}
               </span>
 
-              {/* Romantic Wax Seal */}
+              {/* Romantic 3D Wax Seal */}
               <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-24 h-24 rounded-full bg-gradient-to-tr from-rosegold-600 via-rosegold-500 to-champagne-400 p-1 shadow-rose-glow wax-seal-pulse flex items-center justify-center mb-6 relative"
+                whileHover={{ scale: 1.12, rotate: 3 }}
+                whileTap={{ scale: 0.92 }}
+                className="w-28 h-28 relative flex items-center justify-center mb-5 drop-shadow-[0_10px_25px_rgba(255,100,130,0.45)] wax-seal-pulse cursor-pointer"
               >
-                <div className="w-full h-full rounded-full bg-midnight-900 flex flex-col items-center justify-center border border-rosegold-300/40">
-                  <Heart className="w-10 h-10 text-rosegold-300 fill-rosegold-500/40 animate-pulse" />
-                  <span className="text-[9px] text-champagne-300 tracking-wider font-sans font-bold uppercase mt-0.5">
-                    Öffnen
-                  </span>
-                </div>
+                <img
+                  src="/sprites/wax-seal.png"
+                  alt="Königliches Liebes-Siegel"
+                  className="w-full h-full object-contain pointer-events-none"
+                />
+                <span className="absolute bottom-2 px-2.5 py-0.5 rounded-full bg-midnight-950/80 border border-champagne-300/40 text-[9px] text-champagne-200 tracking-widest font-sans font-bold uppercase shadow-sm">
+                  Öffnen
+                </span>
               </motion.div>
 
-              <p className="text-xs text-slate-400 max-w-xs flex items-center justify-center gap-1.5 font-medium">
+              <p className="text-xs text-slate-300 max-w-xs flex items-center justify-center gap-1.5 font-medium">
                 <Sparkles className="w-3.5 h-3.5 text-champagne-400 animate-spin" />
                 Tippe auf das Siegel, um deinen Grund zu enthüllen
               </p>
