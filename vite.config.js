@@ -16,7 +16,7 @@ export default defineConfig({
       ],
       manifest: {
         lang: 'de',
-        name: '365 Gründe warum ich dich liebe ❤️',
+        name: '365 Gründe warum ich dich Liebe ❤️',
         short_name: '365 Gründe',
         description: 'Ein Jahr voller Liebe und Wertschätzung für meine wundervolle Frau Nina.',
         theme_color: '#070B19',

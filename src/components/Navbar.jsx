@@ -45,7 +45,7 @@ export default function Navbar({
         <div
           role="button"
           tabIndex={0}
-          aria-label="365 Gründe, warum ich dich liebe (3x tippen für Geheimcode)"
+          aria-label="365 Gründe, warum ich dich Liebe (3x tippen für Geheimcode)"
           onClick={handleLogoTap}
           onKeyDown={handleKeyDown}
           className="flex items-center gap-2 cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-rosegold-400 rounded-lg p-1 min-w-0 flex-1"
@@ -58,7 +58,7 @@ export default function Navbar({
             <h1 className="text-[11px] sm:text-sm font-serif font-bold gold-gradient-text tracking-tight leading-tight">
               <span>365 Gründe,</span>
               <br className="inline sm:hidden" />
-              <span className="sm:inline"> warum ich dich liebe</span>
+              <span className="sm:inline"> warum ich dich Liebe</span>
             </h1>
           </div>
         </div>
