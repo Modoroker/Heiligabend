@@ -1,7 +1,7 @@
 import confetti from 'canvas-confetti';
 
 // Helper to create emoji shapes safely if canvas-confetti supports shapeFromText
-function createEmojiShape(char, scalar = 2.4) {
+function createEmojiShape(char, scalar = 2.2) {
   try {
     if (typeof confetti.shapeFromText === 'function') {
       return confetti.shapeFromText({ text: char, scalar });
@@ -12,220 +12,243 @@ function createEmojiShape(char, scalar = 2.4) {
   return 'circle';
 }
 
-const heartShape = createEmojiShape('❤️', 2.5);
-const loveSparkleShape = createEmojiShape('💖', 2.5);
-const starShape = createEmojiShape('⭐', 2.2);
-const sparkleShape = createEmojiShape('✨', 2.2);
-const fireworkShape = createEmojiShape('🎆', 2.6);
-const roseShape = createEmojiShape('🌹', 2.3);
-const kissShape = createEmojiShape('💋', 2.3);
-const diamondShape = createEmojiShape('💎', 2.5);
-const cupidShape = createEmojiShape('💘', 2.4);
-const giftShape = createEmojiShape('🎁', 2.4);
-const ringShape = createEmojiShape('💍', 2.4);
+const heartShape = createEmojiShape('❤️', 2.3);
+const loveSparkleShape = createEmojiShape('💖', 2.3);
+const starShape = createEmojiShape('⭐', 2.0);
+const sparkleShape = createEmojiShape('✨', 2.0);
+const roseShape = createEmojiShape('🌹', 2.2);
+const kissShape = createEmojiShape('💋', 2.2);
+const diamondShape = createEmojiShape('💎', 2.3);
+const cupidShape = createEmojiShape('💘', 2.2);
+const giftShape = createEmojiShape('🎁', 2.2);
+const ringShape = createEmojiShape('💍', 2.2);
+const butterflyShape = createEmojiShape('🦋', 2.2);
+const champagneShape = createEmojiShape('🥂', 2.2);
 
-// 1. Romantic 3D Heart Explosion (Flying Ruby Hearts ❤️ & Shimmering 💖)
+// 1. Romantic Heart Swirl (Hearts ❤️ & 💖)
 export function fireHeartExplosion() {
-  const count = 80;
-  // Center burst
   confetti({
-    particleCount: count,
-    spread: 100,
-    startVelocity: 48,
-    ticks: 200,
+    particleCount: 35,
+    spread: 75,
+    startVelocity: 36,
+    ticks: 120,
     origin: { y: 0.65 },
-    shapes: [heartShape, loveSparkleShape, diamondShape],
-    colors: ['#FF0055', '#FF4D6D', '#E8B4B8', '#D4AF37', '#FFF5C2']
+    shapes: [heartShape, loveSparkleShape],
+    colors: ['#FF0055', '#FF4D6D', '#E8B4B8', '#FFF5C2']
   });
-
-  // Follow-up sparkle dust
-  setTimeout(() => {
-    confetti({
-      particleCount: 30,
-      spread: 120,
-      startVelocity: 30,
-      ticks: 150,
-      origin: { y: 0.6 },
-      shapes: [sparkleShape, 'circle'],
-      colors: ['#FFF5C2', '#D4AF37', '#FFD1DC']
-    });
-  }, 120);
 }
 
-// 2. Champagne Gold Star Shower (Flying Stars ⭐ & ✨)
+// 2. Champagne Gold Star Dust (Stars ⭐ & ✨)
 export function fireGoldStarShower() {
-  const duration = 2.2 * 1000;
-  const animationEnd = Date.now() + duration;
-
-  const interval = setInterval(function() {
-    const timeLeft = animationEnd - Date.now();
-    if (timeLeft <= 0) {
-      return clearInterval(interval);
-    }
-    confetti({
-      particleCount: 20,
-      startVelocity: 35,
-      spread: 360,
-      ticks: 100,
-      origin: { x: Math.random(), y: Math.random() * 0.4 },
-      shapes: [starShape, sparkleShape, diamondShape, 'circle'],
-      colors: ['#FFF5C2', '#F7E7CE', '#D4AF37', '#E6C687', '#FFFFFF']
-    });
-  }, 180);
-}
-
-// 3. Side Fireworks Cannons (Fireworks 🎆 & 💥)
-export function fireFireworksCannons() {
-  const duration = 2.5 * 1000;
-  const end = Date.now() + duration;
-
-  (function frame() {
-    confetti({
-      particleCount: 8,
-      angle: 60,
-      spread: 65,
-      startVelocity: 70,
-      origin: { x: 0, y: 0.7 },
-      shapes: [fireworkShape, loveSparkleShape, starShape, diamondShape],
-      colors: ['#FF0055', '#F7E7CE', '#E8B4B8', '#E63946', '#FBBF24']
-    });
-    confetti({
-      particleCount: 8,
-      angle: 120,
-      spread: 65,
-      startVelocity: 70,
-      origin: { x: 1, y: 0.7 },
-      shapes: [fireworkShape, heartShape, starShape, 'circle'],
-      colors: ['#D4AF37', '#FFD1DC', '#9B525E', '#F7E7CE', '#FF4D6D']
-    });
-
-    if (Date.now() < end) {
-      requestAnimationFrame(frame);
-    }
-  }());
-}
-
-// 4. Gentle Love Rain (Roses 🌹 & Petals)
-export function fireLoveRain() {
   confetti({
-    particleCount: 75,
-    spread: 160,
-    startVelocity: 22,
-    decay: 0.94,
-    gravity: 0.45,
-    ticks: 240,
-    origin: { y: 0 },
-    shapes: [roseShape, heartShape, loveSparkleShape, 'circle'],
-    colors: ['#FFD1DC', '#E8B4B8', '#B76E79', '#E63946', '#FFF5C2']
+    particleCount: 30,
+    spread: 90,
+    startVelocity: 34,
+    ticks: 110,
+    origin: { y: 0.6 },
+    shapes: [starShape, sparkleShape],
+    colors: ['#FFF5C2', '#F7E7CE', '#D4AF37', '#FFFFFF']
   });
 }
 
-// 5. 360-degree Kisses & Love Ring (Kisses 💋 & ❤️)
-export function fireGoldenRing() {
-  confetti({
-    particleCount: 90,
-    spread: 360,
-    startVelocity: 42,
-    ticks: 200,
-    origin: { y: 0.5 },
-    shapes: [kissShape, heartShape, ringShape, diamondShape],
-    colors: ['#E63946', '#B76E79', '#FFB6C1', '#D4AF37', '#FFFFFF']
-  });
-}
-
-// 6. Silver & Diamond Sparkle Splash (Diamonds 💎 & ✨)
+// 3. Shimmering Diamond Splash (Diamonds 💎 & ✨)
 export function fireDiamondSplash() {
   confetti({
-    particleCount: 90,
-    spread: 110,
-    startVelocity: 52,
-    ticks: 220,
+    particleCount: 32,
+    spread: 80,
+    startVelocity: 38,
+    ticks: 110,
     origin: { y: 0.6 },
-    shapes: [diamondShape, sparkleShape, ringShape, 'circle'],
-    colors: ['#E2E8F0', '#F8FAFC', '#CBD5E1', '#D4AF37', '#FFD1DC', '#00E5FF']
+    shapes: [diamondShape, sparkleShape],
+    colors: ['#E2E8F0', '#F8FAFC', '#D4AF37', '#00E5FF']
   });
 }
 
-// 7. Cupid Upward Rocket Salvo (Cupid Bows 💘 & ❤️)
+// 4. Velvet Rose Petal Fall (Roses 🌹 & Petals)
+export function fireLoveRain() {
+  confetti({
+    particleCount: 30,
+    spread: 120,
+    startVelocity: 22,
+    decay: 0.94,
+    gravity: 0.5,
+    ticks: 140,
+    origin: { y: 0.2 },
+    shapes: [roseShape, heartShape],
+    colors: ['#FFD1DC', '#E8B4B8', '#B76E79', '#E63946']
+  });
+}
+
+// 5. Golden Wedding Ring Glitter (Rings 💍 & ⭐)
+export function fireGoldenRing() {
+  confetti({
+    particleCount: 30,
+    spread: 85,
+    startVelocity: 35,
+    ticks: 110,
+    origin: { y: 0.6 },
+    shapes: [ringShape, sparkleShape, starShape],
+    colors: ['#D4AF37', '#F7E7CE', '#FFFFFF', '#FFD1DC']
+  });
+}
+
+// 6. Flying Kisses (Kisses 💋 & ❤️)
+export function fireKissBurst() {
+  confetti({
+    particleCount: 32,
+    spread: 70,
+    startVelocity: 38,
+    ticks: 120,
+    origin: { y: 0.65 },
+    shapes: [kissShape, heartShape],
+    colors: ['#E63946', '#FF4D6D', '#FFB6C1', '#FFF5C2']
+  });
+}
+
+// 7. Cupid Bow & Arrow (Cupid 💘 & 💖)
 export function fireCupidArrow() {
   confetti({
-    particleCount: 75,
-    angle: 90,
-    spread: 55,
-    startVelocity: 68,
-    ticks: 220,
-    origin: { y: 1 },
-    shapes: [cupidShape, heartShape, loveSparkleShape, starShape],
-    colors: ['#E63946', '#B76E79', '#FFD1DC', '#F7E7CE', '#D4AF37']
+    particleCount: 32,
+    spread: 60,
+    startVelocity: 42,
+    ticks: 120,
+    origin: { y: 0.7 },
+    shapes: [cupidShape, loveSparkleShape],
+    colors: ['#E63946', '#FFD1DC', '#F7E7CE', '#D4AF37']
   });
 }
 
-// 8. Champagne Pop Celebration (Gifts 🎁 & ⭐)
+// 8. Surprise Gift Pop (Gifts 🎁 & ✨)
+export function fireGiftPop() {
+  confetti({
+    particleCount: 32,
+    spread: 80,
+    startVelocity: 36,
+    ticks: 120,
+    origin: { y: 0.65 },
+    shapes: [giftShape, starShape, sparkleShape],
+    colors: ['#F7E7CE', '#D4AF37', '#FF69B4', '#FFFFFF']
+  });
+}
+
+// 9. Butterfly Romance (Butterflies 🦋 & 💖)
+export function fireButterflyFlutter() {
+  confetti({
+    particleCount: 30,
+    spread: 90,
+    startVelocity: 30,
+    gravity: 0.4,
+    ticks: 140,
+    origin: { y: 0.55 },
+    shapes: [butterflyShape, loveSparkleShape],
+    colors: ['#E0F2FE', '#FCE7F3', '#D4AF37', '#FFB6C1']
+  });
+}
+
+// 10. Sparkler Spark (Sparkles ✨ & ⭐)
+export function fireSparklerPop() {
+  confetti({
+    particleCount: 35,
+    spread: 100,
+    startVelocity: 36,
+    ticks: 110,
+    origin: { y: 0.6 },
+    shapes: [sparkleShape, starShape],
+    colors: ['#FFF5C2', '#FDE047', '#D4AF37', '#FFFFFF']
+  });
+}
+
+// 11. Bubbly Champagne Toast (Champagne 🥂 & 💎)
 export function fireChampagnePop() {
   confetti({
-    particleCount: 80,
-    spread: 90,
-    startVelocity: 48,
-    ticks: 200,
+    particleCount: 30,
+    spread: 75,
+    startVelocity: 40,
+    ticks: 120,
     origin: { y: 0.7 },
-    shapes: [giftShape, starShape, diamondShape, 'circle'],
-    colors: ['#F7E7CE', '#E6C687', '#D4AF37', '#FFFFFF', '#B76E79', '#FF69B4']
+    shapes: [champagneShape, diamondShape, sparkleShape],
+    colors: ['#F7E7CE', '#D4AF37', '#FFFFFF', '#FFF5C2']
   });
 }
 
-// SPECIAL: Full Royal Celebration (Multi-wave burst for scratch completion & milestone events)
+// 12. Pure Rose Petal Kiss (🌹 & 💋)
+export function fireRoseKiss() {
+  confetti({
+    particleCount: 32,
+    spread: 80,
+    startVelocity: 34,
+    ticks: 120,
+    origin: { y: 0.6 },
+    shapes: [roseShape, kissShape, heartShape],
+    colors: ['#E11D48', '#FDA4AF', '#F43F5E', '#FFF5C2']
+  });
+}
+
+// SPECIAL: Snappy Royal Celebration (on scratch completion)
 export function fireRoyalCelebration() {
-  fireHeartExplosion();
-  setTimeout(() => {
-    fireFireworksCannons();
-  }, 250);
-  setTimeout(() => {
-    fireDiamondSplash();
-  }, 600);
+  confetti({
+    particleCount: 40,
+    spread: 85,
+    startVelocity: 38,
+    ticks: 120,
+    origin: { y: 0.6 },
+    shapes: [heartShape, diamondShape, loveSparkleShape],
+    colors: ['#FF0055', '#D4AF37', '#FFF5C2', '#FFD1DC']
+  });
 }
 
-// SPECIAL: Birthday Full-Screen Fireworks (Feb 2)
+// SPECIAL: Birthday Fireworks (Feb 2)
 export function fireBirthdayFireworks() {
-  fireFireworksCannons();
-  setTimeout(fireGoldStarShower, 500);
-  setTimeout(fireDiamondSplash, 1000);
+  confetti({
+    particleCount: 45,
+    spread: 100,
+    startVelocity: 42,
+    ticks: 130,
+    origin: { y: 0.6 },
+    shapes: [starShape, sparkleShape, diamondShape],
+    colors: ['#FFD700', '#FF69B4', '#FF4500', '#00FFFF']
+  });
 }
 
-// SPECIAL: Valentine's Day Floating Heart Rain (Feb 14)
+// SPECIAL: Valentine Heart Rain (Feb 14)
 export function fireValentineHeartRain() {
-  const duration = 3.5 * 1000;
-  const end = Date.now() + duration;
-
-  const interval = setInterval(function() {
-    if (Date.now() > end) return clearInterval(interval);
-    confetti({
-      particleCount: 10,
-      startVelocity: 16,
-      spread: 180,
-      ticks: 150,
-      gravity: 0.35,
-      origin: { x: Math.random(), y: -0.1 },
-      shapes: [heartShape, loveSparkleShape, roseShape, diamondShape],
-      colors: ['#FF4D6D', '#FF758F', '#FF8FA3', '#FFB3C1', '#D4AF37']
-    });
-  }, 200);
+  confetti({
+    particleCount: 45,
+    spread: 110,
+    startVelocity: 35,
+    ticks: 140,
+    origin: { y: 0.3 },
+    shapes: [heartShape, loveSparkleShape, roseShape],
+    colors: ['#FF1493', '#FF69B4', '#FFB6C1', '#FF0055']
+  });
 }
 
-// Main Router: assigns a unique animation experience per day across 8 distinct emoji & particle modes!
+export function fireFireworksCannons() {
+  fireSparklerPop();
+}
+
+// Main Router: assigns 1 of 12 distinct, delicate, non-spammy animations per day!
 export function fireDayAnimation(dayId) {
   const numericId = Number(dayId) || 1;
-  const mode = numericId % 8;
+  const mode = numericId % 12;
 
-  if (mode === 1) fireHeartExplosion();
-  else if (mode === 2) fireGoldStarShower();
-  else if (mode === 3) fireFireworksCannons();
-  else if (mode === 4) fireLoveRain();
-  else if (mode === 5) fireGoldenRing();
-  else if (mode === 6) fireDiamondSplash();
-  else if (mode === 7) fireCupidArrow();
-  else fireChampagnePop();
+  switch (mode) {
+    case 1: fireHeartExplosion(); break;
+    case 2: fireGoldStarShower(); break;
+    case 3: fireDiamondSplash(); break;
+    case 4: fireLoveRain(); break;
+    case 5: fireGoldenRing(); break;
+    case 6: fireKissBurst(); break;
+    case 7: fireCupidArrow(); break;
+    case 8: fireGiftPop(); break;
+    case 9: fireButterflyFlutter(); break;
+    case 10: fireSparklerPop(); break;
+    case 11: fireChampagnePop(); break;
+    default: fireRoseKiss(); break;
+  }
 }
 
 export function fireHeartConfetti() {
   fireHeartExplosion();
 }
+

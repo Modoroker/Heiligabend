@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Gift, Lock, Sparkles } from 'lucide-react';
+import { X, Lock, Sparkles } from 'lucide-react';
 import bonusMessages from '../data/bonusMessages.json';
 import { fireHeartExplosion } from '../utils/confettiUtils';
 
@@ -53,26 +53,26 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
         aria-modal="true"
         aria-labelledby="bonus-modal-title"
         onClick={onClose}
-        className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-midnight-950/85 backdrop-blur-md"
+        className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-midnight-950/85 backdrop-blur-md"
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          initial={{ opacity: 0, scale: 0.92, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
+          exit={{ opacity: 0, scale: 0.92, y: 15 }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-md glass-card rounded-3xl p-4 sm:p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col max-h-[85vh] sm:max-h-[82vh]"
+          className="w-full max-w-lg glass-card rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-rosegold-400/40 shadow-rose-glow relative overflow-hidden flex flex-col max-h-[90dvh] sm:max-h-[85vh]"
         >
           {/* Header */}
           <div className="flex items-center justify-between pb-3 border-b border-rosegold-500/20 flex-shrink-0">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <div className="w-9 h-9 p-1 rounded-xl bg-rosegold-500/20 flex-shrink-0 flex items-center justify-center">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 p-1 rounded-2xl bg-rosegold-500/20 flex-shrink-0 flex items-center justify-center border border-rosegold-400/30">
                 <img src="/sprites/gift-box.png" alt="Geschenkbox" className="w-full h-full object-contain" />
               </div>
               <div className="min-w-0">
-                <h3 id="bonus-modal-title" className="text-base font-serif font-bold gold-gradient-text truncate">
+                <h3 id="bonus-modal-title" className="text-base sm:text-lg font-serif font-bold gold-gradient-text truncate">
                   Geheim-Nachrichten
                 </h3>
-                <span className="text-[11px] text-slate-400 block truncate">
+                <span className="text-xs text-slate-300 block truncate font-medium">
                   {adminBypass ? '✨ Admin-Modus: Alle 7 Briefe freigeschaltet' : 'Überraschungs-Extra-Post für Nina'}
                 </span>
               </div>
@@ -81,35 +81,35 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
             <button
               onClick={onClose}
               aria-label="Schließen"
-              className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors flex-shrink-0 ml-1"
+              className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors flex-shrink-0 ml-1"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
           {/* Body: List or Selected Detail View */}
-          <div className="py-3 flex-1 min-h-0 overflow-y-auto space-y-2.5 overscroll-contain pr-0.5">
+          <div className="py-3 flex-1 min-h-0 overflow-y-auto space-y-2.5 overscroll-contain">
             {selectedBonus ? (
               <div className="flex flex-col items-center justify-between min-h-0 flex-1 space-y-4 py-1">
                 {/* Scrollable Letter Body */}
                 <div className="w-full flex-1 min-h-0 overflow-y-auto space-y-3 text-center px-1">
-                  <span className="px-3.5 py-1 rounded-full text-xs font-semibold bg-rosegold-500/20 text-rosegold-200 border border-rosegold-500/30 inline-block shadow-sm">
+                  <span className="px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-rosegold-500/20 text-rosegold-200 border border-rosegold-500/30 inline-block shadow-sm">
                     {selectedBonus.title}
                   </span>
 
-                  <div className="p-4 sm:p-5 rounded-2xl bg-midnight-950/80 border border-rosegold-500/30 shadow-inner relative">
-                    <span className="text-3xl font-serif text-rosegold-400/40 select-none block -mb-1">“</span>
+                  <div className="p-5 sm:p-6 rounded-2xl bg-midnight-950/90 border border-rosegold-500/35 shadow-inner relative">
+                    <span className="text-3xl font-serif text-rosegold-400/50 select-none block -mb-1">“</span>
                     <p className="text-base sm:text-lg font-serif leading-relaxed text-slate-100 font-medium px-1">
                       {selectedBonus.text}
                     </p>
-                    <span className="text-3xl font-serif text-rosegold-400/40 select-none block -mt-1">”</span>
+                    <span className="text-3xl font-serif text-rosegold-400/50 select-none block -mt-1">”</span>
                   </div>
                 </div>
 
                 {/* Back Button */}
                 <button
                   onClick={() => setSelectedBonus(null)}
-                  className="w-full py-3 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-950 font-bold text-xs sm:text-sm hover:opacity-95 transition-all shadow-md flex items-center justify-center gap-1.5 flex-shrink-0"
+                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-950 font-bold text-sm hover:opacity-95 transition-all shadow-lg flex items-center justify-center gap-1.5 flex-shrink-0"
                 >
                   ← Zurück zur Übersicht
                 </button>
@@ -131,38 +131,38 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
                         handleOpenBonus(bonus);
                       }
                     }}
-                    className={`p-3 sm:p-3.5 rounded-2xl border transition-all flex items-center justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-rosegold-400 ${
+                    className={`p-3 sm:p-4 rounded-2xl border transition-all flex items-center justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-rosegold-400 ${
                       unlocked
-                        ? 'bg-midnight-800/80 border-rosegold-500/40 hover:border-rosegold-300 shadow-rose-glow'
-                        : 'bg-midnight-900/40 border-slate-800/60 opacity-60'
+                        ? 'bg-midnight-900/90 border-rosegold-500/40 hover:border-rosegold-300 shadow-rose-glow'
+                        : 'bg-midnight-900/50 border-slate-800/60 opacity-60'
                     }`}
                   >
-                    <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+                    <div className="flex items-center gap-3 min-w-0 flex-1">
                       <div
-                        className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex-shrink-0 flex items-center justify-center border ${
+                        className={`w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex-shrink-0 flex items-center justify-center border ${
                           unlocked
                             ? 'bg-rosegold-500/20 border-champagne-400/40 text-champagne-300 animate-pulse'
-                            : 'bg-midnight-900 border-slate-800 text-slate-600'
+                            : 'bg-midnight-950 border-slate-800 text-slate-600'
                         }`}
                       >
-                        {unlocked ? <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" /> : <Lock className="w-4 h-4" />}
+                        {unlocked ? <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-champagne-300" /> : <Lock className="w-5 h-5 text-slate-500" />}
                       </div>
 
-                      <div className="min-w-0 flex-1">
-                        <h4 className="text-xs sm:text-sm font-bold text-slate-200 font-serif truncate">
+                      <div className="min-w-0 flex-1 pr-1">
+                        <h4 className="text-sm sm:text-base font-bold text-slate-100 font-serif truncate">
                           {bonus.title}
                         </h4>
-                        <span className="text-[10px] sm:text-[11px] text-slate-400 block truncate">
+                        <span className="text-xs text-rosegold-300 block truncate font-medium mt-0.5">
                           {bonus.subtitle}
                         </span>
                       </div>
                     </div>
 
                     <span
-                      className={`text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-semibold border flex-shrink-0 ml-2 ${
+                      className={`text-xs px-3 py-1.5 rounded-full font-bold border flex-shrink-0 ml-2 shadow-sm ${
                         unlocked
-                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                          : 'bg-slate-800 text-slate-500 border-slate-700'
+                          ? 'bg-emerald-500/25 text-emerald-300 border-emerald-500/50'
+                          : 'bg-slate-800 text-slate-400 border-slate-700'
                       }`}
                     >
                       {unlocked ? 'Öffnen 💌' : 'Gesperrt'}
