@@ -20,6 +20,7 @@ export default function App() {
   const {
     now,
     messages,
+    isLoadingMessages,
     currentDayIndex,
     openedDays,
     favorites,
@@ -46,8 +47,11 @@ export default function App() {
   // Dynamic time of day gradient theme
   const timeTheme = getTimeOfDayTheme(now);
 
-  // Current day data
-  const todayMessage = messages.find((m) => m.id === currentDayIndex) || messages[0];
+  // Current day data (with graceful fallback while messages are loading)
+  const todayMessage = (messages && messages.length > 0)
+    ? (messages.find((m) => m.id === currentDayIndex) || messages[0])
+    : { id: currentDayIndex, text: 'Lädt Liebesbotschaft...', category: 'Liebe & Wertschätzung', date: '2026-12-24' };
+
   const isTodayUnlocked = isDayUnlocked(currentDayIndex);
   const countdown = getTimeUntilUnlock(currentDayIndex);
   const isTodayOpened = openedDays.includes(currentDayIndex);

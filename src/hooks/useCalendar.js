@@ -1,5 +1,4 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import messagesData from '../data/messages.json';
 
 const LOCAL_STORAGE_OPENED_KEY = '365_reasons_opened_days';
 const LOCAL_STORAGE_FAVORITES_KEY = '365_reasons_favorites';
@@ -23,6 +22,9 @@ function safeParseNumberArray(key) {
 }
 
 export function useCalendar() {
+  const [messages, setMessages] = useState([]);
+  const [isLoadingMessages, setIsLoadingMessages] = useState(true);
+
   const [openedDays, setOpenedDays] = useState(() => safeParseNumberArray(LOCAL_STORAGE_OPENED_KEY));
   const [favorites, setFavorites] = useState(() => safeParseNumberArray(LOCAL_STORAGE_FAVORITES_KEY));
 
@@ -36,6 +38,39 @@ export function useCalendar() {
 
   // Cached devDate reference to avoid re-parsing URL on every single interval tick
   const devDateOffsetRef = useRef(null);
+
+  // Runtime fetch for /messages.json (avoids large static bundle while keeping 100% offline service-worker caching)
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/messages.json')
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch messages.json');
+        return res.json();
+      })
+      .then((data) => {
+        if (isMounted) {
+          setMessages(Array.isArray(data) ? data : []);
+          setIsLoadingMessages(false);
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to load /messages.json via fetch, falling back to dynamic import:', err);
+        import('../data/messages.json')
+          .then((mod) => {
+            if (isMounted) {
+              setMessages(mod.default || mod || []);
+              setIsLoadingMessages(false);
+            }
+          })
+          .catch(() => {
+            if (isMounted) setIsLoadingMessages(false);
+          });
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const [now, setNow] = useState(() => {
     try {
@@ -175,7 +210,8 @@ export function useCalendar() {
 
   return {
     now,
-    messages: messagesData,
+    messages,
+    isLoadingMessages,
     currentDayIndex,
     openedDays,
     favorites,
