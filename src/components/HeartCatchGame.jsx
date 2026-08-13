@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trophy, RotateCcw, Flame, Zap, Snowflake, Magnet, Volume2, VolumeX, Info } from 'lucide-react';
+import { X, Trophy, RotateCcw, Flame, Zap, Snowflake, Magnet, Volume2, VolumeX, Info, Pause, Play } from 'lucide-react';
 
 // ==========================================
 // 1. GAME CONSTANTS & CONFIGURATION
@@ -24,6 +24,7 @@ const GAME_CONFIG = {
   MAGNET_INTERVAL_MIN: 14000,
   MAGNET_PITY_INTERVAL: 20000,
   MAGNET_SUCTION_FORCE: 5.2,
+  MAGNET_DIAMOND_FORCE: 2.2, // Balanced gentle pull for rare diamonds
 };
 
 // Localized strings
@@ -33,6 +34,8 @@ const TEXTS = {
   HIGH_SCORE: 'Best',
   GAME_OVER: 'Spiel beendet',
   RETRY: 'Nochmal spielen',
+  PAUSE: 'Spiel pausieren',
+  RESUME: 'Spiel fortsetzen',
   NEW_HIGH_SCORE: '✨ Neuer persönlicher Highscore! 👑',
   HINT: 'Fange bunte Herzen & meide gebrochene! 🎀',
   COMBO_2X: '🔥 2x COMBO!',
@@ -58,7 +61,19 @@ class SoundEffects {
       }
     }
     if (this.ctx && this.ctx.state === 'suspended') {
-      this.ctx.resume();
+      this.ctx.resume().catch(() => {});
+    }
+  }
+
+  suspend() {
+    if (this.ctx && this.ctx.state === 'running') {
+      this.ctx.suspend().catch(() => {});
+    }
+  }
+
+  resume() {
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume().catch(() => {});
     }
   }
 
@@ -124,25 +139,35 @@ const sfx = new SoundEffects();
 // ==========================================
 
 /**
- * Cross-browser rounded rectangle fallback (Safari < 16 polyfill)
+ * Cross-browser rounded rectangle fallback with full 4-corner asymmetric support
  */
 function drawRoundedRect(ctx, x, y, width, height, radii) {
   if (typeof ctx.roundRect === 'function') {
     ctx.roundRect(x, y, width, height, radii);
     return;
   }
-  // Fallback implementation
-  const r = typeof radii === 'number' ? radii : (Array.isArray(radii) ? radii[0] || 0 : 4);
+
+  // Parse asymmetric radii: [top-left, top-right, bottom-right, bottom-left]
+  let tl = 4, tr = 4, br = 18, bl = 18;
+  if (Array.isArray(radii)) {
+    tl = radii[0] ?? 0;
+    tr = radii[1] ?? tl;
+    br = radii[2] ?? tl;
+    bl = radii[3] ?? tr;
+  } else if (typeof radii === 'number') {
+    tl = tr = br = bl = radii;
+  }
+
   ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.lineTo(x + width - r, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + r);
-  ctx.lineTo(x + width, y + height - r);
-  ctx.quadraticCurveTo(x + width, y + height, x + width - r, y + height);
-  ctx.lineTo(x + r, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.moveTo(x + tl, y);
+  ctx.lineTo(x + width - tr, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + tr);
+  ctx.lineTo(x + width, y + height - br);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - br, y + height);
+  ctx.lineTo(x + bl, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - bl);
+  ctx.lineTo(x, y + tl);
+  ctx.quadraticCurveTo(x, y, x + tl, y);
   ctx.closePath();
 }
 
@@ -165,9 +190,7 @@ function drawVectorHeart(ctx, x, y, size, fillStyle, strokeColor = '#FFFFFF', li
   ctx.beginPath();
   const topCurveHeight = size * 0.3;
   ctx.moveTo(0, topCurveHeight);
-  // Top left curve
   ctx.bezierCurveTo(-size / 2, -topCurveHeight, -size, size / 3, 0, size);
-  // Top right curve
   ctx.bezierCurveTo(size, size / 3, size / 2, -topCurveHeight, 0, topCurveHeight);
   ctx.closePath();
   ctx.fillStyle = fillStyle;
@@ -235,7 +258,7 @@ function drawVectorDiamond(ctx, x, y, size, fillStyle) {
   ctx.restore();
 }
 
-// Static function outside component to avoid recreation
+// Static love messages on game over
 function getGameOverLoveMessage(finalScore) {
   if (finalScore >= 350) return 'Unglaublich! Du hast mein ganzes Herz erobert! 👑❤️';
   if (finalScore >= 200) return 'Wundervoll gespielt! Du bist mein wertvollster Schatz. ✨💖';
@@ -250,6 +273,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
   const canvasRef = useRef(null);
   const containerRef = useRef(null);
   const highscoreTimeoutRef = useRef(null);
+  const retryBtnRef = useRef(null);
 
   // Safe localStorage reading
   const [score, setScore] = useState(0);
@@ -269,6 +293,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     }
   });
 
+  const [isPaused, setIsPaused] = useState(false);
   const [lives, setLives] = useState(GAME_CONFIG.MAX_LIVES);
   const [combo, setCombo] = useState(0);
   const [isFever, setIsFever] = useState(false);
@@ -277,8 +302,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
   const [isGameOver, setIsGameOver] = useState(false);
   const [newHighScoreNotice, setNewHighScoreNotice] = useState(false);
   const [showHint, setShowHint] = useState(true);
+  const [liveAnnouncement, setLiveAnnouncement] = useState('');
 
-  // Sync mute state with sound engine
+  // Sync sound engine
   useEffect(() => {
     sfx.isMuted = isMuted;
     try {
@@ -286,7 +312,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     } catch {}
   }, [isMuted]);
 
-  // Hide initial hint after 4 seconds
+  // Hide initial hint after 4s
   useEffect(() => {
     if (isOpen) {
       setShowHint(true);
@@ -295,7 +321,14 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     }
   }, [isOpen]);
 
-  // Mutable Game State Ref for 60fps performance without unnecessary re-renders
+  // Autofocus Retry button when Game Over occurs
+  useEffect(() => {
+    if (isGameOver && retryBtnRef.current) {
+      retryBtnRef.current.focus();
+    }
+  }, [isGameOver]);
+
+  // Mutable Game State Ref for 60fps performance
   const gameStateRef = useRef({
     basketX: LOGICAL_WIDTH / 2 - GAME_CONFIG.BASKET_WIDTH / 2,
     targetBasketX: LOGICAL_WIDTH / 2 - GAME_CONFIG.BASKET_WIDTH / 2,
@@ -316,11 +349,12 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     magnetTimeLeft: 0,
     freezeTimeLeft: 0,
     isGameOver: false,
+    isPaused: false,
     isNewHighScore: false,
     gradientCache: null,
   });
 
-  // Cached Background Stars
+  // Background stars
   const initBgStars = () => {
     const stars = [];
     for (let i = 0; i < 28; i++) {
@@ -343,6 +377,10 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       savedHighScore = parseInt(localStorage.getItem(HIGH_SCORE_KEY) || '0', 10) || 0;
     } catch {}
 
+    if (highscoreTimeoutRef.current) {
+      clearTimeout(highscoreTimeoutRef.current);
+    }
+
     const now = performance.now();
     gameStateRef.current = {
       basketX: LOGICAL_WIDTH / 2 - GAME_CONFIG.BASKET_WIDTH / 2,
@@ -364,6 +402,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       magnetTimeLeft: 0,
       freezeTimeLeft: 0,
       isGameOver: false,
+      isPaused: false,
       isNewHighScore: false,
       gradientCache: null,
     };
@@ -375,11 +414,13 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     setMagnetActive(false);
     setFreezeActive(false);
     setIsGameOver(false);
+    setIsPaused(false);
     setNewHighScoreNotice(false);
     setHighScore(savedHighScore);
+    setLiveAnnouncement('Spiel neu gestartet');
   }, []);
 
-  // Update Score & Check Highscore with React State Throttling
+  // Update Score & Check Highscore
   const updateScoreAndCheckHighscore = useCallback((addedPoints) => {
     const state = gameStateRef.current;
     let multiplier = 1;
@@ -440,8 +481,8 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     });
   }, []);
 
-  // Spawn Items Logic with Balanced Magnet Interval & Variety
-  const spawnHeart = useCallback((nowTime) => {
+  // Spawn Items with Balanced Magnet Pacing & Variety
+  const spawnItems = useCallback((nowTime) => {
     const state = gameStateRef.current;
     const currentScore = state.score;
     const isFrozen = state.freezeTimeLeft > 0;
@@ -459,7 +500,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     let speedMult = 1.0;
     let points = 10;
 
-    // Magnet Spawn Pacing
+    // Magnet Spawn Control
     const timeSinceLastMagnet = nowTime - (state.lastMagnetSpawnTime || 0);
     const isMagnetActive = state.magnetTimeLeft > 0;
     const magnetPityTrigger = !isMagnetActive && timeSinceLastMagnet >= GAME_CONFIG.MAGNET_PITY_INTERVAL;
@@ -477,32 +518,32 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       speedMult = 1.3;
       points = type === 'diamond' ? 50 : 25;
     } else if (rand < 0.60) {
-      type = 'classic'; // 60%
+      type = 'classic';
       size = 32;
       speedMult = 1.0;
       points = 10;
     } else if (rand < 0.76) {
-      type = 'gold'; // 16%
+      type = 'gold';
       size = 33;
       speedMult = 1.3;
       points = 25;
     } else if (rand < 0.84) {
-      type = 'diamond'; // 8%
+      type = 'diamond';
       size = 30;
       speedMult = 1.5;
       points = 50;
     } else if (rand < 0.92) {
-      type = 'broken'; // 8%
+      type = 'broken';
       size = 34;
       speedMult = 0.95;
       points = -10;
     } else if (rand < 0.96) {
-      type = 'freeze'; // 4%
+      type = 'freeze';
       size = 30;
       speedMult = 1.1;
       points = 15;
     } else {
-      type = 'emerald'; // 4%
+      type = 'emerald';
       size = 28;
       speedMult = 1.6;
       points = 30;
@@ -533,7 +574,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     let animationFrameId;
     let lastFrameTime = performance.now();
 
-    // Cache static gradients once on canvas context
+    // Cache static relative gradients once on canvas context
     const getCachedGradients = (ctx) => {
       const state = gameStateRef.current;
       if (state.gradientCache) return state.gradientCache;
@@ -564,7 +605,14 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       bgGrad.addColorStop(0.5, '#0B132B');
       bgGrad.addColorStop(1, '#111827');
 
-      state.gradientCache = { redGrad, goldGrad, greenGrad, diamondGrad, bgGrad };
+      // Relative Basket Gradient (0, 0 to 0, BASKET_HEIGHT)
+      const basketGrad = ctx.createLinearGradient(0, 0, 0, GAME_CONFIG.BASKET_HEIGHT);
+      basketGrad.addColorStop(0, '#FCE7F3');
+      basketGrad.addColorStop(0.3, '#E8B4B8');
+      basketGrad.addColorStop(0.7, '#D4AF37');
+      basketGrad.addColorStop(1, '#831843');
+
+      state.gradientCache = { redGrad, goldGrad, greenGrad, diamondGrad, bgGrad, basketGrad };
       return state.gradientCache;
     };
 
@@ -579,8 +627,8 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      // Crisp High-DPI Resolution Scaling
-      const dpr = window.devicePixelRatio || 1;
+      // Cap DPR to 2 to prevent excessive GPU allocation on 3x screens
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = container.getBoundingClientRect();
       const displayW = Math.floor(rect.width || LOGICAL_WIDTH);
       const displayH = Math.floor(rect.height || LOGICAL_HEIGHT);
@@ -588,12 +636,15 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       if (canvas.width !== displayW * dpr || canvas.height !== displayH * dpr) {
         canvas.width = displayW * dpr;
         canvas.height = displayH * dpr;
-        state.gradientCache = null; // Recreate gradients if canvas dimensions resize
+        state.gradientCache = null;
       }
 
-      if (state.isGameOver) return;
+      if (state.isGameOver || state.isPaused) {
+        animationFrameId = requestAnimationFrame(updateAndRender);
+        return;
+      }
 
-      // 1. Update Timers & Power-Ups
+      // --- 1. UPDATE TIMERS & POWER-UPS ---
       if (state.feverTimeLeft > 0) {
         state.feverTimeLeft -= dt;
         if (state.feverTimeLeft <= 0) {
@@ -616,7 +667,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         }
       }
 
-      // 2. Update Basket Movement
+      // --- 2. UPDATE BASKET POSITION ---
       if (state.keysPressed.ArrowLeft) {
         state.basketX = Math.max(0, state.basketX - GAME_CONFIG.BASKET_SPEED * dt);
         state.targetBasketX = state.basketX;
@@ -628,10 +679,10 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         state.basketX += (clampedTarget - state.basketX) * Math.min(1.0, GAME_CONFIG.BASKET_LERP * dt);
       }
 
-      // 3. Spawn Items
-      spawnHeart(currentTime);
+      // --- 3. SPAWN ITEMS ---
+      spawnItems(currentTime);
 
-      // 4. Update Hearts & Collision
+      // --- 4. UPDATE HEARTS & COLLISION DETECTION ---
       const basketCenterX = state.basketX + state.basketWidth / 2;
       const basketTop = LOGICAL_HEIGHT - 56;
       const basketBottom = LOGICAL_HEIGHT - 10;
@@ -639,17 +690,18 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       for (let i = state.hearts.length - 1; i >= 0; i--) {
         const item = state.hearts[i];
 
-        // Magnet Power-Up Attraction
+        // Magnet Power-Up: Balanced pull
         if (state.magnetTimeLeft > 0 && item.type !== 'broken' && item.y > 80) {
+          const force = item.type === 'diamond' ? GAME_CONFIG.MAGNET_DIAMOND_FORCE : GAME_CONFIG.MAGNET_SUCTION_FORCE;
           const dx = basketCenterX - item.x;
-          item.x += dx * GAME_CONFIG.MAGNET_SUCTION_FORCE * dt;
+          item.x += dx * force * dt;
         }
 
         const currentSpeed = state.freezeTimeLeft > 0 ? item.speed * 0.5 : item.speed;
         item.y += currentSpeed * dt;
         item.rotation += item.rotationSpeed * dt;
 
-        // Catch Collision
+        // Catch collision
         const inHorizontalRange = item.x >= state.basketX - 12 && item.x <= state.basketX + state.basketWidth + 12;
         const inVerticalRange = item.y >= basketTop - 12 && item.y <= basketBottom;
 
@@ -674,6 +726,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               sfx.gameOver();
               state.isGameOver = true;
               setIsGameOver(true);
+              setLiveAnnouncement(`Spiel beendet! Punktzahl: ${state.score}`);
             }
           } else {
             state.combo += 1;
@@ -683,12 +736,14 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               sfx.powerUp();
               addPopup(TEXTS.COMBO_2X, basketCenterX, basketTop - 40, '#FFB703');
               createParticles(basketCenterX, basketTop, '#FFB703', 20);
+              setLiveAnnouncement('2-fach Combo aktiv!');
             } else if (state.combo >= GAME_CONFIG.COMBO_3X_THRESHOLD && state.feverTimeLeft <= 0) {
               sfx.powerUp();
               state.feverTimeLeft = GAME_CONFIG.FEVER_DURATION;
               setIsFever(true);
               addPopup(TEXTS.COMBO_3X, basketCenterX, basketTop - 40, '#FF0055');
               createParticles(basketCenterX, basketTop, '#FFD700', 32);
+              setLiveAnnouncement('3-fach Fever Modus aktiv!');
             }
 
             if (item.type === 'classic') {
@@ -717,11 +772,12 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             } else if (item.type === 'magnet') {
               sfx.powerUp();
               state.magnetTimeLeft = GAME_CONFIG.MAGNET_DURATION;
-              state.lastMagnetSpawnTime = performance.now();
+              state.lastMagnetSpawnTime = currentTime;
               setMagnetActive(true);
               updateScoreAndCheckHighscore(item.points);
               addPopup(TEXTS.MAGNET_ACTIVE, item.x, item.y, '#C084FC');
               createParticles(item.x, item.y, '#C084FC', 22);
+              setLiveAnnouncement('Magnet Power-Up aktiv');
             } else if (item.type === 'freeze') {
               sfx.powerUp();
               state.freezeTimeLeft = GAME_CONFIG.FREEZE_DURATION;
@@ -729,12 +785,13 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               updateScoreAndCheckHighscore(item.points);
               addPopup(TEXTS.FREEZE_ACTIVE, item.x, item.y, '#38BDF8');
               createParticles(item.x, item.y, '#38BDF8', 20);
+              setLiveAnnouncement('Zeitlupe Power-Up aktiv');
             }
           }
           continue;
         }
 
-        // Missed item logic - all missed good items reset combo!
+        // Missed item logic
         if (item.y > LOGICAL_HEIGHT + 25) {
           state.hearts.splice(i, 1);
 
@@ -748,16 +805,16 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               sfx.gameOver();
               state.isGameOver = true;
               setIsGameOver(true);
+              setLiveAnnouncement(`Spiel beendet! Punktzahl: ${state.score}`);
             }
           } else if (item.type === 'gold' || item.type === 'diamond') {
-            // Missing rare items breaks combo to prevent skipping normal hearts
             state.combo = 0;
             setCombo(0);
           }
         }
       }
 
-      // 5. Update Particles & Popups
+      // --- 5. UPDATE PARTICLES & POPUPS ---
       for (let i = state.particles.length - 1; i >= 0; i--) {
         const p = state.particles[i];
         p.x += p.vx * dt;
@@ -780,7 +837,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         if (star.y > LOGICAL_HEIGHT) star.y = 0;
       });
 
-      // 6. RENDER CANVAS
+      // --- 6. RENDER CANVAS SCENE ---
       ctx.save();
       ctx.scale((displayW / LOGICAL_WIDTH) * dpr, (displayH / LOGICAL_HEIGHT) * dpr);
 
@@ -896,41 +953,38 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         ctx.restore();
       });
 
-      // Render Basket
+      // --- 7. RENDER BASKET (Using Cached Relative Gradient) ---
       const bX = state.basketX;
       const bY = LOGICAL_HEIGHT - 54;
       const bW = state.basketWidth;
       const bH = state.basketHeight;
 
-      const basketGrad = ctx.createLinearGradient(bX, bY, bX, bY + bH);
-      basketGrad.addColorStop(0, '#FCE7F3');
-      basketGrad.addColorStop(0.3, '#E8B4B8');
-      basketGrad.addColorStop(0.7, '#D4AF37');
-      basketGrad.addColorStop(1, '#831843');
+      ctx.save();
+      ctx.translate(bX, bY);
 
-      ctx.fillStyle = basketGrad;
+      ctx.fillStyle = grads.basketGrad;
       ctx.strokeStyle = state.feverTimeLeft > 0 ? '#FFD700' : state.magnetTimeLeft > 0 ? '#C084FC' : '#FFFBEB';
       ctx.lineWidth = 3;
-      drawRoundedRect(ctx, bX, bY, bW, bH, [4, 4, 18, 18]);
+      drawRoundedRect(ctx, 0, 0, bW, bH, [4, 4, 18, 18]);
       ctx.fill();
       ctx.stroke();
 
       // Golden Top Lip
       ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(bX - 3, bY, bW + 6, 6);
+      ctx.fillRect(-3, 0, bW + 6, 6);
 
       // Center Icon
       ctx.fillStyle = '#FFFFFF';
       ctx.font = '18px sans-serif';
       ctx.textAlign = 'center';
       if (state.magnetTimeLeft > 0) {
-        ctx.fillText('🧲', bX + bW / 2, bY + bH / 2 + 8);
+        ctx.fillText('🧲', bW / 2, bH / 2 + 8);
       } else if (state.feverTimeLeft > 0) {
-        ctx.fillText('🔥', bX + bW / 2, bY + bH / 2 + 8);
+        ctx.fillText('🔥', bW / 2, bH / 2 + 8);
       } else if (state.freezeTimeLeft > 0) {
-        ctx.fillText('❄️', bX + bW / 2, bY + bH / 2 + 8);
+        ctx.fillText('❄️', bW / 2, bH / 2 + 8);
       } else {
-        ctx.fillText('🎀', bX + bW / 2, bY + bH / 2 + 8);
+        ctx.fillText('🎀', bW / 2, bH / 2 + 8);
       }
 
       ctx.restore();
@@ -943,7 +997,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       cancelAnimationFrame(animationFrameId);
       if (highscoreTimeoutRef.current) clearTimeout(highscoreTimeoutRef.current);
     };
-  }, [isOpen, resetGame, spawnHeart, updateScoreAndCheckHighscore, createParticles, addPopup]);
+  }, [isOpen, resetGame, spawnItems, updateScoreAndCheckHighscore, createParticles, addPopup]);
 
   // Tab visibility change & Window Blur listeners
   useEffect(() => {
@@ -953,6 +1007,9 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       if (document.hidden) {
         gameStateRef.current.keysPressed.ArrowLeft = false;
         gameStateRef.current.keysPressed.ArrowRight = false;
+        sfx.suspend();
+      } else {
+        sfx.resume();
       }
     };
 
@@ -964,6 +1021,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
         e.preventDefault();
+        sfx.init(); // Initialize audio on first key press
         gameStateRef.current.keysPressed[e.key] = true;
       }
     };
@@ -988,6 +1046,16 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     };
   }, [isOpen]);
 
+  // Toggle Pause
+  const togglePause = () => {
+    setIsPaused((prev) => {
+      const next = !prev;
+      gameStateRef.current.isPaused = next;
+      setLiveAnnouncement(next ? 'Spiel pausiert' : 'Spiel fortgesetzt');
+      return next;
+    });
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -996,6 +1064,8 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-label={TEXTS.TITLE}
+        onPointerDown={() => sfx.init()}
+        onTouchStart={() => sfx.init()}
         className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-midnight-950/90 backdrop-blur-sm"
       >
         <motion.div
@@ -1005,16 +1075,14 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           transition={{ type: 'spring', damping: 22, stiffness: 260 }}
           className="relative w-full max-w-sm aspect-[400/600] rounded-3xl overflow-hidden shadow-2xl border-2 border-rosegold-400/50 bg-midnight-900 flex flex-col justify-between select-none"
         >
-          {/* Screenreader Accessible Game Live Region */}
+          {/* Screenreader Accessible Live Region (Throttled meaningful events) */}
           <div className="sr-only" aria-live="polite">
-            {isGameOver
-              ? `Spiel beendet! Punktzahl: ${score}, Bester Highscore: ${highScore}`
-              : `Punkte: ${score}, Leben: ${lives}, Serie: ${combo}`}
+            {liveAnnouncement}
           </div>
 
           {/* Header HUD Bar */}
           <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-between p-3.5 bg-midnight-900/95 border-b border-rosegold-500/30">
-            {/* Left Actions: Lives & In-Game Reset Button */}
+            {/* Left Actions: Lives, Pause, Reset, Sound */}
             <div className="flex items-center gap-1.5">
               <div className="flex items-center gap-0.5 bg-midnight-800 px-2 py-1 rounded-full text-xs font-bold border border-slate-700">
                 {[1, 2, 3].map((heartNum) => (
@@ -1023,6 +1091,15 @@ export default function HeartCatchGame({ isOpen, onClose }) {
                   </span>
                 ))}
               </div>
+
+              <button
+                onClick={togglePause}
+                aria-label={isPaused ? TEXTS.RESUME : TEXTS.PAUSE}
+                className="p-1.5 rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors"
+                title={isPaused ? TEXTS.RESUME : TEXTS.PAUSE}
+              >
+                {isPaused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
+              </button>
 
               <button
                 onClick={resetGame}
@@ -1047,7 +1124,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               </button>
             </div>
 
-            {/* Power-up / Combo Status Badges */}
+            {/* Power-up / Combo Badges */}
             <div className="flex items-center gap-1">
               {isFever && (
                 <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50 animate-pulse">
@@ -1093,7 +1170,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             </div>
           </div>
 
-          {/* Initial Quick Hint Banner */}
+          {/* Quick Hint Banner */}
           {showHint && !isGameOver && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -1109,6 +1186,20 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           {newHighScoreNotice && (
             <div className="absolute top-16 inset-x-6 z-20 bg-gradient-to-r from-amber-500 to-rose-500 text-white font-bold text-center py-1.5 rounded-2xl shadow-lg animate-bounce text-xs">
               {TEXTS.NEW_HIGH_SCORE}
+            </div>
+          )}
+
+          {/* Pause Overlay */}
+          {isPaused && !isGameOver && (
+            <div className="absolute inset-0 z-30 bg-midnight-950/80 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center">
+              <h3 className="text-2xl font-serif font-bold text-champagne-300 mb-2">Spiel Pausiert</h3>
+              <p className="text-xs text-slate-400 mb-5">Tippe auf Fortsetzen, um weiterzuspielen.</p>
+              <button
+                onClick={togglePause}
+                className="px-6 py-2.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-lg text-sm flex items-center gap-2"
+              >
+                <Play className="w-4 h-4" /> {TEXTS.RESUME}
+              </button>
             </div>
           )}
 
@@ -1133,6 +1224,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             }}
             onTouchStart={(e) => {
               if (e.cancelable) e.preventDefault();
+              sfx.init(); // Initialize audio on first user touch gesture
               const container = containerRef.current;
               if (!container || !e.touches[0]) return;
               const rect = container.getBoundingClientRect();
@@ -1168,10 +1260,12 @@ export default function HeartCatchGame({ isOpen, onClose }) {
                 </div>
               </div>
 
-              {/* Retry Button */}
+              {/* Retry Button with Autofocus */}
               <button
+                ref={retryBtnRef}
+                autoFocus
                 onClick={resetGame}
-                className="w-full max-w-xs py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm active:scale-95"
+                className="w-full max-w-xs py-3.5 rounded-2xl bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 font-bold shadow-lg hover:opacity-95 transition-all flex items-center justify-center gap-2 text-sm active:scale-95 focus:outline-none focus:ring-2 focus:ring-champagne-300"
               >
                 <RotateCcw className="w-4 h-4" /> {TEXTS.RETRY}
               </button>
