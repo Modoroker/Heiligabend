@@ -129,6 +129,7 @@ export default function MessageModal({
           {/* Close Button */}
           <button
             onClick={onClose}
+            aria-label="Nachricht schließen"
             className="absolute top-4 right-4 z-40 p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors"
           >
             <X className="w-5 h-5" />
