@@ -2,6 +2,13 @@ import assert from 'node:assert';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import {
+  computeDayIndex,
+  getUnlockDate,
+  isDayUnlocked,
+  getTimeUntilUnlock,
+  safeParseNumberArray
+} from '../src/utils/dateUtils.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, '..');
@@ -38,58 +45,6 @@ function test(description, fn) {
   }
 }
 
-// -------------------------------------------------------------
-// CORE RE-IMPLEMENTATIONS & SIMULATORS (Mirroring App Logic)
-// -------------------------------------------------------------
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
-const ANCHOR_UTC = Date.UTC(2026, 11, 24, 0, 0, 0);
-
-function computeDayIndex(date) {
-  const todayUTC = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
-  const diffDays = Math.floor((todayUTC - ANCHOR_UTC) / MS_PER_DAY) + 1;
-  if (diffDays < 1) return 1;
-  if (diffDays > 365) return 365;
-  return diffDays;
-}
-
-function getUnlockDate(dayId) {
-  if (dayId <= 1) {
-    // Day 1: 24.12.2026 21:00 CET = 20:00 UTC
-    return new Date(Date.UTC(2026, 11, 24, 20, 0, 0));
-  }
-  const ts = ANCHOR_UTC + (dayId - 1) * MS_PER_DAY;
-  return new Date(ts);
-}
-
-function isDayUnlocked(dayId, now, adminBypass = false) {
-  if (adminBypass) return true;
-  return now.getTime() >= getUnlockDate(dayId).getTime();
-}
-
-function getTimeUntilUnlock(dayId, now) {
-  const target = getUnlockDate(dayId);
-  const diffMs = target.getTime() - now.getTime();
-  if (diffMs <= 0) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0, isUnlocked: true };
-  }
-  const totalSeconds = Math.floor(diffMs / 1000);
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  return { days, hours, minutes, seconds, isUnlocked: false };
-}
-
-function safeParseNumberArray(raw) {
-  try {
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) {
-      return parsed.filter((x) => typeof x === 'number' && Number.isFinite(x) && x >= 1 && x <= 365);
-    }
-  } catch {}
-  return [];
-}
 
 // =========================================================================
 // EPOCH 1: 365-TAGE ZEITREISE, UTC, DST & CHRONOLOGIE

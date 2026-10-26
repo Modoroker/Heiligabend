@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Heart, Sparkles, CheckCircle2, Copy, Check } from 'lucide-react';
 import { fireDayAnimation } from '../utils/confettiUtils';
 
 export default function DailyCard({
@@ -11,10 +11,18 @@ export default function DailyCard({
   onToggleFavorite,
 }) {
   const [isOpen, setIsOpen] = useState(isOpened);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setIsOpen(isOpened);
   }, [isOpened]);
+
+  const handleCopy = () => {
+    if (!day?.text) return;
+    navigator.clipboard?.writeText(day.text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const handleOpenEnvelope = () => {
     if (!isOpen) {
@@ -99,7 +107,19 @@ export default function DailyCard({
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={handleCopy}
+                  aria-label="Liebesbotschaft kopieren"
+                  className="p-2 rounded-full text-slate-400 hover:text-rosegold-300 hover:bg-slate-800/50 transition-colors"
+                  title={copied ? "Kopiert! ❤️" : "Liebesbotschaft kopieren"}
+                >
+                  {copied ? (
+                    <Check className="w-4 h-4 text-emerald-400" />
+                  ) : (
+                    <Copy className="w-4 h-4" />
+                  )}
+                </button>
                 <button
                   onClick={() => onToggleFavorite(day.id)}
                   aria-label={isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"}

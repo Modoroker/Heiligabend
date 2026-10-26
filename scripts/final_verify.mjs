@@ -71,9 +71,10 @@ check('DailyCard a11y', dailyCard.includes('role="button"'), dailyCard.includes(
 check('LockOverlay a11y', lockOverlay.includes('role="button"'), lockOverlay.includes('role="button"') ? 'present' : 'MISSING');
 check('CalendarGrid a11y', calGrid.includes('role="button"'), calGrid.includes('role="button"') ? 'present' : 'MISSING');
 
-// 12. useCalendar UTC unlock
+// 12. dateUtils & useCalendar
+const dateUtils = fs.readFileSync(path.join(root, 'src/utils/dateUtils.js'), 'utf8');
 const useCalendar = fs.readFileSync(path.join(root, 'src/hooks/useCalendar.js'), 'utf8');
-check('useCalendar UTC unlock', useCalendar.includes('Date.UTC(2026, 11, 24, 20, 0, 0)'), 'correct (20:00 UTC = 21:00 CET)');
+check('dateUtils Berlin unlock', dateUtils.includes('Europe/Berlin'), 'present (Europe/Berlin timezone)');
 check('useCalendar AbortController', useCalendar.includes('AbortController'), 'present');
 check('useCalendar exponential backoff', useCalendar.includes('Math.pow(2,'), 'present');
 

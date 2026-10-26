@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bell, X, Check } from 'lucide-react';
+import { Heart, X, Check } from 'lucide-react';
 
 const LOCAL_STORAGE_NOTIF_DISMISSED = '365_reasons_notif_banner_dismissed';
 
@@ -28,9 +28,9 @@ export default function NotificationBanner() {
         setPermissionState(result);
         if (result === 'granted') {
           setShowBanner(false);
-          const notifTitle = 'Liebesbotschaften Erinnerung 💌';
+          const notifTitle = '365 Gründe, warum ich dich Liebe ❤️';
           const notifOptions = {
-            body: 'Toll! Du wirst jetzt jeden Morgen an deine neue Botschaft erinnert. ❤️',
+            body: 'Wunderbar! Schau jeden Tag vorbei und entdecke einen neuen Liebesgrund.',
             icon: '/pwa-192x192.png',
             badge: '/pwa-192x192.png',
           };
@@ -72,20 +72,20 @@ export default function NotificationBanner() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         role="region"
-        aria-label="Benachrichtigung aktivieren"
+        aria-label="Tägliche Liebespost Erinnerung"
         className="w-full bg-gradient-to-r from-rosegold-500/20 via-midnight-800 to-rosegold-500/20 border-b border-rosegold-500/30 px-4 py-2.5 shadow-md"
       >
         <div className="max-w-md mx-auto flex items-center justify-between gap-2 text-xs">
           <div className="flex items-center gap-2 text-slate-200">
             <div className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 text-rosegold-200">
-              <Bell className="w-4 h-4 animate-bounce" />
+              <Heart className="w-4 h-4 text-red-400 fill-red-400/30 animate-pulse" />
             </div>
             <div>
               <span className="font-semibold text-champagne-300 block leading-tight">
-                Tägliche Erinnerung aktivieren?
+                Tägliche Liebespost 💌
               </span>
               <span className="text-[11px] text-slate-400">
-                Erhalte jeden Morgen um 09:00 Uhr deine Botschaft.
+                Tipp: Speichere die App auf deinem Startbildschirm!
               </span>
             </div>
           </div>
@@ -93,10 +93,10 @@ export default function NotificationBanner() {
           <div className="flex items-center gap-1.5">
             <button
               onClick={handleRequestPermission}
-              aria-label="Erinnerung aktivieren"
+              aria-label="Benachrichtigung aktivieren"
               className="px-3 py-1 rounded-full bg-rosegold-500 hover:bg-rosegold-400 text-white font-medium text-[11px] shadow-rose-glow flex items-center gap-1 transition-all"
             >
-              <Check className="w-3.5 h-3.5" /> Ja!
+              <Check className="w-3.5 h-3.5" /> Aktivieren
             </button>
             <button
               onClick={handleDismiss}

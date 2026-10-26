@@ -96,12 +96,13 @@ export default function Navbar({
             <img src="/sprites/gift-box.png" alt="Geschenk" className="w-5 h-5 object-contain animate-bounce pointer-events-none" />
           </button>
 
-          {/* Streak Badge */}
+          {/* Reasons Opened Badge */}
           <div
-            aria-label={`Fortschritt: ${streak} von ${total} Gründen geöffnet`}
-            className="flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full bg-midnight-800/90 border border-rosegold-500/30 text-[11px] sm:text-xs font-semibold shadow-inner flex-shrink-0"
+            aria-label={`Fortschritt: ${streak} von ${total} Gründen entdeckt`}
+            title={`${streak} von ${total} Liebesgründen entdeckt ❤️`}
+            className="flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-full bg-midnight-800/90 border border-rosegold-500/30 text-[11px] sm:text-xs font-semibold shadow-inner flex-shrink-0 cursor-default"
           >
-            <Flame className="w-3.5 h-3.5 text-amber-400 fill-amber-400/20 animate-pulse" />
+            <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400/40 animate-pulse" />
             <span className="text-rosegold-200 font-mono">{streak}</span>
             <span className="text-slate-500 font-normal font-mono text-[10px]">/{total}</span>
           </div>

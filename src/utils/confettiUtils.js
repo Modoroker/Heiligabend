@@ -1,5 +1,18 @@
 import confetti from 'canvas-confetti';
 
+// Respect prefers-reduced-motion preference
+function shouldReduceMotion() {
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  }
+  return false;
+}
+
+function safeConfetti(opts) {
+  if (shouldReduceMotion()) return;
+  return confetti(opts);
+}
+
 // Helper to create emoji shapes safely
 function createEmojiShape(char, scalar = 2.2) {
   try {
@@ -32,7 +45,7 @@ const fireworkShape = createEmojiShape('🎆', 2.5);
 
 // 1. Center Nova Heart Eruption (Explodes 360° outward from center of screen)
 export function fireHeartNova() {
-  confetti({
+  safeConfetti({
     particleCount: 40,
     spread: 360,
     startVelocity: 35,
@@ -47,7 +60,7 @@ export function fireHeartNova() {
 // 2. Dual Side Golden Cannons (Cross-firing fireworks from bottom left & right)
 export function fireDualGoldCannons() {
   // Left cannon
-  confetti({
+  safeConfetti({
     particleCount: 22,
     angle: 55,
     spread: 50,
@@ -58,7 +71,7 @@ export function fireDualGoldCannons() {
     colors: ['#D4AF37', '#FFF5C2', '#F7E7CE']
   });
   // Right cannon
-  confetti({
+  safeConfetti({
     particleCount: 22,
     angle: 125,
     spread: 50,
@@ -72,7 +85,7 @@ export function fireDualGoldCannons() {
 
 // 3. Shimmering Diamond Waterfall (Slow, majestic diamond crystal drizzle from top)
 export function fireDiamondWaterfall() {
-  confetti({
+  safeConfetti({
     particleCount: 35,
     spread: 140,
     startVelocity: 15,
@@ -87,7 +100,7 @@ export function fireDiamondWaterfall() {
 
 // 4. Romantic Rose Petal Gentle Breeze (Floating petals swaying gently from left to right)
 export function fireRosePetalBreeze() {
-  confetti({
+  safeConfetti({
     particleCount: 30,
     spread: 120,
     startVelocity: 18,
@@ -103,7 +116,7 @@ export function fireRosePetalBreeze() {
 
 // 5. Cupid Shooting Arrow (Fast diagonal streak from bottom-left to top-right)
 export function fireCupidStreak() {
-  confetti({
+  safeConfetti({
     particleCount: 35,
     angle: 45,
     spread: 30,
@@ -118,7 +131,7 @@ export function fireCupidStreak() {
 
 // 6. Floating Kiss Cloud (Bouncing upward kiss emojis with near-zero gravity)
 export function fireKissCloud() {
-  confetti({
+  safeConfetti({
     particleCount: 28,
     angle: 90,
     spread: 80,
@@ -133,7 +146,7 @@ export function fireKissCloud() {
 
 // 7. Golden Wedding Ring Halo (Expanding circular ring of diamonds and wedding rings)
 export function fireRingHalo() {
-  confetti({
+  safeConfetti({
     particleCount: 32,
     spread: 360,
     startVelocity: 30,
@@ -147,7 +160,7 @@ export function fireRingHalo() {
 
 // 8. Surprise Gift Pop (Popping upward with gift boxes and festive sparkles)
 export function fireGiftPop() {
-  confetti({
+  safeConfetti({
     particleCount: 30,
     spread: 70,
     startVelocity: 42,
@@ -160,7 +173,7 @@ export function fireGiftPop() {
 
 // 9. Butterfly Flight (Whimsical fluttering butterflies swirling gently across the view)
 export function fireButterflyFlight() {
-  confetti({
+  safeConfetti({
     particleCount: 28,
     spread: 100,
     startVelocity: 24,
@@ -175,7 +188,7 @@ export function fireButterflyFlight() {
 
 // 10. Sparkler Roman Candle (Snappy vertical golden sparkles bursting high into the sky)
 export function fireSparklerCandle() {
-  confetti({
+  safeConfetti({
     particleCount: 36,
     angle: 90,
     spread: 35,
@@ -189,7 +202,7 @@ export function fireSparklerCandle() {
 
 // 11. Champagne Celebration Bubbles (Bubbly rising champagne glints and diamonds)
 export function fireChampagneBubbles() {
-  confetti({
+  safeConfetti({
     particleCount: 30,
     angle: 90,
     spread: 60,
@@ -204,7 +217,7 @@ export function fireChampagneBubbles() {
 
 // 12. Midnight Fireworks Finale (Vibrant multi-colored firework rockets)
 export function fireMidnightFireworks() {
-  confetti({
+  safeConfetti({
     particleCount: 38,
     spread: 120,
     startVelocity: 44,
@@ -221,7 +234,7 @@ export function fireMidnightFireworks() {
 
 // Snappy Royal Celebration (Triggered on Scratch completion)
 export function fireRoyalCelebration() {
-  confetti({
+  safeConfetti({
     particleCount: 38,
     spread: 85,
     startVelocity: 38,
@@ -234,7 +247,7 @@ export function fireRoyalCelebration() {
 
 // Birthday Celebration (Feb 2)
 export function fireBirthdayFireworks() {
-  confetti({
+  safeConfetti({
     particleCount: 45,
     spread: 110,
     startVelocity: 44,
@@ -247,7 +260,7 @@ export function fireBirthdayFireworks() {
 
 // Valentine Heart Rain (Feb 14)
 export function fireValentineHeartRain() {
-  confetti({
+  safeConfetti({
     particleCount: 42,
     spread: 120,
     startVelocity: 30,

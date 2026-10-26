@@ -1,32 +1,30 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
+import {
+  computeDayIndex,
+  getUnlockDate as calcUnlockDate,
+  isDayUnlocked as checkDayUnlocked,
+  getTimeUntilUnlock as calcTimeUntilUnlock,
+  safeParseNumberArray
+} from '../utils/dateUtils';
 
 const LOCAL_STORAGE_OPENED_KEY = '365_reasons_opened_days';
 const LOCAL_STORAGE_FAVORITES_KEY = '365_reasons_favorites';
 const LOCAL_STORAGE_OVERRIDE_KEY = '365_reasons_admin_override';
 
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
-// Anchor: 2026-12-24 at 00:00:00 UTC
-const ANCHOR_UTC = Date.UTC(2026, 11, 24, 0, 0, 0);
-
-// Helper for safe array parsing and type validation from localStorage
-function safeParseNumberArray(key) {
+function loadStoredArray(key) {
   try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) {
-      return parsed.filter((x) => typeof x === 'number' && x >= 1 && x <= 365);
-    }
-  } catch {}
-  return [];
+    return safeParseNumberArray(localStorage.getItem(key));
+  } catch {
+    return [];
+  }
 }
 
 export function useCalendar() {
   const [messages, setMessages] = useState([]);
   const [isLoadingMessages, setIsLoadingMessages] = useState(true);
 
-  const [openedDays, setOpenedDays] = useState(() => safeParseNumberArray(LOCAL_STORAGE_OPENED_KEY));
-  const [favorites, setFavorites] = useState(() => safeParseNumberArray(LOCAL_STORAGE_FAVORITES_KEY));
+  const [openedDays, setOpenedDays] = useState(() => loadStoredArray(LOCAL_STORAGE_OPENED_KEY));
+  const [favorites, setFavorites] = useState(() => loadStoredArray(LOCAL_STORAGE_FAVORITES_KEY));
 
   const [adminBypass, setAdminBypass] = useState(() => {
     try {
@@ -81,13 +79,16 @@ export function useCalendar() {
 
   const [now, setNow] = useState(() => {
     try {
-      const params = new URLSearchParams(window.location.search);
-      const devDateParam = params.get('devDate');
-      if (devDateParam) {
-        const parsed = new Date(devDateParam);
-        if (!isNaN(parsed.getTime())) {
-          devDateOffsetRef.current = parsed.getTime() - Date.now();
-          return parsed;
+      // Security: Only allow devDate parameter in development mode
+      if (import.meta.env?.DEV) {
+        const params = new URLSearchParams(window.location.search);
+        const devDateParam = params.get('devDate');
+        if (devDateParam) {
+          const parsed = new Date(devDateParam);
+          if (!isNaN(parsed.getTime())) {
+            devDateOffsetRef.current = parsed.getTime() - Date.now();
+            return parsed;
+          }
         }
       }
     } catch {}
@@ -96,7 +97,7 @@ export function useCalendar() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      if (devDateOffsetRef.current !== null) {
+      if (devDateOffsetRef.current !== null && import.meta.env?.DEV) {
         setNow(new Date(Date.now() + devDateOffsetRef.current));
       } else {
         setNow(new Date());
@@ -105,50 +106,25 @@ export function useCalendar() {
     return () => clearInterval(timer);
   }, []);
 
-  // Compute current active day number (1..365) using UTC arithmetic to prevent DST & timezone edge bugs
+  // Compute current active day number (1..365) in Europe/Berlin
   const currentDayIndex = useMemo(() => {
-    const todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
-    const diffDays = Math.floor((todayUTC - ANCHOR_UTC) / MS_PER_DAY) + 1;
-    
-    if (diffDays < 1) return 1; // Before start date, focus on Day 1 countdown
-    if (diffDays > 365) return 365;
-    return diffDays;
+    return computeDayIndex(now);
   }, [now]);
 
-  // Target unlock date calculation (UTC consistent across all timezones)
+  // Target unlock date calculation (Europe/Berlin aware)
   const getUnlockDate = useCallback((dayId) => {
-    if (dayId <= 1) {
-      // Day 1: 2026-12-24 at 21:00 German time (CET UTC+1 -> 20:00:00 UTC)
-      return new Date(Date.UTC(2026, 11, 24, 20, 0, 0));
-    }
-    // Day N (2..365): 2026-12-24 00:00:00 UTC + (dayId - 1) days
-    const ts = ANCHOR_UTC + (dayId - 1) * MS_PER_DAY;
-    return new Date(ts);
+    return calcUnlockDate(dayId);
   }, []);
 
   // Centralized unlock check (directly compares timestamps)
   const isDayUnlocked = useCallback((dayId) => {
-    if (adminBypass) return true;
-    return now.getTime() >= getUnlockDate(dayId).getTime();
-  }, [now, adminBypass, getUnlockDate]);
+    return checkDayUnlocked(dayId, now, adminBypass);
+  }, [now, adminBypass]);
 
-  // Time remaining until unlock (supports days, hours, minutes, seconds)
+  // Time remaining until unlock
   const getTimeUntilUnlock = useCallback((dayId) => {
-    const target = getUnlockDate(dayId);
-    const diffMs = target.getTime() - now.getTime();
-
-    if (diffMs <= 0) {
-      return { days: 0, hours: 0, minutes: 0, seconds: 0, isUnlocked: true };
-    }
-
-    const totalSeconds = Math.floor(diffMs / 1000);
-    const days = Math.floor(totalSeconds / 86400);
-    const hours = Math.floor((totalSeconds % 86400) / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    return { days, hours, minutes, seconds, isUnlocked: false };
-  }, [now, getUnlockDate]);
+    return calcTimeUntilUnlock(dayId, now);
+  }, [now]);
 
   // Mark day as opened with validation
   const markDayOpened = useCallback((dayId) => {
@@ -197,18 +173,13 @@ export function useCalendar() {
     return false;
   }, []);
 
-  // Reset Admin mode AND clear all test progress / streak / opened days / favorites / minigame highscore
+  // Safely end Admin mode without wiping Nina's personal opened days or favorites
   const resetAdminBypass = useCallback(() => {
     setAdminBypass(false);
-    setOpenedDays([]);
-    setFavorites([]);
     try {
       localStorage.removeItem(LOCAL_STORAGE_OVERRIDE_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_OPENED_KEY);
-      localStorage.removeItem(LOCAL_STORAGE_FAVORITES_KEY);
-      localStorage.removeItem('heartcatch_highscore');
     } catch (e) {
-      console.error('Failed to clear storage on admin reset', e);
+      console.error('Failed to clear admin override storage', e);
     }
   }, []);
 

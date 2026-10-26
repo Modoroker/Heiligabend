@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Heart, X, ChevronLeft, ChevronRight, Copy, Check } from 'lucide-react';
 import { fireDayAnimation, fireRoyalCelebration } from '../utils/confettiUtils';
 import { getSpecialDayInfo } from '../utils/specialDaysUtils';
 import ScratchCard from './ScratchCard';
@@ -19,6 +19,14 @@ export default function MessageModal({
   hasNext,
 }) {
   const [showScratch, setShowScratch] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    if (!day?.text) return;
+    navigator.clipboard?.writeText(day.text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     if (isOpen && day) {
@@ -172,15 +180,36 @@ export default function MessageModal({
             <div className="flex items-center gap-2">
               <button
                 onClick={() => onToggleFavorite(day.id)}
+                aria-label={isFavorite ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen"}
                 className={`p-2 rounded-full transition-colors ${
                   isFavorite
                     ? 'text-red-400 bg-red-500/10'
                     : 'text-slate-400 hover:text-rosegold-300'
                 }`}
+                title={isFavorite ? "Favorit" : "Zu Favoriten hinzufügen"}
               >
                 <Heart className={`w-5 h-5 ${isFavorite ? 'fill-red-400' : ''}`} />
               </button>
             </div>
+
+            <button
+              onClick={handleCopy}
+              aria-label="Liebesbotschaft kopieren"
+              className="px-3 py-1.5 rounded-full bg-midnight-800 border border-rosegold-500/30 text-xs font-medium text-slate-300 hover:text-white hover:border-rosegold-400 transition-all flex items-center gap-1.5 shadow-sm"
+              title="Liebesbotschaft kopieren"
+            >
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="text-emerald-300">Kopiert! ❤️</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-rosegold-300" />
+                  <span>Kopieren</span>
+                </>
+              )}
+            </button>
           </div>
         </motion.div>
       </div>
