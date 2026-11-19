@@ -310,7 +310,7 @@ async function runHumanUXSuite() {
 
     try {
       // Open Bonus Messages modal
-      const giftBtn = page.locator('button[aria-label="Geheimpost und Geschenke öffnen"]').first();
+      const giftBtn = page.locator('button[aria-label*="Geheimpost"]').first();
       await giftBtn.click();
       await page.waitForTimeout(700);
 

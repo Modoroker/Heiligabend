@@ -82,7 +82,7 @@ export default function Navbar({
             onClick={onOpenGameModal}
             aria-label="Minispiel „Herzen fangen“ öffnen"
             className="w-8 h-8 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 hover:bg-pink-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm active:scale-95"
-            title="Minispiel „Herzen fangen“ spielen 🎮"
+            title="Herzen fangen spielen 🎮"
           >
             <Gamepad2 className="w-4 h-4 text-pink-300 animate-pulse" />
           </button>
@@ -90,7 +90,7 @@ export default function Navbar({
           {/* Bonus Secret Messages Gift Modal 🎁 (Fixed size to never squash!) */}
           <button
             onClick={onOpenBonusModal}
-            aria-label="Geheimpost und Geschenke öffnen"
+            aria-label="Geheimpost öffnen"
             className="w-8 h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 hover:bg-rosegold-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm p-1 active:scale-95"
             title="Geheimpost öffnen 🎁"
           >

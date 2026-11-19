@@ -55,7 +55,7 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
       <motion.div
         role="button"
         tabIndex={0}
-        aria-label={`Tag ${day?.id || ''} gesperrt`}
+        aria-label={`Tag ${day?.id || ''} noch versiegelt`}
         onKeyDown={handleKeyDown}
         animate={isShaking ? { x: [-10, 10, -10, 10, 0] } : {}}
         transition={{ duration: 0.4 }}
@@ -79,7 +79,7 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
       <p className="text-slate-300 text-sm max-w-xs mb-6">
         {isChristmasEve
           ? 'Noch etwas Geduld bis zur Bescherung! Die erste Botschaft öffnet sich um 21:00 Uhr.'
-          : `Diese Botschaft wird am ${formatLockDate(day.date)} um 00:00 Uhr freigeschaltet.`}
+          : `Noch ein bisschen Geduld – diese Botschaft öffnet sich am ${formatLockDate(day.date)} um 00:00 Uhr.`}
       </p>
 
       {/* Countdown display (supports Days, Hours, Minutes, Seconds) */}

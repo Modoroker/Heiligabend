@@ -11,7 +11,8 @@
     "test:human": "npm run build && node scripts/e2e_human_behavior.mjs",
     "test:human-ux": "node scripts/qa_human_ux_suite.mjs",
     "test:audit": "node scripts/german_text_audit.mjs",
-    "test:all": "npm test && node scripts/final_verify.mjs && node scripts/qa_deep_simulation_suite.mjs && node scripts/qa_human_ux_suite.mjs"
+    "test:quality": "node scripts/audit_deutsch_und_qualitaet.mjs",
+    "test:all": "npm test && node scripts/audit_deutsch_und_qualitaet.mjs && node scripts/final_verify.mjs && node scripts/qa_deep_simulation_suite.mjs && node scripts/qa_human_ux_suite.mjs"
   },
   "dependencies": {
     "canvas-confetti": "^1.9.4",

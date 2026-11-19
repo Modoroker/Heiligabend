@@ -470,13 +470,13 @@ let md = `# Alle Texte der PWA „365 Gründe, warum ich dich liebe ❤️“ zu
 - **Überschrift (Heiligabend):** \`Heiligabend – noch versiegelt\`
 - **Überschrift (reguläre Tage):** \`Tag {id} – noch versiegelt\`
 - **Hinweistext (Heiligabend):** \`Noch etwas Geduld bis zur Bescherung! Die erste Botschaft öffnet sich um 21:00 Uhr.\`
-- **Hinweistext (reguläre Tage):** \`Diese Botschaft wird am {Datum} um 00:00 Uhr freigeschaltet.\`
+- **Hinweistext (reguläre Tage):** \`Noch ein bisschen Geduld – diese Botschaft öffnet sich am {Datum} um 00:00 Uhr.\`
 - **Countdown-Labels (Singular/Plural):**
   - \`1 Tag\` vs. \`{n} Tage\`
   - \`1 Stunde\` vs. \`{n} Stunden\`
   - \`1 Minute\` vs. \`{n} Minuten\`
   - \`1 Sekunde\` vs. \`{n} Sekunden\`
-- **Aria-Label des Herzschlosses:** \`Tag {id} gesperrt\`
+- **Aria-Label des Herzschlosses:** \`Tag {id} noch versiegelt\`
 
 ---
 
@@ -485,8 +485,8 @@ let md = `# Alle Texte der PWA „365 Gründe, warum ich dich liebe ❤️“ zu
 - **Logo-Button (Aria-Label):** \`365 Gründe, warum ich dich liebe\`
 - **Logo-Tooltip:** \`365 Gründe, warum ich dich liebe ❤️\`
 - **Sichtbarer Header-Titel:** \`365 Gründe, warum ich dich liebe\`
-- **Herzen fangen Minispiel-Button (Aria-Label):** \`Minispiel „Herzen fangen“ öffnen\` (Tooltip: \`Minispiel „Herzen fangen“ spielen 🎮\`)
-- **Geheimpost Geschenkbox-Button (Aria-Label):** \`Geheimpost und Geschenke öffnen\` (Tooltip: \`Geheimpost öffnen 🎁\`)
+- **Herzen fangen Minispiel-Button (Aria-Label):** \`Minispiel „Herzen fangen“ öffnen\` (Tooltip: \`Herzen fangen spielen 🎮\`)
+- **Geheimpost Geschenkbox-Button (Aria-Label):** \`Geheimpost öffnen\` (Tooltip: \`Geheimpost öffnen 🎁\`)
 - **Fortschritts-Badge:** \`{opened} / 365\` (Aria-Label: \`Fortschritt: {opened} von 365 Gründen entdeckt\`)
 - **Admin-Badge (nur bei aktivem Override):** \`Admin\` (Aria-Label & Tooltip: \`Admin-Freigabe zurücksetzen\`)
 - **Tabs:** \`Tagesbotschaft\` (#tab-daily) & \`Kalender & Übersicht\` (#tab-calendar)
@@ -507,7 +507,7 @@ let md = `# Alle Texte der PWA „365 Gründe, warum ich dich liebe ❤️“ zu
 ## 5. Kalender & Monatsansicht
 
 - **Meilenstein-Karte:**
-  - \`{streak} Tag in Folge\` / \`{streak} Tage in Folge\`
+  - \`{opened} Grund entdeckt\` / \`{opened} Gründe entdeckt\`
   - \`{opened} Grund gelesen\` / \`{opened} Gründe gelesen\`
   - \`Nächstes Ziel: {ziel} 🏆\`
 - **Filter-Tabs:**
@@ -527,26 +527,26 @@ let md = `# Alle Texte der PWA „365 Gründe, warum ich dich liebe ❤️“ zu
   - 🎄 Weihnachten (24.12.)
   - 🎆 Silvester (31.12.)
   - ✨ Neujahr (01.01.)
-- **Leerer Filter-Zustand:** \`Für diesen Filter gibt es noch keine Botschaften.\`
+- **Leerer Filter-Zustand:** \`Für diese Auswahl gibt es gerade keine Botschaften.\`
 
 ---
 
 ## 6. Benachrichtigungs-Banner
 
 - **Region-Aria:** \`Erinnerung an deine tägliche Liebespost\`
-- **Text:** \`Möchtest du jeden Tag an deinen neuen Liebesgrund erinnert werden?\`
+- **Text:** \`Tägliche Liebespost 💌\`
 - **Aktivieren-Button:** \`Aktivieren\`
-- **Schließen-Button (Aria-Label):** \`Erinnerung schließen\`
+- **Schließen-Button (Aria-Label):** \`Banner schließen\`
 
 ---
 
 ## 7. Geheimcode-PIN-Dialog (Admin / Easter Eggs)
 
 - **Titel:** \`Geheimcode\`
-- **Untertitel:** \`Geheimer Bereich\`
+- **Untertitel:** \`Bitte gib den Geheimcode ein.\`
 - **Input-Placeholder:** \`Geheimcode eingeben\` (Aria-Label: \`Geheimcode\`)
 - **Fehlermeldung:** \`Der Code stimmt leider nicht. Versuch es bitte noch einmal.\`
-- **Erfolgsmeldung:** \`Code akzeptiert! Botschaften freigeschaltet.\`
+- **Erfolgsmeldung:** \`Erfolgreich freigeschaltet! ✨\`
 - **Schließen-Button (Aria-Label):** \`Schließen\`
 
 ---
@@ -575,7 +575,7 @@ md += `---
 - **Schließen-Button (Aria-Label):** \`Spiel schließen\`
 - **Combo- & Power-Up-Toasts:**
   - \`🔥 2er-Kombo!\`
-  - \`⚡ Herzensrausch! 🌟\`
+  - \`⚡ 3× Herzensrausch! 🌟\`
   - \`🔥 Herzensrausch verlängert!\`
   - \`🧲 Magnet aktiviert!\`
   - \`❄️ Zeitlupe aktiviert!\`

@@ -87,7 +87,7 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
                 Geheimcode
               </h3>
               <p className="text-xs text-slate-400 mt-1">
-                Geheimer Bereich
+                Bitte gib den Geheimcode ein.
               </p>
             </div>
 
@@ -116,7 +116,7 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
 
               {success && (
                 <div className="flex items-center justify-center gap-2 text-emerald-400 text-xs font-semibold">
-                  <CheckCircle2 className="w-4 h-4" /> Code akzeptiert! Botschaften freigeschaltet.
+                  <CheckCircle2 className="w-4 h-4" /> Erfolgreich freigeschaltet! ✨
                 </div>
               )}
 

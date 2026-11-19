@@ -37,8 +37,8 @@ export default function MilestoneCard({ openedCount = 0, streak = 0, startDateSt
         </div>
 
         <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-midnight-800 border border-amber-500/30 text-[11px] font-semibold text-amber-300">
-          <Flame className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-          <span>{streak} {streak === 1 ? 'Tag' : 'Tage'} in Folge</span>
+          <Trophy className="w-3.5 h-3.5 text-amber-400" />
+          <span>{safeOpened} {safeOpened === 1 ? 'Grund entdeckt' : 'Gründe entdeckt'}</span>
         </div>
       </div>
 

@@ -39,7 +39,7 @@ const TEXTS = {
   NEW_HIGH_SCORE: '✨ Neuer persönlicher Rekord! 👑',
   HINT: 'Fange bunte Herzen & meide gebrochene! 🎀',
   COMBO_2X: '🔥 2er-Kombo!',
-  COMBO_3X: '⚡ Herzensrausch! 🌟',
+  COMBO_3X: '⚡ 3× Herzensrausch! 🌟',
   FEVER_EXTENDED: '🔥 Herzensrausch verlängert!',
   MAGNET_ACTIVE: '🧲 Magnet aktiviert!',
   FREEZE_ACTIVE: '❄️ Zeitlupe aktiviert!',
