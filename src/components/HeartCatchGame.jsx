@@ -33,16 +33,16 @@ const TEXTS = {
   POINTS: 'Punkte',
   HIGH_SCORE: 'Rekord',
   GAME_OVER: 'Spiel beendet',
-  RETRY: 'Noch mal spielen',
+  RETRY: 'Noch einmal spielen',
   PAUSE: 'Spiel pausieren',
   RESUME: 'Spiel fortsetzen',
   NEW_HIGH_SCORE: '✨ Neuer persönlicher Rekord! 👑',
   HINT: 'Fange bunte Herzen & meide gebrochene! 🎀',
-  COMBO_2X: '🔥 2× Serie!',
-  COMBO_3X: '⚡ 3× Herzrasen! 🌟',
-  FEVER_EXTENDED: '🔥 Herzrasen verlängert!',
-  MAGNET_ACTIVE: '🧲 MAGNET AKTIV!',
-  FREEZE_ACTIVE: '❄️ ZEITLUPE!',
+  COMBO_2X: '🔥 2er-Kombo!',
+  COMBO_3X: '⚡ Herzensrausch! 🌟',
+  FEVER_EXTENDED: '🔥 Herzensrausch verlängert!',
+  MAGNET_ACTIVE: '🧲 Magnet aktiviert!',
+  FREEZE_ACTIVE: '❄️ Zeitlupe aktiviert!',
 };
 
 // 3D Luxury Game Sprites Preload
@@ -750,7 +750,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               sfx.powerUp();
               addPopup(TEXTS.COMBO_2X, basketCenterX, basketTop - 40, '#FFB703');
               createParticles(basketCenterX, basketTop, '#FFB703', 20);
-              setLiveAnnouncement('2-fache Serie aktiv!');
+              setLiveAnnouncement('2er-Kombo aktiv!');
             } else if (state.combo >= GAME_CONFIG.COMBO_3X_THRESHOLD) {
               const isNewFever = state.feverTimeLeft <= 0;
               state.feverTimeLeft = GAME_CONFIG.FEVER_DURATION;
@@ -761,7 +761,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
                 const popupText = isNewFever ? TEXTS.COMBO_3X : TEXTS.FEVER_EXTENDED;
                 addPopup(popupText, basketCenterX, basketTop - 40, '#FF0055');
                 createParticles(basketCenterX, basketTop, '#FFD700', 32);
-                setLiveAnnouncement(isNewFever ? '3-faches Herzrasen aktiv!' : 'Herzrasen verlängert!');
+                setLiveAnnouncement(isNewFever ? 'Herzensrausch aktiv!' : 'Herzensrausch verlängert!');
               }
             }
 
@@ -1221,7 +1221,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             <div className="flex items-center gap-1">
               {isFever && (
                 <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50 animate-pulse">
-                  <Flame className="w-3 h-3 text-amber-400" /> 3× Herzrasen
+                  <Flame className="w-3 h-3 text-amber-400" /> Herzensrausch
                 </span>
               )}
               {combo >= GAME_CONFIG.COMBO_2X_THRESHOLD && !isFever && (

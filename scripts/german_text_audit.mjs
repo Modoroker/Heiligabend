@@ -388,9 +388,9 @@ try {
   extractedTexts.dailyView.push({ label: 'Aufgedeckte Tages-Botschaft (Tag 1)', text: dailyText });
 
   // Bonus Modal
-  await page.click('button[aria-label*="Geheim-Nachrichten"]');
+  await page.click('button[aria-label*="Geheimpost"]');
   await page.waitForTimeout(500);
-  const bonusHeader = await page.locator('h3:has-text("Geheim-Nachrichten")').innerText().catch(() => '');
+  const bonusHeader = await page.locator('h3:has-text("Geheimpost")').innerText().catch(() => '');
   extractedTexts.bonusModal.push({ label: 'Bonus-Modal Überschrift', text: bonusHeader });
   await page.keyboard.press('Escape');
   await page.waitForTimeout(300);
@@ -527,7 +527,7 @@ let md = `# Alle Texte der PWA „365 Gründe, warum ich dich liebe ❤️“ zu
   - 🎄 Weihnachten (24.12.)
   - 🎆 Silvester (31.12.)
   - ✨ Neujahr (01.01.)
-- **Leerer Filter-Zustand:** \`Für diese Auswahl gibt es gerade keine Botschaften.\`
+- **Leerer Filter-Zustand:** \`Für diese Auswahl gibt es keine Botschaften.\`
 
 ---
 
@@ -542,7 +542,7 @@ let md = `# Alle Texte der PWA „365 Gründe, warum ich dich liebe ❤️“ zu
 
 ## 7. Geheimcode-PIN-Dialog (Admin / Easter Eggs)
 
-- **Titel:** \`Geheimcode\`
+- **Titel:** \`Geheime Freischaltung\`
 - **Untertitel:** \`Geheimer Bereich\`
 - **Input-Placeholder:** \`Geheimcode eingeben\` (Aria-Label: \`Geheimcode\`)
 - **Fehlermeldung:** \`Der Code stimmt leider nicht. Versuch es bitte noch einmal.\`
@@ -574,16 +574,16 @@ md += `---
 - **Ton-Button (Aria-Label):** \`Ton stummschalten\` / \`Ton einschalten\`
 - **Schließen-Button (Aria-Label):** \`Spiel schließen\`
 - **Combo- & Power-Up-Toasts:**
-  - \`🔥 2× Serie!\`
-  - \`⚡ 3× Herzrasen! 🌟\`
-  - \`🔥 Herzrasen verlängert!\`
-  - \`🧲 MAGNET AKTIV!\`
-  - \`❄️ ZEITLUPE!\`
+  - \`🔥 2er-Kombo!\`
+  - \`⚡ Herzensrausch! 🌟\`
+  - \`🔥 Herzensrausch verlängert!\`
+  - \`🧲 Magnet aktiviert!\`
+  - \`❄️ Zeitlupe aktiviert!\`
 - **Highscore-Toast:** \`✨ Neuer persönlicher Rekord! 👑\`
 - **Game-Over-Bildschirm:**
   - Überschrift: \`Spiel beendet\`
   - Erreichte Punkte & Bester Rekord
-  - Button: \`Noch mal spielen\`
+  - Button: \`Noch einmal spielen\`
 
 ---
 

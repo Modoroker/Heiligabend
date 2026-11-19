@@ -101,7 +101,7 @@
   - 🎄 Weihnachten (24.12.)
   - 🎆 Silvester (31.12.)
   - ✨ Neujahr (01.01.)
-- **Leerer Filter-Zustand:** `Für diese Auswahl gibt es gerade keine Botschaften.`
+- **Leerer Filter-Zustand:** `Für diese Auswahl gibt es keine Botschaften.`
 
 ---
 
@@ -116,7 +116,7 @@
 
 ## 7. Geheimcode-PIN-Dialog (Admin / Easter Eggs)
 
-- **Titel:** `Geheimcode`
+- **Titel:** `Geheime Freischaltung`
 - **Untertitel:** `Geheimer Bereich`
 - **Input-Placeholder:** `Geheimcode eingeben` (Aria-Label: `Geheimcode`)
 - **Fehlermeldung:** `Der Code stimmt leider nicht. Versuch es bitte noch einmal.`
@@ -137,7 +137,7 @@
 - **Freischalt-Bedingung:** Freigeschaltet am 2. Februar
 - **ID / Trigger:** `birthday_nina` (`date`: `02-02`)
 
-> „Happy Birthday, meine wunderschöne Ehefrau Nina! 👑 Heute ist dein ganz persönlicher Feiertag. Ich bin der glücklichste Mann der Welt, weil ich mein Leben an deiner Seite verbringen darf!“
+> „Alles Liebe zum Geburtstag, meine wundervolle Nina! ❤️ Heute ist dein Tag und ich wünsche dir von ganzem Herzen, dass du genauso viel Freude und Liebe zurückbekommst, wie du jeden Tag in mein Leben bringst. Ich bin unglaublich froh, dich an meiner Seite zu haben. Du bist nicht nur meine Frau, sondern mein Lieblingsmensch. Ich hoffe, dass ich dich noch an unzähligen Geburtstagen glücklich machen darf. Ich liebe dich! ❤️“
 
 ### Bonus-Brief 3: 💖 Valentinstags-Brief
 - **Freischalt-Bedingung:** Freigeschaltet am 14. Februar
@@ -151,11 +151,11 @@
 
 > „Schon 50 Gründe entdeckt! 🔥 Ein wunderbares kleines Jubiläum. Danke für dein wunderschönes Lächeln an jedem einzelnen Tag – du bist unbezahlbar.“
 
-### Bonus-Brief 5: 💍 Liebesversprechen zum Hochzeitstag
+### Bonus-Brief 5: 💍 Unser Hochzeitstag – ein Versprechen für immer
 - **Freischalt-Bedingung:** Freigeschaltet am 5. Juli
 - **ID / Trigger:** `anniversary` (`date`: `07-05`)
 
-> „Alles Liebe zu unserem Hochzeitstag, meine Traumfrau! 💍 Der Tag, an dem wir „Ja“ gesagt haben, war der schönste Tag meines Lebens. Auf ewige Liebe!“
+> „Alles Liebe zu unserem Hochzeitstag, meine Traumfrau! 💍 Ich denke immer wieder gerne an den Moment zurück, in dem wir Ja zueinander gesagt haben. Und weißt du was? Ich würde mich immer wieder für dich entscheiden. Danke für all die schönen Momente, für dein Vertrauen und dafür, dass wir unseren gemeinsamen Weg gehen. Ich freue mich auf alles, was noch vor uns liegt. ❤️“
 
 ### Bonus-Brief 6: 🏆 100 Gründe, dich zu lieben
 - **Freischalt-Bedingung:** Freigeschaltet bei 100 entdeckten Gründen
@@ -181,16 +181,16 @@
 - **Ton-Button (Aria-Label):** `Ton stummschalten` / `Ton einschalten`
 - **Schließen-Button (Aria-Label):** `Spiel schließen`
 - **Combo- & Power-Up-Toasts:**
-  - `🔥 2× Serie!`
-  - `⚡ 3× Herzrasen! 🌟`
-  - `🔥 Herzrasen verlängert!`
-  - `🧲 MAGNET AKTIV!`
-  - `❄️ ZEITLUPE!`
+  - `🔥 2er-Kombo!`
+  - `⚡ Herzensrausch! 🌟`
+  - `🔥 Herzensrausch verlängert!`
+  - `🧲 Magnet aktiviert!`
+  - `❄️ Zeitlupe aktiviert!`
 - **Highscore-Toast:** `✨ Neuer persönlicher Rekord! 👑`
 - **Game-Over-Bildschirm:**
   - Überschrift: `Spiel beendet`
   - Erreichte Punkte & Bester Rekord
-  - Button: `Noch mal spielen`
+  - Button: `Noch einmal spielen`
 
 ---
 
@@ -201,7 +201,7 @@
 | Tag | Datum | Liebesbotschaft für Nina |
 | :---: | :--- | :--- |
 | **Tag 1** | 2026-12-24 | Du bist mein allergrößtes Weihnachtsgeschenk – heute, morgen und für alle Ewigkeit. Ich liebe dich von ganzem Herzen. |
-| **Tag 2** | 2026-12-25 | Dein Lachen ist mein liebster Klang auf der ganzen Welt und bringt mein Herz jedes Mal zum Strahlen. |
+| **Tag 2** | 2026-12-25 | Dein Lachen ist mein liebstes Geräusch. Selbst an grauen Tagen bringst du mich damit zum Lächeln. |
 | **Tag 3** | 2026-12-26 | Mit dir kann ich stundenlang ohne Ziel im Auto fahren, und es ist trotzdem die allerbeste Zeit meines Lebens. |
 | **Tag 4** | 2026-12-27 | Ich freue mich auf jedes einzelne Abenteuer, jede Reise und jeden ruhigen Sonntagabend an deiner Seite. |
 | **Tag 5** | 2026-12-28 | Du gibst mir immer das Gefühl, genau richtig zu sein – genauso wie ich bin. |
@@ -366,7 +366,7 @@
 | **Tag 159** | 2027-05-31 | Dein Engagement für die Dinge, die dir wichtig sind, bewundere ich von Herzen. |
 | **Tag 160** | 2027-06-01 | Mit dir an meiner Seite habe ich alles gefunden, was ich mir je im Leben gewünscht habe. |
 | **Tag 161** | 2027-06-02 | Danke, dass du mir immer den Rücken stärkst und fest an mich glaubst. |
-| **Tag 162** | 2027-06-03 | Nach einem langen Tag reicht eine einzige Umarmung von dir, und mein Kopf wird endlich wieder frei. |
+| **Tag 162** | 2027-06-03 | Nach einem langen Tag reicht eine Umarmung von dir, und ich komme wieder zur Ruhe. |
 | **Tag 163** | 2027-06-04 | Mit dir vergeht die Zeit wie im Flug – jede gemeinsame Minute ist mir unendlich kostbar. |
 | **Tag 164** | 2027-06-05 | Wie du in ganz alltäglichen Kleinigkeiten etwas Schönes und Besonderes entdeckst, liebe ich an dir. |
 | **Tag 165** | 2027-06-06 | Dein Lachen könnte selbst den trübsten Tag in einen strahlend schönen verwandeln. |
@@ -443,7 +443,7 @@
 | **Tag 231** | 2027-08-11 | Dein Herz hat genug Platz für die ganze Welt – und mich mittendrin. |
 | **Tag 232** | 2027-08-12 | Dein Gesicht ist das Letzte, was ich abends sehen will, und das Erste am Morgen. |
 | **Tag 233** | 2027-08-13 | Wie du selbst aus verregneten Tagen das Allerbeste machst, ist eine echte Kunst. |
-| **Tag 234** | 2027-08-14 | Deine Authentizität macht dich unwiderstehlich und einzigartig. |
+| **Tag 234** | 2027-08-14 | Ich liebe deine ehrliche, unverstellte Art. Bei dir weiß ich immer, woran ich bin. |
 | **Tag 235** | 2027-08-15 | Mit dir vergeht die Liebe nicht – sie wird mit jedem gemeinsamen Tag nur tiefer. |
 | **Tag 236** | 2027-08-16 | Wenn ich mal zweifle, bist du diejenige, die mir Mut zuspricht und an mich glaubt. |
 | **Tag 237** | 2027-08-17 | Deine Nähe fühlt sich an wie ein sanftes Sommergewitter – aufregend und befreiend. |
@@ -523,7 +523,7 @@
 | **Tag 306** | 2027-10-25 | Mit dir fühlen sich selbst lange Autofahrten, Wartezeiten und graue Montage irgendwie nach uns beiden an. |
 | **Tag 307** | 2027-10-26 | Jeder neue Morgen an deiner Seite fühlt sich an wie ein kleines Geschenk. |
 | **Tag 308** | 2027-10-27 | Dieser warme, tiefe Blick von dir quer über den Tisch geht mir jedes Mal mitten ins Herz. |
-| **Tag 309** | 2027-10-28 | Deine sanfte Feinfühligkeit und deine innere Stärke gehören bei dir untrennbar zusammen. |
+| **Tag 309** | 2027-10-28 | Ich bewundere, wie viel Sanftheit und Stärke in dir stecken. |
 | **Tag 310** | 2027-10-29 | Du bist mein größter Fan und meine wichtigste Kritikerin – und beides liebe ich. |
 | **Tag 311** | 2027-10-30 | Wie beherzt du Verantwortung übernimmst und für unsere gemeinsame Zukunft einstehst, schätze ich zutiefst. |
 | **Tag 312** | 2027-10-31 | Dein Sinn für Details und deine Aufmerksamkeit machen jeden Tag mit dir besonders. |
@@ -545,7 +545,7 @@
 | **Tag 328** | 2027-11-16 | Ob Frühlingsblüten oder Winterkälte: Jede Jahreszeit ist mit dir die allerschönste. |
 | **Tag 329** | 2027-11-17 | Wenn du dich von ganzem Herzen freust, rührt mich das jedes Mal zutiefst. |
 | **Tag 330** | 2027-11-18 | Deine Hingabe an unser gemeinsames Leben ist mein größter Antrieb. |
-| **Tag 331** | 2027-11-19 | Geborgenheit, Schmetterlinge im Bauch und tiefes Vertrauen – all das bist du für mich. |
+| **Tag 331** | 2027-11-19 | Mit dir verbinde ich so viele schöne Gefühle: Geborgenheit, Vorfreude und unendlich viel Glück. |
 | **Tag 332** | 2027-11-20 | Du lehrst mich, auch in den scheinbar kleinen Alltagsmomenten das große Wunder zu sehen. |
 | **Tag 333** | 2027-11-21 | Deine natürliche Schönheit und deine unkomplizierte Art hauen mich immer wieder um. |
 | **Tag 334** | 2027-11-22 | Weißt du eigentlich, dass „Mein Hase“ für mich kein normaler Spitzname mehr ist, sondern das schönste Wort für Zuhause? |
@@ -567,7 +567,7 @@
 | **Tag 350** | 2027-12-08 | Deine kleinen, liebevollen Aufmerksamkeiten im Alltag bedeuten mir unendlich viel. |
 | **Tag 351** | 2027-12-09 | 350 Tage liegen schon hinter uns – und ich bin für jeden einzelnen dankbar, den ich an deiner Seite verbringen darf. |
 | **Tag 352** | 2027-12-10 | Rückblickend auf die letzten Monate hast du wirklich jeden Tag zu etwas Kostbarem gemacht. |
-| **Tag 353** | 2027-12-11 | Deine Liebe hat dieses Jahr zu dem schönsten Jahr meines Lebens gemacht. |
+| **Tag 353** | 2027-12-11 | Deine Liebe hat dieses Jahr zum schönsten Jahr meines Lebens gemacht. |
 | **Tag 354** | 2027-12-12 | Ohne dich an meiner Seite wäre mein Leben nur halb so bunt und schön. |
 | **Tag 355** | 2027-12-13 | Unsere gemeinsame Geschichte bekommt mit jedem Tag ein neues, wunderschönes Kapitel – und ich bin so gespannt auf alles, was noch kommt. |
 | **Tag 356** | 2027-12-14 | Dein Herz ist das Zuhause, in dem ich für immer bleiben möchte. |
@@ -575,9 +575,9 @@
 | **Tag 358** | 2027-12-16 | Tag für Tag beweist du mir aufs Neue, wie tief und grenzenlos echte Liebe ist. |
 | **Tag 359** | 2027-12-17 | Dass ich dich an meiner Seite habe, ist für mich das allergrößte Glück auf dieser Welt. |
 | **Tag 360** | 2027-12-18 | Du bist mein Gestern, mein Heute und meine ganze Zukunft – mein Alles. |
-| **Tag 361** | 2027-12-19 | Ein ganzes Jahr voller kleiner Liebesbotschaften geht langsam zu Ende – aber meine Liebe zu dir fängt gefühlt jeden Tag erst richtig an. |
+| **Tag 361** | 2027-12-19 | Wir haben fast ein ganzes Jahr voller Liebe und gemeinsamer Erinnerungen erlebt. Und ich freue mich auf alles, was noch vor uns liegt. |
 | **Tag 362** | 2027-12-20 | Deine Liebe gibt mir die Gewissheit, dass wir alles schaffen können – zusammen. |
 | **Tag 363** | 2027-12-21 | Meine Traumfrau, meine beste Freundin und mein Lebensmensch – alles in dir. |
 | **Tag 364** | 2027-12-22 | Ich liebe dich – heute, am 364. Tag, genauso unendlich wie am allerersten. |
-| **Tag 365** | 2027-12-23 | Du bist und bleibst meine große Liebe – für immer und ewig, meine wunderbare Nina. ❤️ |
+| **Tag 365** | 2027-12-23 | 365 Tage, 365 kleine Liebesbotschaften und unendlich viele Gründe, dich zu lieben. Danke, dass es dich gibt, Nina. Ich würde mich immer wieder für dich entscheiden. Heute, morgen und an jedem weiteren Tag. ❤️ |
 
