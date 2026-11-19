@@ -48,7 +48,7 @@ export default function Navbar({
           aria-label="365 Gründe, warum ich dich Liebe (3x tippen für Geheimcode)"
           onClick={handleLogoTap}
           onKeyDown={handleKeyDown}
-          className="flex items-center gap-2 cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-rosegold-400 rounded-lg p-1 min-w-0 flex-1"
+          className="flex items-center gap-2 cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-rosegold-400 rounded-lg p-1 min-w-0 flex-1 touch-manipulation"
           title="Tippe 3x auf den Titel für den Geheimcode-Dialog"
         >
           <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/30 flex-shrink-0 flex items-center justify-center">

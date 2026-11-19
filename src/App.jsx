@@ -39,6 +39,18 @@ export default function App() {
   const [isBonusModalOpen, setIsBonusModalOpen] = useState(false);
   const [isGameModalOpen, setIsGameModalOpen] = useState(false);
 
+  // Centralized Body Scroll Lock for all open modals
+  const isAnyModalOpen = isSecretModalOpen || isBonusModalOpen || isGameModalOpen;
+  useEffect(() => {
+    if (isAnyModalOpen) {
+      const original = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = original;
+      };
+    }
+  }, [isAnyModalOpen]);
+
   // Trigger special day effects (Birthday Fireworks / Valentine Heart Rain) once per day
   useEffect(() => {
     checkAndTriggerSpecialDayStartup(now);

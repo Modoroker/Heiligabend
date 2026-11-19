@@ -1,4 +1,4 @@
-import React, { useState, useMemo, memo } from 'react';
+import React, { useState, useEffect, useMemo, memo } from 'react';
 import { Lock, Heart, CheckCircle2, Sparkles, Calendar as CalendarIcon } from 'lucide-react';
 import MessageModal from './MessageModal';
 import { getSpecialDayInfo } from '../utils/specialDaysUtils';
@@ -143,6 +143,16 @@ export default function CalendarGrid({
   const [filterMode, setFilterMode] = useState('all'); // 'all', 'unlocked', 'favorites'
   const [selectedMonth, setSelectedMonth] = useState('all');
   const [selectedDay, setSelectedDay] = useState(null);
+
+  // Lock body scroll when Day modal is open
+  useEffect(() => {
+    if (selectedDay) {
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = '';
+      };
+    }
+  }, [selectedDay]);
 
   // Filter messages for display based on active tab and selected month
   const filteredMessages = useMemo(() => {

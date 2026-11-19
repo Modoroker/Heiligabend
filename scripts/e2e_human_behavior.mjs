@@ -110,7 +110,7 @@ async function runSuiteForEngine(engineName, browserType, baseUrl) {
       logPass('Live-Übergang Heiligabend (20:59:55 -> 21:00:02) öffnet Tag 1 ohne Reload');
 
       // 1b. Mitternachtswechsel (24.12. 23:59:55 -> 25.12. 00:00:02) im Kalender
-      await clockPage.clock.fastForward('02:59:52'); // Spult auf 23:59:55 vor
+      await clockPage.clock.setSystemTime(new Date('2026-12-24T23:59:55+01:00'));
       await clockPage.click('button[id="tab-calendar"]');
       await clockPage.waitForTimeout(400);
 
@@ -158,8 +158,28 @@ async function runSuiteForEngine(engineName, browserType, baseUrl) {
 
       // 2a. Admin-Aktivierung über 3x-Logo-Tap für vollen Schalter-Zugriff
       const logo = page.locator('header div[role="button"][aria-label*="3x tippen"]').first();
+      const logoTouchAction = await logo.evaluate((el) => window.getComputedStyle(el).touchAction);
+      assert.strictEqual(logoTouchAction, 'manipulation', 'Logo besitzt touch-action: manipulation gegen iOS Double-Tap-Zoom');
+
+      // Test Modal Escape & Body Scroll-Lock vor Login
       await logo.click();
+      await page.waitForTimeout(120);
       await logo.click();
+      await page.waitForTimeout(120);
+      await logo.click();
+      await page.waitForSelector('input[type="password"]', { timeout: 3000 });
+      await page.waitForTimeout(250);
+      assert.strictEqual(await page.evaluate(() => document.body.style.overflow), 'hidden', 'Body Scroll-Lock aktiv bei offenem PIN-Modal');
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(400);
+      assert.strictEqual(await page.evaluate(() => document.body.style.overflow), '', 'Body Scroll-Lock aufgehoben nach Escape');
+      assert(!(await page.locator('input[type="password"]').isVisible()), 'Escape-Taste schließt PIN-Modal sauber ab');
+
+      // Jetzt 3x Tap für echten Admin-Login
+      await logo.click();
+      await page.waitForTimeout(120);
+      await logo.click();
+      await page.waitForTimeout(120);
       await logo.click();
       await page.waitForSelector('input[type="password"]', { timeout: 3000 });
       await page.fill('input[type="password"]', '2412');
@@ -168,6 +188,15 @@ async function runSuiteForEngine(engineName, browserType, baseUrl) {
 
       const adminBadge = page.locator('button[aria-label="Admin Freigabe zurücksetzen"]');
       assert(await adminBadge.isVisible(), 'Admin-Modus für Schalter-Audit aktiviert');
+
+      // Test BonusModal Backdrop-Klick & Scroll-Lock
+      await page.click('button[aria-label*="Geheim-Nachrichten"]');
+      await page.waitForTimeout(500);
+      assert.strictEqual(await page.evaluate(() => document.body.style.overflow), 'hidden', 'Body Scroll-Lock aktiv bei offenem Bonus-Modal');
+      await page.mouse.click(10, 10);
+      await page.waitForTimeout(400);
+      assert(!(await page.locator('h3:has-text("Geheim-Nachrichten")').isVisible()), 'Backdrop-Klick schließt Bonus-Modal zuverlässig');
+      assert.strictEqual(await page.evaluate(() => document.body.style.overflow), '', 'Body Scroll-Lock nach Backdrop-Schließen wieder aufgehoben');
 
       // 2b. Lacksiegel-Ritual & Chaos-Klicks auf Tageskarte
       await page.click('button[id="tab-daily"]');
@@ -338,6 +367,13 @@ async function runSuiteForEngine(engineName, browserType, baseUrl) {
       await page.evaluate(() => {
         document.documentElement.style.fontSize = '';
       });
+
+      // Extremtext-Test auf 320px Breite (iPhone SE)
+      await page.setViewportSize({ width: 320, height: 568 });
+      await page.waitForTimeout(200);
+      await checkLayoutIntegrity(page, 'Extremtext 320px Viewport');
+      logPass('Extremtext-Layout auf 320px: Buttons & Layout uneingeschränkt intakt');
+
       logPass('Alle Viewports, Querformat & 125% Schriftgröße halten Layout-Garantien ein');
     } catch (e) { logFail('Layout-Audit', e); }
 

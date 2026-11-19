@@ -62,7 +62,9 @@ export default function MessageModal({
       }
     };
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [isOpen, onClose, hasPrev, hasNext, showScratch, onNavigatePrev, onNavigateNext]);
 
   if (!isOpen || !day) return null;

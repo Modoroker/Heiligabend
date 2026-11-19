@@ -1130,7 +1130,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   // Toggle Pause
   const togglePause = () => {
@@ -1157,6 +1157,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
         aria-label={TEXTS.TITLE}
         onPointerDown={() => sfx.init()}
         onTouchStart={() => sfx.init()}
+        onClick={onClose}
         className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-midnight-950/90 backdrop-blur-sm"
       >
         <motion.div
@@ -1164,6 +1165,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.88, y: 15 }}
           transition={{ type: 'spring', damping: 22, stiffness: 260 }}
+          onClick={(e) => e.stopPropagation()}
           className="relative w-full max-w-sm aspect-[400/600] rounded-3xl overflow-hidden shadow-2xl border-2 border-rosegold-400/50 bg-midnight-900 flex flex-col justify-between select-none"
         >
           {/* Screenreader Accessible Live Region (Throttled meaningful events) */}

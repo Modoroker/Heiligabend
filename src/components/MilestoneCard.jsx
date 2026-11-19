@@ -38,14 +38,14 @@ export default function MilestoneCard({ openedCount = 0, streak = 0, startDateSt
 
         <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-midnight-800 border border-amber-500/30 text-[11px] font-semibold text-amber-300">
           <Flame className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-          <span>{streak} Tage Streak</span>
+          <span>{streak} {streak === 1 ? 'Tag' : 'Tage'} Streak</span>
         </div>
       </div>
 
       {/* Progress Bar towards next milestone */}
       <div className="space-y-1">
         <div className="flex items-center justify-between text-[10px] text-slate-400">
-          <span>{safeOpened} Gründe gelesen</span>
+          <span>{safeOpened} {safeOpened === 1 ? 'Grund' : 'Gründe'} gelesen</span>
           <span className="font-semibold text-champagne-300">Nächstes Ziel: {nextMilestone} 🏆</span>
         </div>
         <div

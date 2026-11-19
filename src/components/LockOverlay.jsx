@@ -78,7 +78,9 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
                 <span className="text-2xl font-bold font-mono text-champagne-300">
                   {countdown.days}
                 </span>
-                <span className="text-[10px] text-slate-400 uppercase tracking-widest">Tage</span>
+                <span className="text-[10px] text-slate-400 uppercase tracking-widest">
+                  {countdown.days === 1 ? 'Tag' : 'Tage'}
+                </span>
               </div>
               <span className="text-xl font-bold text-rosegold-500/60 mb-3">:</span>
             </>
@@ -87,21 +89,27 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
             <span className="text-2xl font-bold font-mono text-rosegold-300">
               {String(countdown.hours).padStart(2, '0')}
             </span>
-            <span className="text-[10px] text-slate-400 uppercase tracking-widest">Stunden</span>
+            <span className="text-[10px] text-slate-400 uppercase tracking-widest">
+              {countdown.hours === 1 ? 'Stunde' : 'Stunden'}
+            </span>
           </div>
           <span className="text-xl font-bold text-rosegold-500/60 mb-3">:</span>
           <div className="flex flex-col items-center">
             <span className="text-2xl font-bold font-mono text-champagne-300">
               {String(countdown.minutes).padStart(2, '0')}
             </span>
-            <span className="text-[10px] text-slate-400 uppercase tracking-widest">Minuten</span>
+            <span className="text-[10px] text-slate-400 uppercase tracking-widest">
+              {countdown.minutes === 1 ? 'Minute' : 'Minuten'}
+            </span>
           </div>
           <span className="text-xl font-bold text-rosegold-500/60 mb-3">:</span>
           <div className="flex flex-col items-center">
             <span className="text-2xl font-bold font-mono text-rosegold-300">
               {String(countdown.seconds).padStart(2, '0')}
             </span>
-            <span className="text-[10px] text-slate-400 uppercase tracking-widest">Sekunden</span>
+            <span className="text-[10px] text-slate-400 uppercase tracking-widest">
+              {countdown.seconds === 1 ? 'Sekunde' : 'Sekunden'}
+            </span>
           </div>
         </div>
       )}
