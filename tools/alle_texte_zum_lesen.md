@@ -44,7 +44,7 @@
 - **Überschrift (Heiligabend):** `Heiligabend – noch versiegelt`
 - **Überschrift (reguläre Tage):** `Tag {id} – noch versiegelt`
 - **Hinweistext (Heiligabend):** `Noch etwas Geduld bis zur Bescherung! Die erste Botschaft öffnet sich um 21:00 Uhr.`
-- **Hinweistext (reguläre Tage):** `Noch ein bisschen Geduld – ab Mitternacht kannst du diesen Brief öffnen.`
+- **Hinweistext (reguläre Tage):** `Diese Botschaft wird am {Datum} um 00:00 Uhr freigeschaltet.`
 - **Countdown-Labels (Singular/Plural):**
   - `1 Tag` vs. `{n} Tage`
   - `1 Stunde` vs. `{n} Stunden`
@@ -101,7 +101,7 @@
   - 🎄 Weihnachten (24.12.)
   - 🎆 Silvester (31.12.)
   - ✨ Neujahr (01.01.)
-- **Leerer Filter-Zustand:** `Für diese Auswahl gibt es keine Botschaften.`
+- **Leerer Filter-Zustand:** `Für diesen Filter gibt es noch keine Botschaften.`
 
 ---
 
@@ -116,7 +116,7 @@
 
 ## 7. Geheimcode-PIN-Dialog (Admin / Easter Eggs)
 
-- **Titel:** `Geheime Freischaltung`
+- **Titel:** `Geheimcode`
 - **Untertitel:** `Geheimer Bereich`
 - **Input-Placeholder:** `Geheimcode eingeben` (Aria-Label: `Geheimcode`)
 - **Fehlermeldung:** `Der Code stimmt leider nicht. Versuch es bitte noch einmal.`
@@ -533,7 +533,7 @@
 | **Tag 316** | 2027-11-04 | Durch dich vergesse ich nie, wie reich beschenkt wir durch unsere Liebe sind. |
 | **Tag 317** | 2027-11-05 | Manchmal sind es die ganz unscheinbaren Augenblicke – ein kurzer Blick quer durchs Zimmer –, in denen ich mich neu in dich verliebe. |
 | **Tag 318** | 2027-11-06 | Deine Offenheit und Ehrlichkeit bilden die Brücke, die uns verbindet. |
-| **Tag 319** | 2027-11-07 | Du schaffst es hundertmal am Tag, mir einfach so ein Lächeln ins Gesicht zu zaubern. |
+| **Tag 319** | 2027-11-07 | Du schaffst es hundertmal am Tag, mich einfach so zum Lächeln zu bringen. |
 | **Tag 320** | 2027-11-08 | An kalten Abenden eng eingekuschelt auf dem Sofa liegen – genau da gehöre ich hin. |
 | **Tag 321** | 2027-11-09 | Deine Haut auf meiner Haut ist das schönste Gefühl der Welt. |
 | **Tag 322** | 2027-11-10 | Zu jeder Tageszeit wandern meine Gedanken immer wieder ganz automatisch zu dir. |
@@ -565,7 +565,7 @@
 | **Tag 348** | 2027-12-06 | Deine Warmherzigkeit ist wie ein Kaminfeuer an einem kalten Winterabend. |
 | **Tag 349** | 2027-12-07 | Ich liebe dich mit jedem vergangenen Tag nur noch ein Stückchen mehr. |
 | **Tag 350** | 2027-12-08 | Deine kleinen, liebevollen Aufmerksamkeiten im Alltag bedeuten mir unendlich viel. |
-| **Tag 351** | 2027-12-09 | 350 Tage liegen schon hinter uns – und ich bin für jeden einzelnen dankbar, den ich an deiner Seite verbringen darf. |
+| **Tag 351** | 2027-12-09 | Mit dir war jeder der letzten 350 Tage ein Geschenk – und ich bin dankbar für jeden einzelnen Moment an deiner Seite. |
 | **Tag 352** | 2027-12-10 | Rückblickend auf die letzten Monate hast du wirklich jeden Tag zu etwas Kostbarem gemacht. |
 | **Tag 353** | 2027-12-11 | Deine Liebe hat dieses Jahr zum schönsten Jahr meines Lebens gemacht. |
 | **Tag 354** | 2027-12-12 | Ohne dich an meiner Seite wäre mein Leben nur halb so bunt und schön. |

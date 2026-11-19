@@ -470,7 +470,7 @@ let md = `# Alle Texte der PWA „365 Gründe, warum ich dich liebe ❤️“ zu
 - **Überschrift (Heiligabend):** \`Heiligabend – noch versiegelt\`
 - **Überschrift (reguläre Tage):** \`Tag {id} – noch versiegelt\`
 - **Hinweistext (Heiligabend):** \`Noch etwas Geduld bis zur Bescherung! Die erste Botschaft öffnet sich um 21:00 Uhr.\`
-- **Hinweistext (reguläre Tage):** \`Noch ein bisschen Geduld – ab Mitternacht kannst du diesen Brief öffnen.\`
+- **Hinweistext (reguläre Tage):** \`Diese Botschaft wird am {Datum} um 00:00 Uhr freigeschaltet.\`
 - **Countdown-Labels (Singular/Plural):**
   - \`1 Tag\` vs. \`{n} Tage\`
   - \`1 Stunde\` vs. \`{n} Stunden\`
@@ -527,7 +527,7 @@ let md = `# Alle Texte der PWA „365 Gründe, warum ich dich liebe ❤️“ zu
   - 🎄 Weihnachten (24.12.)
   - 🎆 Silvester (31.12.)
   - ✨ Neujahr (01.01.)
-- **Leerer Filter-Zustand:** \`Für diese Auswahl gibt es keine Botschaften.\`
+- **Leerer Filter-Zustand:** \`Für diesen Filter gibt es noch keine Botschaften.\`
 
 ---
 
@@ -542,7 +542,7 @@ let md = `# Alle Texte der PWA „365 Gründe, warum ich dich liebe ❤️“ zu
 
 ## 7. Geheimcode-PIN-Dialog (Admin / Easter Eggs)
 
-- **Titel:** \`Geheime Freischaltung\`
+- **Titel:** \`Geheimcode\`
 - **Untertitel:** \`Geheimer Bereich\`
 - **Input-Placeholder:** \`Geheimcode eingeben\` (Aria-Label: \`Geheimcode\`)
 - **Fehlermeldung:** \`Der Code stimmt leider nicht. Versuch es bitte noch einmal.\`

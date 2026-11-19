@@ -277,7 +277,7 @@ export default function CalendarGrid({
       {Object.keys(groupedByMonth).length === 0 ? (
         <div className="text-center py-16 px-4 rounded-3xl glass-card border border-rosegold-500/20">
           <p className="text-slate-400 font-serif text-sm">
-            Für diese Auswahl gibt es keine Botschaften.
+            Für diesen Filter gibt es noch keine Botschaften.
           </p>
         </div>
       ) : (

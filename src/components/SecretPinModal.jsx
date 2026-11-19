@@ -84,7 +84,7 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
 
             <div>
               <h3 id="secret-pin-title" className="text-xl font-serif font-bold gold-gradient-text">
-                Geheime Freischaltung
+                Geheimcode
               </h3>
               <p className="text-xs text-slate-400 mt-1">
                 Geheimer Bereich

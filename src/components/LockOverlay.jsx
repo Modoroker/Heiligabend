@@ -79,7 +79,7 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
       <p className="text-slate-300 text-sm max-w-xs mb-6">
         {isChristmasEve
           ? 'Noch etwas Geduld bis zur Bescherung! Die erste Botschaft öffnet sich um 21:00 Uhr.'
-          : 'Noch ein bisschen Geduld – ab Mitternacht kannst du diesen Brief öffnen.'}
+          : `Diese Botschaft wird am ${formatLockDate(day.date)} um 00:00 Uhr freigeschaltet.`}
       </p>
 
       {/* Countdown display (supports Days, Hours, Minutes, Seconds) */}
