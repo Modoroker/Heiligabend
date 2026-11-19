@@ -62,10 +62,10 @@ export default function PWAUpdateToast() {
       <motion.div
         role="alert"
         aria-live="polite"
-        initial={{ opacity: 0, y: -20, scale: 0.9 }}
+        initial={{ opacity: 0, y: 20, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: -20, scale: 0.9 }}
-        className="fixed top-4 inset-x-4 z-50 max-w-sm mx-auto p-3 rounded-2xl bg-midnight-800/95 border border-rosegold-400/40 shadow-2xl backdrop-blur-md flex items-center justify-between gap-3 text-slate-100"
+        exit={{ opacity: 0, y: 20, scale: 0.9 }}
+        className="fixed bottom-6 inset-x-4 z-50 max-w-sm mx-auto p-3 rounded-2xl bg-midnight-800/95 border border-rosegold-400/40 shadow-2xl backdrop-blur-md flex items-center justify-between gap-3 text-slate-100"
       >
         <div className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-amber-300 animate-spin" style={{ animationDuration: '4s' }} />
