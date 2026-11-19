@@ -152,7 +152,7 @@ export function useCalendar() {
       try {
         localStorage.setItem(LOCAL_STORAGE_OPENED_KEY, JSON.stringify(next));
       } catch (e) {
-        console.error('Failed to save opened days', e);
+        console.warn('Failed to save opened days', e);
       }
       return next;
     });
@@ -168,7 +168,7 @@ export function useCalendar() {
       try {
         localStorage.setItem(LOCAL_STORAGE_FAVORITES_KEY, JSON.stringify(next));
       } catch (e) {
-        console.error('Failed to save favorites', e);
+        console.warn('Failed to save favorites', e);
       }
       return next;
     });
@@ -183,7 +183,7 @@ export function useCalendar() {
       try {
         localStorage.setItem(LOCAL_STORAGE_OVERRIDE_KEY, 'true');
       } catch (e) {
-        console.error('Failed to set admin override', e);
+        console.warn('Failed to set admin override', e);
       }
       return true;
     }
@@ -196,7 +196,7 @@ export function useCalendar() {
     try {
       localStorage.removeItem(LOCAL_STORAGE_OVERRIDE_KEY);
     } catch (e) {
-      console.error('Failed to clear admin override storage', e);
+      console.warn('Failed to clear admin override storage', e);
     }
   }, []);
 

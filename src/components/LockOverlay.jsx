@@ -71,7 +71,7 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
 
       {/* Countdown display (supports Days, Hours, Minutes, Seconds) */}
       {!countdown.isUnlocked && (
-        <div className="flex items-center justify-center gap-2.5 my-2 bg-midnight-800/80 px-4 sm:px-5 py-3 rounded-2xl border border-rosegold-500/20 shadow-inner">
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2.5 my-2 bg-midnight-800/80 px-2.5 sm:px-5 py-3 rounded-2xl border border-rosegold-500/20 shadow-inner max-w-full">
           {countdown.days > 0 && (
             <>
               <div className="flex flex-col items-center">

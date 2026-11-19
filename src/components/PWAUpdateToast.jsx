@@ -9,7 +9,10 @@ export default function PWAUpdateToast() {
     if (!('serviceWorker' in navigator)) return;
 
     let refreshing = false;
+    // Prevent reload on first SW installation/claim; only reload on actual SW update
+    const hadController = Boolean(navigator.serviceWorker.controller);
     const handleControllerChange = () => {
+      if (!hadController) return;
       if (!refreshing) {
         refreshing = true;
         window.location.reload();

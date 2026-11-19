@@ -70,7 +70,7 @@ export default function App() {
   const isTodayFavorite = favorites.includes(currentDayIndex);
 
   return (
-    <div className={`min-h-screen ${timeTheme.gradientClass} text-slate-100 flex flex-col justify-between max-w-md mx-auto relative border-x border-rosegold-500/10 shadow-2xl transition-colors duration-1000`}>
+    <div className={`min-h-screen ${timeTheme.gradientClass} text-slate-100 flex flex-col justify-between max-w-md mx-auto relative border-x border-rosegold-500/10 shadow-2xl transition-colors duration-1000 overflow-x-hidden`}>
       {/* PWA New Version Update Toast */}
       <PWAUpdateToast />
 
@@ -102,7 +102,7 @@ export default function App() {
         <div
           role="tablist"
           aria-label="Hauptnavigation"
-          className="flex items-center gap-2 p-1.5 bg-midnight-800/80 rounded-2xl border border-rosegold-500/20 text-xs font-semibold shadow-inner"
+          className="flex items-center gap-1 sm:gap-2 p-1 sm:p-1.5 bg-midnight-800/80 rounded-2xl border border-rosegold-500/20 text-xs font-semibold shadow-inner"
         >
           <button
             role="tab"
@@ -110,13 +110,14 @@ export default function App() {
             aria-controls="panel-daily"
             id="tab-daily"
             onClick={() => setActiveTab('daily')}
-            className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
+            className={`flex-1 py-2 sm:py-2.5 px-1 sm:px-2 rounded-xl flex items-center justify-center gap-1 sm:gap-1.5 transition-all min-w-0 ${
               activeTab === 'daily'
                 ? 'bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 shadow-rose-glow font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <Home className="w-4 h-4" /> Heute
+            <Home className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate">Heute</span>
           </button>
           <button
             role="tab"
@@ -124,13 +125,14 @@ export default function App() {
             aria-controls="panel-calendar"
             id="tab-calendar"
             onClick={() => setActiveTab('calendar')}
-            className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
+            className={`flex-1 py-2 sm:py-2.5 px-1 sm:px-2 rounded-xl flex items-center justify-center gap-1 sm:gap-1.5 transition-all min-w-0 ${
               activeTab === 'calendar'
                 ? 'bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 shadow-rose-glow font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <CalendarIcon className="w-4 h-4" /> 365 Tage
+            <CalendarIcon className="w-4 h-4 flex-shrink-0" />
+            <span className="truncate">365 Tage</span>
           </button>
           <button
             role="tab"
@@ -138,13 +140,14 @@ export default function App() {
             aria-controls="panel-favorites"
             id="tab-favorites"
             onClick={() => setActiveTab('favorites')}
-            className={`flex-1 py-2.5 rounded-xl flex items-center justify-center gap-1.5 transition-all ${
+            className={`flex-1 py-2 sm:py-2.5 px-1 sm:px-2 rounded-xl flex items-center justify-center gap-1 sm:gap-1.5 transition-all min-w-0 ${
               activeTab === 'favorites'
                 ? 'bg-gradient-to-r from-rosegold-500 to-champagne-400 text-midnight-900 shadow-rose-glow font-bold'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            <Heart className="w-4 h-4 fill-current" /> Favoriten
+            <Heart className="w-4 h-4 fill-current flex-shrink-0" />
+            <span className="truncate">Favoriten</span>
           </button>
         </div>
 

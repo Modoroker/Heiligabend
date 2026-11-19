@@ -49,7 +49,7 @@ export default function NotificationBanner() {
           }
         }
       } catch (err) {
-        console.error('Notification error', err);
+        console.warn('Notification error', err);
       }
     }
   };
@@ -59,7 +59,7 @@ export default function NotificationBanner() {
     try {
       localStorage.setItem(LOCAL_STORAGE_NOTIF_DISMISSED, 'true');
     } catch (e) {
-      console.error(e);
+      console.warn('Failed to save notification dismiss state', e);
     }
   };
 
@@ -75,16 +75,16 @@ export default function NotificationBanner() {
         aria-label="Tägliche Liebespost Erinnerung"
         className="w-full bg-gradient-to-r from-rosegold-500/20 via-midnight-800 to-rosegold-500/20 border-b border-rosegold-500/30 px-4 py-2.5 shadow-md"
       >
-        <div className="max-w-md mx-auto flex items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2 text-slate-200">
-            <div className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 text-rosegold-200">
+        <div className="max-w-md mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-2 text-slate-200 min-w-0">
+            <div className="p-1.5 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 text-rosegold-200 flex-shrink-0">
               <Heart className="w-4 h-4 text-red-400 fill-red-400/30 animate-pulse" />
             </div>
-            <div>
-              <span className="font-semibold text-champagne-300 block leading-tight">
+            <div className="min-w-0">
+              <span className="font-semibold text-champagne-300 block leading-tight truncate">
                 Tägliche Liebespost 💌
               </span>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-slate-400 line-clamp-1">
                 Tipp: Speichere die App auf deinem Startbildschirm!
               </span>
             </div>

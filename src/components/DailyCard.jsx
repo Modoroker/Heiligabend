@@ -19,7 +19,11 @@ export default function DailyCard({
 
   const handleCopy = () => {
     if (!day?.text) return;
-    navigator.clipboard?.writeText(day.text);
+    try {
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(day.text).catch(() => {});
+      }
+    } catch {}
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
