@@ -16,11 +16,15 @@ function safeConfetti(opts) {
 // Helper to create emoji shapes safely
 function createEmojiShape(char, scalar = 2.2) {
   try {
-    if (typeof confetti.shapeFromText === 'function') {
+    if (
+      typeof window !== 'undefined' &&
+      typeof OffscreenCanvas !== 'undefined' &&
+      typeof confetti.shapeFromText === 'function'
+    ) {
       return confetti.shapeFromText({ text: char, scalar });
     }
-  } catch (e) {
-    console.error(e);
+  } catch {
+    // Graceful fallback to circle for browsers without OffscreenCanvas/Bitmap support
   }
   return 'circle';
 }
