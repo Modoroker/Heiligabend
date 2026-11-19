@@ -1,5 +1,5 @@
 /**
- * Centralized, time-zone aware date utilities for "365 Gründe, warum ich dich Liebe".
+ * Centralized, time-zone aware date utilities for "365 Gründe, warum ich dich liebe".
  * All unlocks and day indices are strictly calculated in the Europe/Berlin timezone.
  */
 

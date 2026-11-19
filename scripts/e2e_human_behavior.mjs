@@ -342,10 +342,10 @@ async function runSuiteForEngine(engineName, browserType, baseUrl) {
 
     try {
       await page.goto(baseUrl, { waitUntil: 'load' });
-      await page.waitForSelector('header div[role="button"][aria-label*="3x tippen"]', { timeout: 10000 });
+      await page.waitForSelector('header div[role="button"][aria-label*="365 Gründe"]', { timeout: 10000 });
 
       // 4a. 3x-Logo Tap mit touch-action: manipulation & Escape / Backdrop-Schließen
-      const logo = page.locator('header div[role="button"][aria-label*="3x tippen"]').first();
+      const logo = page.locator('header div[role="button"][aria-label*="365 Gründe"]').first();
       const logoTouchAction = await logo.evaluate((el) => window.getComputedStyle(el).touchAction);
       assert.strictEqual(logoTouchAction, 'manipulation', 'Logo besitzt touch-action: manipulation');
 
@@ -373,7 +373,7 @@ async function runSuiteForEngine(engineName, browserType, baseUrl) {
       await page.press('input[type="password"]', 'Enter');
       await page.waitForTimeout(1200);
 
-      const adminBadge = page.locator('button[aria-label="Admin Freigabe zurücksetzen"]');
+      const adminBadge = page.locator('button[aria-label="Admin-Freigabe zurücksetzen"]');
       assert(await adminBadge.isVisible(), 'Admin-Modus aktiviert');
       logPass('Echte UI-Bedienung', 'Admin-Login, Body Scroll-Lock & Escape-Schließen verifiziert');
 
@@ -479,7 +479,7 @@ async function runSuiteForEngine(engineName, browserType, baseUrl) {
       }));
 
       assert.strictEqual(metaReport.htmlLang, 'de', '<html lang="de"> ist gesetzt');
-      assert(metaReport.title.includes('Liebe'), 'Seitentitel enthält großes "Liebe"');
+      assert(metaReport.title.includes('liebe'), 'Seitentitel enthält "liebe" (Verb kleingeschrieben)');
       assert(metaReport.appleIcon, 'apple-touch-icon ist vorhanden');
 
       // Manifest prüfen

@@ -2,6 +2,19 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Sparkles } from 'lucide-react';
 
+function formatLockDate(dateStr) {
+  if (!dateStr) return '';
+  const parts = dateStr.split('-');
+  if (parts.length !== 3) return dateStr;
+  const dayNum = parseInt(parts[2], 10);
+  const monthNum = parseInt(parts[1], 10);
+  const monthNames = [
+    'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+    'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+  ];
+  return `${dayNum}. ${monthNames[monthNum - 1] || ''}`;
+}
+
 export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
   const [isShaking, setIsShaking] = useState(false);
   const [tapCount, setTapCount] = useState(0);
@@ -60,13 +73,13 @@ export default function LockOverlay({ day, countdown, onOpenSecretModal }) {
 
       {/* Title */}
       <h2 className="text-2xl font-serif font-bold gold-gradient-text mb-2">
-        {isChristmasEve ? 'Heiligabend – Noch Versiegelt' : `Tag ${day.id} – Noch Versiegelt`}
+        {isChristmasEve ? 'Heiligabend – noch versiegelt' : `Tag ${day.id} – noch versiegelt`}
       </h2>
 
       <p className="text-slate-300 text-sm max-w-xs mb-6">
         {isChristmasEve
           ? 'Noch etwas Geduld bis zur Bescherung! Die erste Botschaft öffnet sich um 21:00 Uhr.'
-          : 'Diese liebevolle Botschaft schaltet sich am jeweiligen Tag um 00:00 Uhr frei.'}
+          : 'Noch ein bisschen Geduld – ab Mitternacht kannst du diesen Brief öffnen.'}
       </p>
 
       {/* Countdown display (supports Days, Hours, Minutes, Seconds) */}

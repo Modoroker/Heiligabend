@@ -250,7 +250,7 @@ export default function CalendarGrid({
 
         {/* Count Indicator */}
         <div className="text-xs text-slate-400 font-serif">
-          Zeige <strong className="text-champagne-300 font-mono">{filteredMessages.length}</strong> von 365
+          <strong className="text-champagne-300 font-mono">{filteredMessages.length}</strong> von 365 angezeigt
         </div>
       </div>
 
@@ -277,7 +277,7 @@ export default function CalendarGrid({
       {Object.keys(groupedByMonth).length === 0 ? (
         <div className="text-center py-16 px-4 rounded-3xl glass-card border border-rosegold-500/20">
           <p className="text-slate-400 font-serif text-sm">
-            Keine Botschaften für die gewählte Filterung gefunden.
+            Für diese Auswahl gibt es gerade keine Botschaften.
           </p>
         </div>
       ) : (

@@ -72,7 +72,7 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
               </div>
               <div className="min-w-0">
                 <h3 id="bonus-modal-title" className="text-base sm:text-lg font-serif font-bold gold-gradient-text truncate">
-                  Geheim-Nachrichten
+                  Geheimpost
                 </h3>
                 <span className="text-xs text-slate-300 block truncate font-medium">
                   {adminBypass ? '✨ Admin-Modus: Alle 7 Briefe freigeschaltet' : 'Überraschungs-Extra-Post für Nina'}

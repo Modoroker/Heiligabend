@@ -38,7 +38,7 @@ export default function MilestoneCard({ openedCount = 0, streak = 0, startDateSt
 
         <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-midnight-800 border border-amber-500/30 text-[11px] font-semibold text-amber-300">
           <Flame className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-          <span>{streak} {streak === 1 ? 'Tag' : 'Tage'} Streak</span>
+          <span>{streak} {streak === 1 ? 'Tag' : 'Tage'} in Folge</span>
         </div>
       </div>
 

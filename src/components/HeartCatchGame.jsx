@@ -29,18 +29,18 @@ const GAME_CONFIG = {
 
 // Localized strings
 const TEXTS = {
-  TITLE: 'Herzen-Fangen Minispiel',
+  TITLE: 'Herzen fangen',
   POINTS: 'Punkte',
-  HIGH_SCORE: 'Best',
+  HIGH_SCORE: 'Rekord',
   GAME_OVER: 'Spiel beendet',
-  RETRY: 'Nochmal spielen',
+  RETRY: 'Noch mal spielen',
   PAUSE: 'Spiel pausieren',
   RESUME: 'Spiel fortsetzen',
-  NEW_HIGH_SCORE: '✨ Neuer persönlicher Highscore! 👑',
+  NEW_HIGH_SCORE: '✨ Neuer persönlicher Rekord! 👑',
   HINT: 'Fange bunte Herzen & meide gebrochene! 🎀',
-  COMBO_2X: '🔥 2x COMBO!',
-  COMBO_3X: '⚡ 3x FEVER MODE! 🌟',
-  FEVER_EXTENDED: '🔥 FEVER VERLÄNGERT!',
+  COMBO_2X: '🔥 2× Serie!',
+  COMBO_3X: '⚡ 3× Herzrasen! 🌟',
+  FEVER_EXTENDED: '🔥 Herzrasen verlängert!',
   MAGNET_ACTIVE: '🧲 MAGNET AKTIV!',
   FREEZE_ACTIVE: '❄️ ZEITLUPE!',
 };
@@ -482,7 +482,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
       if (!state.isNewHighScore) {
         state.isNewHighScore = true;
         setNewHighScoreNotice(true);
-        setLiveAnnouncement('Neuer Highscore!');
+        setLiveAnnouncement('Neuer Rekord!');
         if (highscoreTimeoutRef.current) clearTimeout(highscoreTimeoutRef.current);
         highscoreTimeoutRef.current = setTimeout(() => setNewHighScoreNotice(false), 2200);
       }
@@ -750,7 +750,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               sfx.powerUp();
               addPopup(TEXTS.COMBO_2X, basketCenterX, basketTop - 40, '#FFB703');
               createParticles(basketCenterX, basketTop, '#FFB703', 20);
-              setLiveAnnouncement('2-fach Combo aktiv!');
+              setLiveAnnouncement('2-fache Serie aktiv!');
             } else if (state.combo >= GAME_CONFIG.COMBO_3X_THRESHOLD) {
               const isNewFever = state.feverTimeLeft <= 0;
               state.feverTimeLeft = GAME_CONFIG.FEVER_DURATION;
@@ -761,7 +761,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
                 const popupText = isNewFever ? TEXTS.COMBO_3X : TEXTS.FEVER_EXTENDED;
                 addPopup(popupText, basketCenterX, basketTop - 40, '#FF0055');
                 createParticles(basketCenterX, basketTop, '#FFD700', 32);
-                setLiveAnnouncement(isNewFever ? '3-fach Fever Modus aktiv!' : 'Fever verlängert!');
+                setLiveAnnouncement(isNewFever ? '3-faches Herzrasen aktiv!' : 'Herzrasen verlängert!');
               }
             }
 
@@ -1221,12 +1221,12 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             <div className="flex items-center gap-1">
               {isFever && (
                 <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50 animate-pulse">
-                  <Flame className="w-3 h-3 text-amber-400" /> 3x Fever
+                  <Flame className="w-3 h-3 text-amber-400" /> 3× Herzrasen
                 </span>
               )}
               {combo >= GAME_CONFIG.COMBO_2X_THRESHOLD && !isFever && (
                 <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/50">
-                  <Zap className="w-3 h-3 text-rose-400" /> {combo}x
+                  <Zap className="w-3 h-3 text-rose-400" /> {combo}×
                 </span>
               )}
               {magnetActive && (

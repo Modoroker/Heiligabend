@@ -84,10 +84,10 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
 
             <div>
               <h3 id="secret-pin-title" className="text-xl font-serif font-bold gold-gradient-text">
-                Secret Override Code
+                Geheimcode
               </h3>
               <p className="text-xs text-slate-400 mt-1">
-                Gib deinen Geheimcode ein, um die Botschaften freizuschalten.
+                Geheimer Bereich
               </p>
             </div>
 
@@ -110,7 +110,7 @@ export default function SecretPinModal({ isOpen, onClose, onUnlockSecret }) {
 
               {error && (
                 <p className="text-xs text-red-400 font-medium">
-                  Ungültiger Geheimcode. Bitte überprüfe deine Eingabe.
+                  Der Code stimmt leider nicht. Versuch es bitte noch einmal.
                 </p>
               )}
 

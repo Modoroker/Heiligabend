@@ -90,7 +90,7 @@ async function runHumanUXSuite() {
     try {
       const headerTitle = await page.textContent('header h1');
       assert.ok(headerTitle.includes('365 Gründe'), 'Header title contains 365 Gründe');
-      assert.ok(headerTitle.includes('Liebe'), 'Header title contains Liebe (groß)');
+      assert.ok(headerTitle.includes('liebe'), 'Header title contains liebe (klein)');
       pass('Header-Titel ist vollständig lesbar & korrekt formuliert');
     } catch (e) { fail('Header-Titel Prüfung', e); }
 
@@ -120,7 +120,7 @@ async function runHumanUXSuite() {
       await page.press('input[type="password"]', 'Enter');
       await page.waitForTimeout(1400);
 
-      const adminBtn = page.locator('button[aria-label="Admin Freigabe zurücksetzen"]');
+      const adminBtn = page.locator('button[aria-label="Admin-Freigabe zurücksetzen"]');
       assert.ok(await adminBtn.isVisible(), 'Admin-Badge in Navbar sichtbar');
       pass('PIN 2412 aktiviert Admin-Modus & zeigt Admin-Badge in Navbar');
     } catch (e) { fail('Admin-PIN Aktivierung', e); }
@@ -310,7 +310,7 @@ async function runHumanUXSuite() {
 
     try {
       // Open Bonus Messages modal
-      const giftBtn = page.locator('button[aria-label="Geheim-Nachrichten und Geschenke öffnen"]').first();
+      const giftBtn = page.locator('button[aria-label="Geheimpost und Geschenke öffnen"]').first();
       await giftBtn.click();
       await page.waitForTimeout(700);
 
@@ -336,10 +336,10 @@ async function runHumanUXSuite() {
       pass('Geheimnachrichten-Modal schließt sauber');
 
       // CRITICAL: Admin Logout test -> must NOT delete opened days or favorites!
-      const adminLogoutBtn = page.locator('button[aria-label="Admin Freigabe zurücksetzen"]').first();
+      const adminLogoutBtn = page.locator('button[aria-label="Admin-Freigabe zurücksetzen"]').first();
       await adminLogoutBtn.click();
       await page.waitForTimeout(400);
-      assert.ok(!(await page.locator('button[aria-label="Admin Freigabe zurücksetzen"]').isVisible()), 'Admin-Modus beendet');
+      assert.ok(!(await page.locator('button[aria-label="Admin-Freigabe zurücksetzen"]').isVisible()), 'Admin-Modus beendet');
 
       // Check that opened days & favorites are still in localStorage!
       const storedOpened = await page.evaluate(() => localStorage.getItem('365_reasons_opened_days'));
@@ -358,7 +358,7 @@ async function runHumanUXSuite() {
     startSection('SEKTION 5: Herzen-Fang Minispiel & Audio-Integrität', '🎮');
 
     try {
-      const gameBtn = page.locator('button[aria-label="Herzen-Fang Minispiel öffnen"]').first();
+      const gameBtn = page.locator('button[aria-label="Minispiel „Herzen fangen“ öffnen"]').first();
       await gameBtn.click();
       await page.waitForTimeout(800);
 

@@ -28,7 +28,7 @@ export default function NotificationBanner() {
         setPermissionState(result);
         if (result === 'granted') {
           setShowBanner(false);
-          const notifTitle = '365 Gründe, warum ich dich Liebe ❤️';
+          const notifTitle = '365 Gründe, warum ich dich liebe ❤️';
           const notifOptions = {
             body: 'Wunderbar! Schau jeden Tag vorbei und entdecke einen neuen Liebesgrund.',
             icon: '/pwa-192x192.png',
@@ -72,7 +72,7 @@ export default function NotificationBanner() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         role="region"
-        aria-label="Tägliche Liebespost Erinnerung"
+        aria-label="Erinnerung an deine tägliche Liebespost"
         className="w-full bg-gradient-to-r from-rosegold-500/20 via-midnight-800 to-rosegold-500/20 border-b border-rosegold-500/30 px-4 py-2.5 shadow-md"
       >
         <div className="max-w-md mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">

@@ -45,11 +45,11 @@ export default function Navbar({
         <div
           role="button"
           tabIndex={0}
-          aria-label="365 Gründe, warum ich dich Liebe (3x tippen für Geheimcode)"
+          aria-label="365 Gründe, warum ich dich liebe"
           onClick={handleLogoTap}
           onKeyDown={handleKeyDown}
           className="flex items-center gap-1.5 sm:gap-2 cursor-pointer select-none group focus:outline-none focus:ring-1 focus:ring-rosegold-400 rounded-lg p-0.5 sm:p-1 min-w-0 flex-1 touch-manipulation"
-          title="Tippe 3x auf den Titel für den Geheimcode-Dialog"
+          title="365 Gründe, warum ich dich liebe ❤️"
         >
           <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/30 flex-shrink-0 flex items-center justify-center">
             <Heart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-400 fill-red-400/40 ekg-heartbeat" />
@@ -58,7 +58,7 @@ export default function Navbar({
             <h1 className="text-[10px] sm:text-sm font-serif font-bold gold-gradient-text tracking-tight leading-tight">
               <span>365 Gründe,</span>
               <br className="inline sm:hidden" />
-              <span className="sm:inline"> warum ich dich Liebe</span>
+              <span className="sm:inline"> warum ich dich liebe</span>
             </h1>
           </div>
         </div>
@@ -68,9 +68,9 @@ export default function Navbar({
           {adminBypass && (
             <button
               onClick={onResetAdmin}
-              aria-label="Admin Freigabe zurücksetzen"
+              aria-label="Admin-Freigabe zurücksetzen"
               className="flex items-center gap-1 px-2 h-7 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-medium flex-shrink-0"
-              title="Admin Freigabe zurücksetzen"
+              title="Admin-Freigabe zurücksetzen"
             >
               <KeyRound className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">Admin</span>
@@ -80,9 +80,9 @@ export default function Navbar({
           {/* Minigame Button 🎮 */}
           <button
             onClick={onOpenGameModal}
-            aria-label="Herzen-Fang Minispiel öffnen"
+            aria-label="Minispiel „Herzen fangen“ öffnen"
             className="w-8 h-8 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 hover:bg-pink-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm active:scale-95"
-            title="Herzen-Fang Minispiel spielen 🎮"
+            title="Minispiel „Herzen fangen“ spielen 🎮"
           >
             <Gamepad2 className="w-4 h-4 text-pink-300 animate-pulse" />
           </button>
@@ -90,9 +90,9 @@ export default function Navbar({
           {/* Bonus Secret Messages Gift Modal 🎁 (Fixed size to never squash!) */}
           <button
             onClick={onOpenBonusModal}
-            aria-label="Geheim-Nachrichten und Geschenke öffnen"
+            aria-label="Geheimpost und Geschenke öffnen"
             className="w-8 h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 hover:bg-rosegold-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm p-1 active:scale-95"
-            title="Geheim-Nachrichten öffnen 🎁"
+            title="Geheimpost öffnen 🎁"
           >
             <img src="/sprites/gift-box.png" alt="Geschenk" className="w-5 h-5 object-contain animate-bounce pointer-events-none" />
           </button>
