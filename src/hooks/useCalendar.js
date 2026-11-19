@@ -96,14 +96,31 @@ export function useCalendar() {
   });
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const updateTime = () => {
       if (devDateOffsetRef.current !== null && import.meta.env?.DEV) {
         setNow(new Date(Date.now() + devDateOffsetRef.current));
       } else {
         setNow(new Date());
       }
-    }, 1000);
-    return () => clearInterval(timer);
+    };
+
+    const timer = setInterval(updateTime, 1000);
+
+    // Instant resync when device is unlocked or app returns from background overnight
+    const handleVisibilitySync = () => {
+      if (document.visibilityState === 'visible') {
+        updateTime();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilitySync);
+    window.addEventListener('focus', updateTime);
+
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener('visibilitychange', handleVisibilitySync);
+      window.removeEventListener('focus', updateTime);
+    };
   }, []);
 
   // Compute current active day number (1..365) in Europe/Berlin

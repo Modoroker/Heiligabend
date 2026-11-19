@@ -1101,6 +1101,10 @@ export default function HeartCatchGame({ isOpen, onClose }) {
     };
 
     const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
       if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
         e.preventDefault();
         sfx.init(); // Initialize audio on first key press
@@ -1182,7 +1186,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               <button
                 onClick={togglePause}
                 aria-label={isPaused ? TEXTS.RESUME : TEXTS.PAUSE}
-                className="p-1.5 rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors"
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors flex-shrink-0"
                 title={isPaused ? TEXTS.RESUME : TEXTS.PAUSE}
               >
                 {isPaused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
@@ -1191,7 +1195,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               <button
                 onClick={resetGame}
                 aria-label="Spiel neu starten"
-                className="p-1.5 rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors"
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors flex-shrink-0"
                 title="Neu starten"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
@@ -1200,7 +1204,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               <button
                 onClick={() => setIsMuted((m) => !m)}
                 aria-label={isMuted ? 'Ton einschalten' : 'Ton stummschalten'}
-                className={`p-1.5 rounded-full border transition-colors ${
+                className={`w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full border transition-colors flex-shrink-0 ${
                   isMuted
                     ? 'bg-midnight-800 text-slate-500 border-slate-700'
                     : 'bg-rosegold-500/20 text-rosegold-300 border-rosegold-500/40'
@@ -1236,7 +1240,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
             </div>
 
             {/* Right: Score & Close */}
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-2">
               <div className="text-right">
                 <div className="text-xs font-bold text-champagne-300 tracking-tight">
                   {TEXTS.POINTS}: {score}
@@ -1249,7 +1253,7 @@ export default function HeartCatchGame({ isOpen, onClose }) {
               <button
                 onClick={onClose}
                 aria-label="Spiel schließen"
-                className="p-1.5 rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors"
+                className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-full bg-midnight-800 text-slate-400 hover:text-white border border-slate-700 transition-colors flex-shrink-0"
                 title="Spiel schließen"
               >
                 <X className="w-4 h-4" />

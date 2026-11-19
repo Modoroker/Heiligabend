@@ -80,7 +80,7 @@ export default function Navbar({
           <button
             onClick={onOpenGameModal}
             aria-label="Herzen-Fang Minispiel öffnen"
-            className="w-8 h-8 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 hover:bg-pink-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm"
+            className="w-8 h-8 rounded-full bg-pink-500/20 border border-pink-500/40 text-pink-300 hover:bg-pink-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm active:scale-95"
             title="Herzen-Fang Minispiel spielen 🎮"
           >
             <Gamepad2 className="w-4 h-4 text-pink-300 animate-pulse" />
@@ -90,7 +90,7 @@ export default function Navbar({
           <button
             onClick={onOpenBonusModal}
             aria-label="Geheim-Nachrichten und Geschenke öffnen"
-            className="w-8 h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 hover:bg-rosegold-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm p-1"
+            className="w-8 h-8 rounded-full bg-rosegold-500/20 border border-rosegold-500/40 hover:bg-rosegold-500/30 transition-all flex items-center justify-center flex-shrink-0 shadow-sm p-1 active:scale-95"
             title="Geheim-Nachrichten öffnen 🎁"
           >
             <img src="/sprites/gift-box.png" alt="Geschenk" className="w-5 h-5 object-contain animate-bounce pointer-events-none" />

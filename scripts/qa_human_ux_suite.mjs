@@ -1,6 +1,10 @@
 import { chromium } from 'playwright';
 import { preview } from 'vite';
 import assert from 'node:assert';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const root = process.cwd();
 
 // Human-UX & Real-World Interaction QA Suite
 // Tests actual state, rapid clicks, multi-viewports, touch, audio, copy, and layout overflows.
@@ -427,11 +431,19 @@ async function runHumanUXSuite() {
         assert.strictEqual(overflow.hasDocOverflow, false, `Horizontal overflow detected in doc at ${vp.width}px`);
         assert.strictEqual(overflow.hasBodyOverflow, false, `Horizontal overflow detected in body at ${vp.width}px`);
 
+        // Capture real visual screenshot on phone viewports for human inspection
+        if ([320, 360, 390, 430].includes(vp.width)) {
+          const scDir = path.join(root, 'screenshots');
+          if (!fs.existsSync(scDir)) fs.mkdirSync(scDir, { recursive: true });
+          const scPath = path.join(scDir, `mobile_${vp.width}px.png`);
+          await page.screenshot({ path: scPath, fullPage: false });
+        }
+
         // Check header title readability
         const titleVisible = await page.locator('header h1').isVisible();
         assert.ok(titleVisible, 'Header-Titel sichtbar');
 
-        pass(`${vp.name}: Kein horizontaler Overflow (100% sauber umbrochen, win=${vp.width}px)`);
+        pass(`${vp.name}: Kein horizontaler Overflow (100% sauber umbrochen, win=${vp.width}px, Screenshot gespeichert)`);
       } catch (e) { fail(`Responsive Check für ${vp.name}`, e); }
     }
 

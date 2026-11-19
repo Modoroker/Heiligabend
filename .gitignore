@@ -27,3 +27,4 @@ scratch_generate_messages.js
 
 .vercel
 .env*
+screenshots/

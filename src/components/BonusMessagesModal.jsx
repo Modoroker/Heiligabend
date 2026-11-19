@@ -81,7 +81,7 @@ export default function BonusMessagesModal({ isOpen, onClose, openedCount, strea
             <button
               onClick={onClose}
               aria-label="Schließen"
-              className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors flex-shrink-0 ml-1"
+              className="w-10 h-10 flex items-center justify-center rounded-full text-slate-400 hover:text-white hover:bg-slate-800/60 transition-colors flex-shrink-0 ml-1 active:scale-95"
             >
               <X className="w-5 h-5" />
             </button>
